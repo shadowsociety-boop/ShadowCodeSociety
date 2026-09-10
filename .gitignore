@@ -1,4 +1,26 @@
-node_modules
+# Dependencies
+node_modules/
+.agents/
+
+# Environment variables
 .env
-docx
-.agents
+.env.local
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
