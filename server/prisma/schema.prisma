@@ -1,0 +1,239 @@
+// ============================================
+// Shadow Code Society — Prisma Schema
+// ============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ── Admin ───────────────────────────────────
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  avatar       String?
+  role         String   @default("PRESIDENT") // MENTOR | PRESIDENT
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  auditLogs     AuditLog[]
+  notifications Notification[]
+
+  @@index([email])
+  @@index([role])
+}
+
+// ── Member ──────────────────────────────────
+model Member {
+  id         String   @id @default(uuid())
+  name       String
+  photo      String?
+  role       String   @default("Member")
+  department String?
+  year       String?
+  branch     String?
+  bio        String?
+  skills     String   @default("[]") // JSON array stored as string
+  github     String?
+  linkedin   String?
+  portfolio  String?
+  joinYear   Int?
+  leaveYear  Int?
+  status     String   @default("CURRENT") // CURRENT | ALUMNI
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([status])
+  @@index([role])
+}
+
+// ── Event ───────────────────────────────────
+model Event {
+  id               String    @id @default(uuid())
+  title            String
+  slug             String    @unique
+  description      String
+  shortDescription String?
+  banner           String?
+  eventType        String    @default("Workshop") // Workshop, CTF, Seminar, Hackathon, Meetup, etc.
+  date             DateTime
+  startTime        String?
+  endTime          String?
+  location         String?
+  mode             String    @default("OFFLINE") // ONLINE | OFFLINE | HYBRID
+  meetingLink      String?
+  regStart         DateTime?
+  regEnd           DateTime?
+  maxParticipants  Int?
+  status           String    @default("DRAFT") // DRAFT | UPCOMING | ONGOING | COMPLETED | CANCELLED
+  featured         Boolean   @default(false)
+  published        Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  form          EventForm?
+  registrations Registration[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([published])
+  @@index([featured])
+  @@index([date])
+}
+
+// ── EventForm (dynamic registration form) ───
+model EventForm {
+  id      String @id @default(uuid())
+  eventId String @unique
+  fields  String @default("[]") // JSON array of form field configurations
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+// ── Registration ────────────────────────────
+model Registration {
+  id                 String   @id @default(uuid())
+  eventId            String
+  registrationNumber Int
+  name               String
+  email              String
+  responses          String   @default("{}") // JSON object of form responses
+  status             String   @default("REGISTERED") // REGISTERED | WAITLISTED | CANCELLED | ATTENDED | NO_SHOW
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, email])
+  @@index([eventId])
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+// ── Resource ────────────────────────────────
+model Resource {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  description String
+  author      String
+  category    String
+  tags        String   @default("[]") // JSON array
+  thumbnail   String?
+  fileUrl     String?
+  externalUrl String?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+}
+
+// ── ResourceSubmission ──────────────────────
+model ResourceSubmission {
+  id               String   @id @default(uuid())
+  title            String
+  description      String
+  category         String
+  tags             String   @default("[]") // JSON array
+  fileUrl          String?
+  externalUrl      String?
+  contributorName  String
+  contributorEmail String
+  status           String   @default("PENDING") // PENDING | APPROVED | REJECTED | CHANGES_REQUESTED
+  adminNotes       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ── Highlight ───────────────────────────────
+model Highlight {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  image       String
+  date        DateTime @default(now())
+  category    String   @default("Photo") // Photo | Achievement | Event | Workshop | Competition | CTF | Announcement
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([featured])
+}
+
+// ── JoinApplication ─────────────────────────
+model JoinApplication {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  phone      String?
+  college    String
+  course     String
+  year       String
+  branch     String?
+  experience String?
+  skills     String   @default("[]") // JSON array
+  motivation String
+  github     String?
+  linkedin   String?
+  portfolio  String?
+  resumeUrl  String?
+  status     String   @default("PENDING") // PENDING | UNDER_REVIEW | ACCEPTED | REJECTED
+  adminNotes String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
+// ── AuditLog ────────────────────────────────
+model AuditLog {
+  id        String   @id @default(uuid())
+  adminId   String
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  admin Admin @relation(fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([entity])
+  @@index([createdAt])
+}
+
+// ── Notification ────────────────────────────
+model Notification {
+  id        String   @id @default(uuid())
+  adminId   String?
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO | WARNING | SUCCESS | JOIN_APP | RESOURCE_SUB | REGISTRATION | EVENT
+  read      Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  admin Admin? @relation(fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([read])
+  @@index([createdAt])
+}
