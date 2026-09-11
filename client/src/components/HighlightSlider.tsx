@@ -95,7 +95,7 @@ export const HighlightSlider: React.FC<HighlightSliderProps> = ({
   const [lightboxItem, setLightboxItem] = useState<SliderMediaItem | null>(null);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const progressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const currentItem = items[currentIndex] || items[0];
 

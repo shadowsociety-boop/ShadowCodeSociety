@@ -1,0 +1,30 @@
+# ============================================
+# Shadow Code Society — Development Docker Compose Overlay
+# Use with: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ============================================
+name: shadow-code-society-dev
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./server/src:/app/src
+      - ./server/prisma:/app/prisma
+    command: ["npx", "tsx", "watch", "src/server.ts"]
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: builder
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

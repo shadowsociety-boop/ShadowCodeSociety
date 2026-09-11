@@ -1,0 +1,81 @@
+# ============================================
+# Shadow Code Society — Production Docker Compose
+# ============================================
+name: shadow-code-society
+
+services:
+  # ── PostgreSQL Database ───────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: shadow_code_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-shadow_code}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-shadow_code}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - shadow_network
+
+  # ── API Backend Server ────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: shadow_code_server
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 5001
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-shadow_code}?schema=public
+      JWT_SECRET: ${JWT_SECRET:-prod-shadow-jwt-secret-replace-in-env-file-min-64-characters}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-prod-shadow-refresh-secret-replace-in-env-min-64-characters}
+      JWT_EXPIRES_IN: 1d
+      JWT_REFRESH_EXPIRES_IN: 7d
+      CLIENT_URL: ${CLIENT_URL:-http://localhost}
+      STORAGE_TYPE: local
+      STORAGE_PATH: ./uploads
+      RUN_SEED: ${RUN_SEED:-true}
+    ports:
+      - "5001:5001"
+    volumes:
+      - server_uploads:/app/uploads
+    networks:
+      - shadow_network
+
+  # ── Frontend Web Client ───────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: shadow_code_client
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - "80:80"
+      - "5173:80"
+    networks:
+      - shadow_network
+
+volumes:
+  postgres_data:
+    driver: local
+  server_uploads:
+    driver: local
+
+networks:
+  shadow_network:
+    driver: bridge
