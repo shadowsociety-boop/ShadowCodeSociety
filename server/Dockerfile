@@ -15,6 +15,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
+# Default build-time database URL for Prisma validation/generation
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/shadow_code?schema=public"
+
 # Install dependencies including devDependencies for build
 RUN npm install
 
@@ -37,6 +40,7 @@ RUN apk add --no-cache openssl curl
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/shadow_code?schema=public"
 
 # Copy package manifests and Prisma schema
 COPY package*.json ./

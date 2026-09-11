@@ -16,6 +16,9 @@ jobs:
     name: Typecheck & Build
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/shadow_code?schema=public"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,6 +33,10 @@ jobs:
             client/package-lock.json
 
       # ── Server Validation ──
+      - name: Setup server environment
+        working-directory: ./server
+        run: cp .env.example .env
+
       - name: Install server dependencies
         working-directory: ./server
         run: npm ci
