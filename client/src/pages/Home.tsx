@@ -50,7 +50,7 @@ export const Home: React.FC = () => {
         ]);
         setEvents(eventsData.events || []);
         setResources(resourcesData.resources || []);
-        
+
         const fetchedHighlights: HighlightItem[] = highlightsData.highlights || [];
         if (fetchedHighlights.length > 0) {
           setHighlights(fetchedHighlights.slice(0, 4));
@@ -253,100 +253,7 @@ export const Home: React.FC = () => {
       </ScrollStackSection>
 
       {/* ── DECK 02: METRICS & MANIFESTO SECTION ────────────────────── */}
-      <ScrollStackSection index={1} badge="MANIFESTO & METRICS" className="bg-[#080808]">
-        {/* Metrics Bar */}
-        <div className="hairline-b py-10 bg-[#080808]/90">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 text-left">
-              <div className="space-y-1 border-l border-white/10 pl-5">
-                <div className="text-xs font-mono text-[#666666]">01 // ATTENDEES</div>
-                <div className="text-3xl sm:text-4xl font-black font-['Space_Grotesk'] text-white">500+</div>
-                <div className="text-xs text-[#A1A1A1] font-sans">Trained in Hands-on Labs</div>
-              </div>
-              <div className="space-y-1 border-l border-white/10 pl-5">
-                <div className="text-xs font-mono text-[#666666]">02 // RANKING</div>
-                <div className="text-3xl sm:text-4xl font-black font-['Space_Grotesk'] text-[#FF4D1C]">TOP 10</div>
-                <div className="text-xs text-[#A1A1A1] font-sans">National Collegiate CTF</div>
-              </div>
-              <div className="space-y-1 border-l border-white/10 pl-5">
-                <div className="text-xs font-mono text-[#666666]">03 // ARCHIVE</div>
-                <div className="text-3xl sm:text-4xl font-black font-['Space_Grotesk'] text-white">40+</div>
-                <div className="text-xs text-[#A1A1A1] font-sans">Labs & Exploit Writeups</div>
-              </div>
-              <div className="space-y-1 border-l border-white/10 pl-5">
-                <div className="text-xs font-mono text-[#666666]">04 // ETHICS</div>
-                <div className="text-3xl sm:text-4xl font-black font-['Space_Grotesk'] text-[#FF4D1C]">100%</div>
-                <div className="text-xs text-[#A1A1A1] font-sans">Responsible Disclosure</div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Manifesto Content */}
-        <div className="py-20 sm:py-28 relative text-left">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-              {/* Left Huge Statement */}
-              <div className="lg:col-span-6 space-y-4">
-                <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-                  // MANIFESTO
-                </span>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl text-white tracking-tight leading-[1.08] break-words">
-                  WE DON'T<br />
-                  JUST LEARN<br />
-                  SECURITY.<br />
-                  <span className="text-[#A1A1A1]">
-                    WE BREAK IT.<br />
-                    UNDERSTAND IT.<br />
-                    BUILD IT BETTER.
-                  </span>
-                </h2>
-              </div>
-
-              {/* Right Narrative & Capabilities */}
-              <div className="lg:col-span-6 space-y-8 flex flex-col justify-center pt-2 lg:pt-0">
-                <p className="text-base sm:text-lg text-[#A1A1A1] leading-relaxed font-sans">
-                  True defense requires deep offensive fluency. We move beyond passive classroom lectures into real binary exploitation, kernel reverse engineering, threat hunting, and multi-cloud vulnerability research.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-white/10">
-                  <div className="space-y-2">
-                    <div className="text-xs font-mono text-[#FF4D1C] font-semibold">01 / OFFENSIVE DRILLS</div>
-                    <p className="text-xs text-[#A1A1A1] leading-relaxed">
-                      Live target ranges simulating actual infrastructure misconfigurations, privilege escalation paths, and zero-day vulnerabilities.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-xs font-mono text-[#FF4D1C] font-semibold">02 / FORENSICS & TRIAGE</div>
-                    <p className="text-xs text-[#A1A1A1] leading-relaxed">
-                      Analyzing raw memory dumps, decompiling rootkits, extracting network indicators of compromise (IOCs), and incident containment.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-xs font-mono text-[#FF4D1C] font-semibold">03 / CTF COMPETITION TEAM</div>
-                    <p className="text-xs text-[#A1A1A1] leading-relaxed">
-                      Representing the institution in global cybersecurity events with specialized tracks in Cryptography, WebSec, and PWN.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-xs font-mono text-[#FF4D1C] font-semibold">04 / KNOWLEDGE ARCHIVE</div>
-                    <p className="text-xs text-[#A1A1A1] leading-relaxed">
-                      Open-source repository of student-researched vulnerability writeups, security tooling, and defensive playbooks.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <Link to="/about" className="inline-flex items-center gap-2 text-xs font-mono text-white hover:text-[#FF4D1C] tracking-wider uppercase transition-colors">
-                    <span>Read Full Society Documentation</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ScrollStackSection>
 
       {/* ── DECK 03: CORE CAPABILITIES / SPECIALIZATIONS ────────────── */}
       <ScrollStackSection index={2} badge="RESEARCH DOMAINS" className="bg-[#070707]">
@@ -377,24 +284,21 @@ export const Home: React.FC = () => {
                       setActiveDomain(index);
                       soundFx.playTick();
                     }}
-                    className={`group py-7 sm:py-8 px-4 transition-all duration-300 cursor-pointer ${
-                      isSelected ? 'bg-white/[0.02]' : 'hover:bg-white/[0.01]'
-                    }`}
+                    className={`group py-7 sm:py-8 px-4 transition-all duration-300 cursor-pointer ${isSelected ? 'bg-white/[0.02]' : 'hover:bg-white/[0.01]'
+                      }`}
                   >
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
                       {/* Number & Domain Title */}
                       <div className="lg:col-span-6 flex items-center gap-6">
                         <span
-                          className={`text-xs font-mono transition-colors duration-200 ${
-                            isSelected ? 'text-[#FF4D1C] font-bold' : 'text-[#666666]'
-                          }`}
+                          className={`text-xs font-mono transition-colors duration-200 ${isSelected ? 'text-[#FF4D1C] font-bold' : 'text-[#666666]'
+                            }`}
                         >
                           {domain.num}
                         </span>
                         <h3
-                          className={`text-lg sm:text-2xl font-bold font-['Space_Grotesk'] tracking-tight transition-colors duration-200 ${
-                            isSelected ? 'text-white' : 'text-[#A1A1A1] group-hover:text-white'
-                          }`}
+                          className={`text-lg sm:text-2xl font-bold font-['Space_Grotesk'] tracking-tight transition-colors duration-200 ${isSelected ? 'text-white' : 'text-[#A1A1A1] group-hover:text-white'
+                            }`}
                         >
                           {domain.title}
                         </h3>
@@ -410,9 +314,8 @@ export const Home: React.FC = () => {
                       {/* Description */}
                       <div className="lg:col-span-4">
                         <p
-                          className={`text-xs sm:text-sm font-sans leading-relaxed transition-colors duration-200 ${
-                            isSelected ? 'text-[#A1A1A1]' : 'text-[#666666] group-hover:text-[#A1A1A1]'
-                          }`}
+                          className={`text-xs sm:text-sm font-sans leading-relaxed transition-colors duration-200 ${isSelected ? 'text-[#A1A1A1]' : 'text-[#666666] group-hover:text-[#A1A1A1]'
+                            }`}
                         >
                           {domain.desc}
                         </p>
