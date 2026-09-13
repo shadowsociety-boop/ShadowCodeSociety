@@ -31,7 +31,7 @@ export const listEvents = async (req: AuthRequest, res: Response): Promise<void>
         where: where as any,
         skip,
         take,
-        orderBy: { date: 'desc' },
+        orderBy: status === 'UPCOMING' || !status ? { date: 'asc' } : { date: 'desc' },
         include: { _count: { select: { registrations: true } } },
       }),
       prisma.event.count({ where: where as any }),

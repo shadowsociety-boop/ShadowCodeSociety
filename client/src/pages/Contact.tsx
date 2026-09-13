@@ -126,6 +126,18 @@ export const Contact: React.FC = () => {
 
           <div className="bg-[#080808] border border-white/[0.08] rounded-xl p-6 space-y-3 text-xs font-mono text-[#A1A1A1]">
             <div className="flex items-center gap-2 text-white font-bold">
+              <Mail className="w-4 h-4 text-[#FF4D1C]" />
+              <span>OFFICIAL DISPATCH & INQUIRIES</span>
+            </div>
+            <p className="font-sans text-xs">
+              <a href="mailto:shadow.society@jietjodhpur.ac.in" className="text-white hover:text-[#FF4D1C] font-mono text-xs transition-colors">
+                shadow.society@jietjodhpur.ac.in
+              </a>
+            </p>
+          </div>
+
+          <div className="bg-[#080808] border border-white/[0.08] rounded-xl p-6 space-y-3 text-xs font-mono text-[#A1A1A1]">
+            <div className="flex items-center gap-2 text-white font-bold">
               <MapPin className="w-4 h-4 text-[#FF4D1C]" />
               <span>HEADQUARTERS & RESEARCH LAB</span>
             </div>

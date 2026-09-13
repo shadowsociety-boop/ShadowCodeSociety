@@ -78,7 +78,7 @@ export const Footer: React.FC = () => {
             </h4>
             <div className="flex flex-wrap gap-2.5">
               <a
-                href="https://github.com"
+                href="https://github.com/shadowsociety-boop"
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded bg-[#0B0B0B] border border-white/10 hover:border-[#FF4D1C]/60 hover:text-white flex items-center justify-center text-[#A1A1A1] transition-colors"
@@ -87,29 +87,27 @@ export const Footer: React.FC = () => {
                 <SocialIcon type="github" className="w-4 h-4" />
               </a>
               <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
+                href="mailto:shadow.society@jietjodhpur.ac.in"
                 className="w-10 h-10 rounded bg-[#0B0B0B] border border-white/10 hover:border-[#FF4D1C]/60 hover:text-white flex items-center justify-center text-[#A1A1A1] transition-colors"
-                title="LinkedIn"
+                title="Email: shadow.society@jietjodhpur.ac.in"
               >
-                <SocialIcon type="linkedin" className="w-4 h-4" />
+                <SocialIcon type="email" className="w-4 h-4" />
               </a>
               <a
-                href="https://discord.com"
+                href="https://discord.com/channels/1412278329381228677/1412278329922551910"
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded bg-[#0B0B0B] border border-white/10 hover:border-[#FF4D1C]/60 hover:text-white flex items-center justify-center text-[#A1A1A1] transition-colors"
-                title="Discord"
+                title="Discord Community"
               >
                 <SocialIcon type="discord" className="w-4 h-4" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/shadowcode_jiet/"
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded bg-[#0B0B0B] border border-white/10 hover:border-[#FF4D1C]/60 hover:text-white flex items-center justify-center text-[#A1A1A1] transition-colors"
-                title="Instagram"
+                title="Instagram @shadowcode_jiet"
               >
                 <SocialIcon type="instagram" className="w-4 h-4" />
               </a>

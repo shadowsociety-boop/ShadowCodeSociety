@@ -4,15 +4,75 @@ import { Badge } from '../components/ui/Badge';
 import { SocialIcon } from '../components/SocialIcon';
 import { Globe, Award, Sparkles } from 'lucide-react';
 
+const FALLBACK_ALUMNI: MemberItem[] = [
+  {
+    id: 'alumni-rudra',
+    name: 'Rudra',
+    role: 'Founding President',
+    department: 'Cybersecurity',
+    bio: 'Founding President who established the vision, core values, and foundational research framework of Shadow Code Society.',
+    skills: ['Security Architecture', 'Offensive Security', 'Club Leadership', 'CTF Strategy'],
+    status: 'ALUMNI',
+    order: 19,
+    leaveYear: 2024,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-sameer',
+    name: 'Sameer Ali',
+    role: 'Senior Backend Engineer @ SaveIt',
+    department: 'Computer Science & Engineering',
+    bio: 'JIET Alumni & Senior Backend Engineer specializing in high-performance distributed systems, NestJS, PostgreSQL, Redis, and NextJS architectures.',
+    skills: ['NestJS', 'PostgreSQL', 'Redis', 'NextJS', 'Backend Architecture'],
+    linkedin: 'https://www.linkedin.com/in/sameer-ali',
+    status: 'ALUMNI',
+    order: 20,
+    leaveYear: 2024,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-raj',
+    name: 'Raj Patel',
+    role: 'AI Engineer @ Teqotic',
+    department: 'Artificial Intelligence & Machine Learning',
+    bio: 'JIET Alumni & AI Engineer. 3x Hackathon Winner, Runner-up at Ethos IIT Guwahati 2024, Runner-up at Tequity Hackathon 2025, and NASA Space Apps Challenge 2025 Global Nominee.',
+    skills: ['AI & ML', 'Python', 'n8n', 'Agentic Workflows', 'Hackathons'],
+    linkedin: 'https://www.linkedin.com/in/raj-patel',
+    status: 'ALUMNI',
+    order: 21,
+    leaveYear: 2024,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-nishant',
+    name: 'Nishant Rankawat',
+    role: 'Technical Lead & Full-Stack Security Researcher',
+    department: 'Cybersecurity',
+    bio: 'Core technical member and full-stack security researcher building resilient platforms, web security tooling, and developing CTF challenges.',
+    skills: ['Full-Stack Development', 'Cloud Security', 'CTF', 'DevSecOps'],
+    github: 'https://github.com/nishant4086',
+    status: 'ALUMNI',
+    order: 22,
+    leaveYear: 2026,
+    createdAt: '',
+    updatedAt: '',
+  },
+];
+
 export const Alumni: React.FC = () => {
-  const [alumni, setAlumni] = useState<MemberItem[]>([]);
+  const [alumni, setAlumni] = useState<MemberItem[]>(FALLBACK_ALUMNI);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAlumni = async () => {
       try {
         const data = await memberService.listMembers('ALUMNI');
-        setAlumni(data.members || []);
+        if (data.members && data.members.length > 0) {
+          setAlumni(data.members);
+        }
       } catch (err) {
         console.error('Failed to load alumni:', err);
       } finally {

@@ -39,6 +39,8 @@ import { AdminAnalytics } from './pages/admin/Analytics';
 import { AdminAuditLogs } from './pages/admin/AuditLogs';
 import { AdminSettings } from './pages/admin/Settings';
 
+import { CyberHuntPopup } from './components/CyberHuntPopup';
+
 export function App() {
   const [loadingDone, setLoadingDone] = useState(() => {
     // Only show loading screen once per session
@@ -55,6 +57,7 @@ export function App() {
       <SmoothScroll>
         {!loadingDone && <LoadingScreen onComplete={handleLoadingComplete} />}
         <BrowserRouter>
+          <CyberHuntPopup />
           <Routes>
           {/* Public Routes */}
           <Route element={<PublicLayout />}>

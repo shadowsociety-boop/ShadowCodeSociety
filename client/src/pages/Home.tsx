@@ -48,7 +48,12 @@ export const Home: React.FC = () => {
           memberService.listMembers('CURRENT'),
           highlightService.listHighlights({ limit: 4 }).catch(() => ({ highlights: [] })),
         ]);
-        setEvents(eventsData.events || []);
+        const loadedEvents: EventItem[] = (eventsData.events || []).sort((a: EventItem, b: EventItem) => {
+          if (a.slug === 'cyber-hunt-ii') return -1;
+          if (b.slug === 'cyber-hunt-ii') return 1;
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
+        setEvents(loadedEvents);
         setResources(resourcesData.resources || []);
 
         const fetchedHighlights: HighlightItem[] = highlightsData.highlights || [];
@@ -201,8 +206,8 @@ export const Home: React.FC = () => {
       {/* ── DECK 01: CINEMATIC EDITORIAL HERO SECTION ───────────────── */}
       <ScrollStackSection index={0} badge="CORE OVERVIEW" className="bg-[#050505]">
         <div className="relative min-h-[92vh] flex items-center pt-24 pb-16 overflow-hidden hairline-b">
-          {/* Subtle Background Grid */}
-          <div className="absolute inset-0 bg-subtle-grid opacity-25 pointer-events-none" />
+          {/* Subtle Background Grid & World Map Hero Atmosphere */}
+          <div className="absolute inset-0 bg-subtle-grid opacity-20 pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -260,9 +265,6 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </ScrollStackSection>
-
-      {/* ── DECK 02: METRICS & MANIFESTO SECTION ────────────────────── */}
-
 
       {/* ── DECK 03: CORE CAPABILITIES / SPECIALIZATIONS ────────────── */}
       <ScrollStackSection index={2} badge="RESEARCH DOMAINS" className="bg-[#070707]">
@@ -350,37 +352,37 @@ export const Home: React.FC = () => {
                 <div className="lg:col-span-8 space-y-5">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#FF4D1C]/15 border border-[#FF4D1C]/30 text-[10px] font-mono tracking-widest text-[#FF4D1C] uppercase font-semibold">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
-                    FEATURED OPERATION
+                    ACTIVE COMPETITION // CAMPUS PRIORITY
                   </div>
 
                   <h3 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
-                    SHADOW CTF 2026 // NATIONAL QUALIFIER
+                    CYBER HUNT II // TECHNICAL SCAVENGER HUNT
                   </h3>
 
                   <p className="text-sm sm:text-base text-[#A1A1A1] max-w-2xl font-sans leading-relaxed">
-                    The flagship 48-hour Jeopardy-style cybersecurity competition. Tackle realistic reverse engineering challenges, smart contract exploits, cryptanalysis puzzles, and web injection vectors.
+                    Get ready for Cyber Hunt II, an entry-level technical scavenger hunt across college campus! Decode beginner-friendly riddles, solve logic puzzles, and scan hidden QR codes to reach the final terminal first.
                   </p>
 
                   <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-mono text-[#A1A1A1]">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-[#FF4D1C]" />
-                      <span>24 OCTOBER 2026</span>
+                      <span>18 SEPTEMBER 2026</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-[#FF4D1C]" />
-                      <span>ONLINE / GLOBAL SERVERS</span>
+                      <span>CAMPUS-WIDE // JIET JODHPUR</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-[#FF4D1C]" />
-                      <span className="text-[#FF4D1C] font-semibold">$5,000 PRIZE POOL</span>
+                      <span className="text-[#FF4D1C] font-semibold">TEAMS: 3–6 MEMBERS</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center items-start lg:items-end">
-                  <Link to="/events/cyber-havoc-ctf-2026" className="w-full sm:w-auto">
+                  <Link to="/events/cyber-hunt-ii" className="w-full sm:w-auto">
                     <Button size="lg" variant="primary" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                      REGISTER FOR CTF
+                      REGISTER FOR HUNT
                     </Button>
                   </Link>
                   <Link to="/events" className="w-full sm:w-auto">
