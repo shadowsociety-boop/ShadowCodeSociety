@@ -55,13 +55,6 @@ export const ScrollStackSection: React.FC<ScrollStackSectionProps> = ({
             : ''
         } ${className}`}
       >
-        {/* Subtle decorative section index / progress tag on the edge */}
-        {badge && (
-          <div className="absolute top-4 right-6 z-30 hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-mono tracking-widest text-[#A1A1A1]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
-            <span>SECTOR {String(index + 1).padStart(2, '0')} // {badge}</span>
-          </div>
-        )}
 
         {/* Content */}
         <div className="relative z-10 w-full">

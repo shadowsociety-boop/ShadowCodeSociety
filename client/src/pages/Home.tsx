@@ -214,10 +214,6 @@ export const Home: React.FC = () => {
               {/* Left Column: Massive Editorial Typography */}
               <div className="lg:col-span-7 text-left space-y-8">
                 {/* Category Pill Tag */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/[0.04] border border-white/10 text-[11px] font-mono tracking-[0.2em] text-[#A1A1A1] uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
-                  CYBERSECURITY • ETHICAL HACKING • CTF
-                </div>
 
                 {/* Giant Headline */}
                 <div className="space-y-1">
@@ -248,13 +244,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* Sub-header Metatag */}
-                <div className="pt-6 flex items-center gap-6 text-xs font-mono text-[#666666]">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
-                    <span>AUTONOMOUS RESEARCH NODE</span>
-                  </div>
-                  <div>EST. 2024 // ALL PROTOCOLS VERIFIED</div>
-                </div>
+
               </div>
 
               {/* Right Column: Sophisticated Hero Visual */}
