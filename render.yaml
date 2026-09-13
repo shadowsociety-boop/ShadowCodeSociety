@@ -27,7 +27,7 @@ services:
       - key: JWT_REFRESH_SECRET
         generateValue: true
       - key: CLIENT_URL
-        value: https://shadowcodesociety.vercel.app
+        value: https://shadow-code-society.vercel.app
       - key: COOKIE_SAMESITE
         value: none
       - key: STORAGE_TYPE
