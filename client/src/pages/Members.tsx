@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { SocialIcon } from '../components/SocialIcon';
 import { Globe, Users, ArrowRight, ShieldCheck, ArrowUpRight, Search, Award, Sparkles, Code2 } from 'lucide-react';
+import { TextReveal, FadeIn, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
 
 export const Members: React.FC = () => {
   const [currentMembers, setCurrentMembers] = useState<MemberItem[]>([]);
@@ -80,22 +81,27 @@ export const Members: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-left space-y-16">
       {/* Editorial Header */}
       <div className="space-y-4 border-b border-white/[0.08] pb-10">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-            // SOCIETY ROSTER
-          </span>
-          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
-            OFFICIAL STUDENT COUNCIL ROSTER
-          </span>
-        </div>
+        <FadeIn delay={0.05}>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+              // SOCIETY ROSTER
+            </span>
+            <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
+              OFFICIAL STUDENT COUNCIL ROSTER
+            </span>
+          </div>
+        </FadeIn>
 
-        <h1 className="font-['Syne'] font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-[0.95]">
-          THE PEOPLE<br />
-          BEHIND THE SHADOW.
-        </h1>
-        <p className="text-sm sm:text-base text-[#A1A1A1] max-w-2xl font-sans">
-          The selected researchers, core captains, and operations team driving cybersecurity education, competitive CTF engagements, and technological defense at Shadow Code Society.
-        </p>
+        <TextReveal as="h1" delay={0.1} duration={0.8} className="font-['Syne'] font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-[0.95]">
+          <span>THE PEOPLE</span><br />
+          <span>BEHIND THE SHADOW.</span>
+        </TextReveal>
+
+        <FadeIn delay={0.2}>
+          <p className="text-sm sm:text-base text-[#A1A1A1] max-w-2xl font-sans">
+            The selected researchers, core captains, and operations team driving cybersecurity education, competitive CTF engagements, and technological defense at Shadow Code Society.
+          </p>
+        </FadeIn>
 
         {/* Top Controls: Active vs Alumni Tabs & Search */}
         <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -170,66 +176,70 @@ export const Members: React.FC = () => {
         <div className="space-y-16">
           {/* Featured Club Mentor (shown on Current tab when no specific branch filter) */}
           {activeTab === 'CURRENT' && mentor && (selectedDomain === 'ALL' || selectedDomain === 'LEADERSHIP') && (
-            <div className="bg-[#0B0B0B] border border-white/10 rounded-xl p-8 sm:p-12 relative overflow-hidden group hover:border-[#FF4D1C]/40 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF4D1C]/5 rounded-full blur-3xl pointer-events-none" />
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-                <div className="lg:col-span-8 space-y-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded bg-[#FF4D1C]/15 text-[#FF4D1C] uppercase font-semibold border border-[#FF4D1C]/30 flex items-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      FACULTY ADVISOR & CLUB MENTOR
-                    </span>
-                  </div>
-
-                  <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] text-white">
-                    {mentor.name}
-                  </h2>
-                  <p className="text-xs font-mono text-[#FF4D1C]/90 font-medium">{mentor.role}</p>
-
-                  <p className="text-sm sm:text-base text-[#A1A1A1] font-sans leading-relaxed pt-2 max-w-2xl">
-                    {mentor.bio || 'Faculty Mentor guiding Shadow Code Society in cybersecurity research, student development, competitive CTF strategy, and ethical hacking initiatives.'}
-                  </p>
-
-                  {mentor.skills && mentor.skills.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-3">
-                      {mentor.skills.map((skill, idx) => (
-                        <span key={idx} className="text-[10px] font-mono px-2.5 py-1 rounded bg-white/[0.04] text-[#A1A1A1] border border-white/10">
-                          {skill}
-                        </span>
-                      ))}
+            <FadeIn>
+              <div className="bg-[#0B0B0B] border border-white/10 rounded-xl p-8 sm:p-12 relative overflow-hidden group hover:border-[#FF4D1C]/40 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF4D1C]/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                  <div className="lg:col-span-8 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded bg-[#FF4D1C]/15 text-[#FF4D1C] uppercase font-semibold border border-[#FF4D1C]/30 flex items-center gap-1.5">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        FACULTY ADVISOR & CLUB MENTOR
+                      </span>
                     </div>
-                  )}
-                </div>
 
-                <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center gap-4">
-                  <div className="flex items-center gap-3">
-                    {mentor.github && (
-                      <a href={mentor.github} target="_blank" rel="noreferrer" className="w-9 h-9 rounded bg-[#050505] border border-white/10 hover:border-[#FF4D1C]/50 flex items-center justify-center text-[#A1A1A1] hover:text-white transition-colors">
-                        <SocialIcon type="github" className="w-4 h-4" />
-                      </a>
-                    )}
-                    {mentor.linkedin && (
-                      <a href={mentor.linkedin} target="_blank" rel="noreferrer" className="w-9 h-9 rounded bg-[#050505] border border-white/10 hover:border-[#FF4D1C]/50 flex items-center justify-center text-[#A1A1A1] hover:text-white transition-colors">
-                        <SocialIcon type="linkedin" className="w-4 h-4" />
-                      </a>
+                    <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] text-white">
+                      {mentor.name}
+                    </h2>
+                    <p className="text-xs font-mono text-[#FF4D1C]/90 font-medium">{mentor.role}</p>
+
+                    <p className="text-sm sm:text-base text-[#A1A1A1] font-sans leading-relaxed pt-2 max-w-2xl">
+                      {mentor.bio || 'Faculty Mentor guiding Shadow Code Society in cybersecurity research, student development, competitive CTF strategy, and ethical hacking initiatives.'}
+                    </p>
+
+                    {mentor.skills && mentor.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pt-3">
+                        {mentor.skills.map((skill, idx) => (
+                          <span key={idx} className="text-[10px] font-mono px-2.5 py-1 rounded bg-white/[0.04] text-[#A1A1A1] border border-white/10">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
-                  <span className="text-xs font-mono text-[#666666]">VERIFIED ADVISORY NODE</span>
+
+                  <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center gap-4">
+                    <div className="flex items-center gap-3">
+                      {mentor.github && (
+                        <a href={mentor.github} target="_blank" rel="noreferrer" className="w-9 h-9 rounded bg-[#050505] border border-white/10 hover:border-[#FF4D1C]/50 flex items-center justify-center text-[#A1A1A1] hover:text-white transition-colors">
+                          <SocialIcon type="github" className="w-4 h-4" />
+                        </a>
+                      )}
+                      {mentor.linkedin && (
+                        <a href={mentor.linkedin} target="_blank" rel="noreferrer" className="w-9 h-9 rounded bg-[#050505] border border-white/10 hover:border-[#FF4D1C]/50 flex items-center justify-center text-[#A1A1A1] hover:text-white transition-colors">
+                          <SocialIcon type="linkedin" className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                    <span className="text-xs font-mono text-[#666666]">VERIFIED ADVISORY NODE</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </FadeIn>
           )}
 
           {/* Members Grid */}
           <div className="space-y-6">
-            <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-              <h3 className="text-xs font-mono tracking-[0.2em] text-[#A1A1A1] uppercase font-semibold">
-                // {activeTab === 'CURRENT' ? 'ACTIVE OPERATORS & RESEARCHERS' : 'HALL OF FAME ALUMNI'}
-              </h3>
-              <span className="text-xs font-mono text-zinc-500">
-                {filteredMembers.length} {filteredMembers.length === 1 ? 'PERSON' : 'MEMBERS'}
-              </span>
-            </div>
+            <FadeIn>
+              <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+                <h3 className="text-xs font-mono tracking-[0.2em] text-[#A1A1A1] uppercase font-semibold">
+                  // {activeTab === 'CURRENT' ? 'ACTIVE OPERATORS & RESEARCHERS' : 'HALL OF FAME ALUMNI'}
+                </h3>
+                <span className="text-xs font-mono text-zinc-500">
+                  {filteredMembers.length} {filteredMembers.length === 1 ? 'PERSON' : 'MEMBERS'}
+                </span>
+              </div>
+            </FadeIn>
 
             {filteredMembers.length === 0 ? (
               <div className="text-center py-16 bg-[#0B0B0B] border border-white/10 rounded-xl space-y-2">
@@ -237,16 +247,16 @@ export const Members: React.FC = () => {
                 <p className="text-xs text-zinc-600 font-sans">Try modifying your search query or switching domain filters.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <StaggerContainer stagger={0.06} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredMembers.map((member) => {
                   const isCaptain = member.role.toLowerCase().includes('captain') && !member.role.toLowerCase().includes('vice');
                   const isVice = member.role.toLowerCase().includes('vice');
                   const isLead = member.role.toLowerCase().includes('lead');
 
                   return (
+                    <StaggerItem key={member.id}>
                     <div
-                      key={member.id}
-                      className="bg-[#0B0B0B] border border-white/[0.08] hover:border-[#FF4D1C]/40 rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 space-y-6 group relative overflow-hidden"
+                      className="h-full bg-[#0B0B0B] border border-white/[0.08] hover:border-[#FF4D1C]/40 rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 space-y-6 group relative overflow-hidden"
                     >
                       {/* Accent glow on hover */}
                       <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF4D1C]/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
@@ -344,9 +354,10 @@ export const Members: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                    </StaggerItem>
                   );
                 })}
-              </div>
+              </StaggerContainer>
             )}
           </div>
         </div>

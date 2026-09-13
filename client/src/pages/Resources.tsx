@@ -4,6 +4,7 @@ import { resourceService, ResourceItem } from '../services/resource.service';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { BookOpen, Search, ArrowUpRight, PlusCircle } from 'lucide-react';
+import { TextReveal, FadeIn } from '../components/ScrollReveal';
 
 const FALLBACK_RESOURCES: ResourceItem[] = [
   {
@@ -181,25 +182,32 @@ export const Resources: React.FC = () => {
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-10">
         <div className="space-y-4">
-          <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-            // REPOSITORY
-          </span>
-          <h1 className="font-['Syne'] font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
+          <FadeIn delay={0.05}>
+            <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+              // REPOSITORY
+            </span>
+          </FadeIn>
+          <TextReveal as="h1" delay={0.1} duration={0.8} className="font-['Syne'] font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
             THE ARCHIVE
-          </h1>
-          <p className="text-sm sm:text-base text-[#A1A1A1] max-w-xl font-sans">
-            Knowledge left behind by the people who explored the system.
-          </p>
+          </TextReveal>
+          <FadeIn delay={0.2}>
+            <p className="text-sm sm:text-base text-[#A1A1A1] max-w-xl font-sans">
+              Knowledge left behind by the people who explored the system.
+            </p>
+          </FadeIn>
         </div>
 
-        <Link to="/resources/submit">
-          <Button variant="primary" size="md" leftIcon={<PlusCircle className="w-4 h-4" />}>
-            CONTRIBUTE ENTRY
-          </Button>
-        </Link>
+        <FadeIn delay={0.25}>
+          <Link to="/resources/submit">
+            <Button variant="primary" size="md" leftIcon={<PlusCircle className="w-4 h-4" />}>
+              CONTRIBUTE ENTRY
+            </Button>
+          </Link>
+        </FadeIn>
       </div>
 
       {/* Filter & Search Bar */}
+      <FadeIn delay={0.15}>
       <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-[#080808] p-4 rounded border border-white/10">
         <div className="relative flex-1 max-w-md">
           <Search className="w-4 h-4 text-[#666666] absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -228,6 +236,7 @@ export const Resources: React.FC = () => {
           ))}
         </div>
       </div>
+      </FadeIn>
 
       {/* Table Editorial Layout */}
       {loading ? (
@@ -240,6 +249,7 @@ export const Resources: React.FC = () => {
           <p className="text-xs text-[#666666]">Try adjusting your search terms or category selection.</p>
         </div>
       ) : (
+        <FadeIn delay={0.1}>
         <div className="border border-white/[0.08] rounded-lg overflow-hidden bg-[#0B0B0B]">
           {/* Header */}
           <div className="grid grid-cols-12 px-6 py-3.5 bg-white/[0.02] border-b border-white/[0.08] text-[11px] font-mono text-[#666666] uppercase tracking-wider">
@@ -302,6 +312,7 @@ export const Resources: React.FC = () => {
             })}
           </div>
         </div>
+        </FadeIn>
       )}
     </div>
   );

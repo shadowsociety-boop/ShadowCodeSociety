@@ -6,6 +6,7 @@ import { resourceService, ResourceItem } from '../services/resource.service';
 import { memberService, MemberItem } from '../services/member.service';
 import { highlightService, HighlightItem } from '../services/highlight.service';
 import { HighlightSlider, SliderMediaItem } from '../components/HighlightSlider';
+import { TextReveal, FadeIn, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
 import { Button } from '../components/ui/Button';
 import { HeroVisual } from '../components/HeroVisual';
 import { ScrollStackSection } from '../components/ScrollStackSection';
@@ -64,38 +65,39 @@ export const Home: React.FC = () => {
           setHighlights([
             {
               id: 'hl-1',
-              title: 'National Collegiate CTF 2025 // 1st Runner Up',
-              description: 'The SCS offensive squad captured 18 flags across PWN, Reverse Engineering, and Cryptography tracks in a 36-hour non-stop marathon.',
+              title: 'Core Team Award Ceremony // JIET Recognition',
+              description: 'The SCS founding core team being recognized and awarded for outstanding contributions to campus cybersecurity education and research.',
               category: 'Achievement',
               featured: true,
               date: '2025-11-18',
-              image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
+              image: '/media/award-ceremony.jpg',
               createdAt: '2025-11-18T00:00:00.000Z',
               updatedAt: '2025-11-18T00:00:00.000Z',
             },
             {
               id: 'hl-2',
-              title: 'Hardware Hacking & JTAG Extraction Lab',
-              description: 'Hands-on hardware firmware extraction, UART debugging, and chip-off analysis on real IoT routers.',
+              title: 'Technical Workshop // Linux Timeline & Systems Deep Dive',
+              description: 'Members engaged in an interactive session on the evolution of Linux, open-source systems, and kernel architecture at JIET Universe.',
               category: 'Workshop',
               featured: false,
               date: '2025-09-24',
-              image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+              image: '/media/workshop-presentation.jpg',
               createdAt: '2025-09-24T00:00:00.000Z',
               updatedAt: '2025-09-24T00:00:00.000Z',
             },
             {
               id: 'hl-3',
-              title: 'Kernel Exploitation & Rootkit Dissection',
-              description: 'Deep dive into Linux kernel memory management, ring 0 privilege escalation, and eBPF telemetry evasion.',
+              title: 'Seminar & Knowledge Exchange // Campus-Wide Gathering',
+              description: 'Society-hosted seminar bringing together students from across departments for hands-on security awareness and collaborative learning.',
               category: 'Event',
               featured: false,
               date: '2025-08-12',
-              image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
+              image: '/media/members-gathering.jpg',
               createdAt: '2025-08-12T00:00:00.000Z',
               updatedAt: '2025-08-12T00:00:00.000Z',
             },
           ]);
+
         }
 
         const allMembers: MemberItem[] = membersData.members || [];
@@ -209,28 +211,70 @@ export const Home: React.FC = () => {
           {/* Subtle Background Grid & World Map Hero Atmosphere */}
           <div className="absolute inset-0 bg-subtle-grid opacity-20 pointer-events-none" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
               {/* Left Column: Massive Editorial Typography */}
               <div className="lg:col-span-7 text-left space-y-8">
                 {/* Category Pill Tag */}
 
-                {/* Giant Headline */}
+                {/* Giant Headline — staggered height-reveal per line */}
                 <div className="space-y-1">
                   <h1 className="font-['Syne'] font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-white leading-[0.92]">
-                    ENTER<br />
-                    THE<br />
-                    <span className="text-[#FF4D1C]">SHADOW.</span>
+                    {/* Line 1: ENTER */}
+                    <span className="block overflow-hidden pb-1">
+                      <motion.span
+                        className="block"
+                        initial={{ y: '110%' }}
+                        animate={{ y: '0%' }}
+                        transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        ENTER
+                      </motion.span>
+                    </span>
+
+                    {/* Line 2: THE */}
+                    <span className="block overflow-hidden pb-1">
+                      <motion.span
+                        className="block"
+                        initial={{ y: '110%' }}
+                        animate={{ y: '0%' }}
+                        transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        THE
+                      </motion.span>
+                    </span>
+
+                    {/* Line 3: SHADOW. (accent color) */}
+                    <span className="block overflow-hidden pb-1">
+                      <motion.span
+                        className="block text-[#FF4D1C]"
+                        initial={{ y: '110%' }}
+                        animate={{ y: '0%' }}
+                        transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        SHADOW.
+                      </motion.span>
+                    </span>
                   </h1>
                 </div>
 
-                {/* Supporting Statement */}
-                <p className="text-base sm:text-lg text-[#A1A1A1] max-w-xl font-sans leading-relaxed pt-2">
+                {/* Supporting Statement — fade up after headline */}
+                <motion.p
+                  className="text-base sm:text-lg text-[#A1A1A1] max-w-xl font-sans leading-relaxed pt-2"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                >
                   Shadow Code Society is an elite cybersecurity collective where students dissect real-world vulnerabilities, master offensive tradecraft, and build resilient defense architectures.
-                </p>
+                </motion.p>
 
-                {/* Action Buttons */}
-                <div className="flex flex-wrap items-center gap-4 pt-4">
+                {/* Action Buttons — fade up staggered */}
+                <motion.div
+                  className="flex flex-wrap items-center gap-4 pt-4"
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.35, ease: [0.16, 1, 0.3, 1] }}
+                >
                   <Link to="/events" onClick={() => soundFx.playTick()}>
                     <Button size="lg" variant="primary" rightIcon={<ArrowRight className="w-4 h-4" />}>
                       EXPLORE EVENTS
@@ -241,40 +285,91 @@ export const Home: React.FC = () => {
                       JOIN THE SOCIETY
                     </Button>
                   </Link>
-                </div>
+                </motion.div>
 
                 {/* Sub-header Metatag */}
 
               </div>
 
-              {/* Right Column: Sophisticated Hero Visual */}
-              <div className="lg:col-span-5 flex justify-center">
+              {/* Right Column: Sophisticated Hero Visual — scale-in reveal */}
+              <motion.div
+                className="lg:col-span-5 flex justify-center"
+                initial={{ opacity: 0, scale: 0.88, y: 40 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
                 <HeroVisual />
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </ScrollStackSection>
 
+      {/* ── DECK 02: MISSION HIGHLIGHTS SECTION (AUTO SLIDER) ───────── */}
+      <ScrollStackSection index={1} className="bg-[#080808]">
+        <div className="py-20 sm:py-32 text-left">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <FadeIn>
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                    // FIELD RECORDS & LIVESTREAM
+                  </span>
+                </FadeIn>
+                <TextReveal as="h2" className="mt-2">
+                  <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                    MISSION HIGHLIGHTS
+                  </span>
+                </TextReveal>
+                <FadeIn delay={0.15}>
+                  <p className="text-sm text-[#A1A1A1] mt-2 font-sans">
+                    Auto-playing field dispatches, tournament victories, live exploit demos, and hardware reverse engineering footage.
+                  </p>
+                </FadeIn>
+              </div>
+              <FadeIn delay={0.2}>
+                <Link to="/highlights">
+                  <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
+                    VIEW ARCHIVE GALLERY
+                  </Button>
+                </Link>
+              </FadeIn>
+            </div>
+
+            {/* High-Tech Auto Image & Video Slider */}
+            <FadeIn delay={0.25} y={40}>
+              <HighlightSlider autoPlayInterval={5500} />
+            </FadeIn>
+          </div>
+        </div>
+      </ScrollStackSection>
+
       {/* ── DECK 03: CORE CAPABILITIES / SPECIALIZATIONS ────────────── */}
-      <ScrollStackSection index={2} badge="RESEARCH DOMAINS" className="bg-[#070707]">
+      <ScrollStackSection index={2} className="bg-[#070707]">
         <div className="py-24 sm:py-32 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div>
-                <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-                  // SPECIALIZATIONS
-                </span>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight mt-2">
-                  CORE CAPABILITIES
-                </h2>
+                <FadeIn>
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                    // SPECIALIZATIONS
+                  </span>
+                </FadeIn>
+                <TextReveal as="h2" className="mt-2">
+                  <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                    CORE CAPABILITIES
+                  </span>
+                </TextReveal>
               </div>
-              <p className="text-xs font-mono text-[#A1A1A1] max-w-sm">
-                HOVER TO INSPECT RESEARCH DOMAINS & OPERATIONAL SPECIALIZATIONS.
-              </p>
+              <FadeIn delay={0.15}>
+                <p className="text-xs font-mono text-[#A1A1A1] max-w-sm">
+                  HOVER TO INSPECT RESEARCH DOMAINS & OPERATIONAL SPECIALIZATIONS.
+                </p>
+              </FadeIn>
             </div>
 
             {/* Interactive Editorial Domain List */}
+            <FadeIn delay={0.1} y={20}>
             <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
               {domainList.map((domain, index) => {
                 const isSelected = activeDomain === index;
@@ -326,12 +421,13 @@ export const Home: React.FC = () => {
                 );
               })}
             </div>
+            </FadeIn>
           </div>
         </div>
       </ScrollStackSection>
 
       {/* ── DECK 04: FEATURED OPERATION (CTF BANNER) ───────────────── */}
-      <ScrollStackSection index={3} badge="FLAGSHIP MISSION" className="bg-[#080808]">
+      <ScrollStackSection index={3} className="bg-[#080808]">
         <div className="py-20 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="relative rounded-2xl border border-white/15 bg-[#0B0B0B] p-8 sm:p-14 overflow-hidden shadow-2xl">
@@ -340,36 +436,44 @@ export const Home: React.FC = () => {
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
                 <div className="lg:col-span-8 space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#FF4D1C]/15 border border-[#FF4D1C]/30 text-[10px] font-mono tracking-widest text-[#FF4D1C] uppercase font-semibold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
-                    ACTIVE COMPETITION // CAMPUS PRIORITY
-                  </div>
-
-                  <h3 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
-                    CYBER HUNT II // TECHNICAL SCAVENGER HUNT
-                  </h3>
-
-                  <p className="text-sm sm:text-base text-[#A1A1A1] max-w-2xl font-sans leading-relaxed">
-                    Get ready for Cyber Hunt II, an entry-level technical scavenger hunt across college campus! Decode beginner-friendly riddles, solve logic puzzles, and scan hidden QR codes to reach the final terminal first.
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-mono text-[#A1A1A1]">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-[#FF4D1C]" />
-                      <span>18 SEPTEMBER 2026</span>
+                  <FadeIn>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#FF4D1C]/15 border border-[#FF4D1C]/30 text-[10px] font-mono tracking-widest text-[#FF4D1C] uppercase font-semibold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
+                      ACTIVE COMPETITION // CAMPUS PRIORITY
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-[#FF4D1C]" />
-                      <span>CAMPUS-WIDE // JIET JODHPUR</span>
+                  </FadeIn>
+
+                  <TextReveal as="h3">
+                    <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                      CYBER HUNT II // TECHNICAL SCAVENGER HUNT
+                    </span>
+                  </TextReveal>
+
+                  <FadeIn delay={0.15}>
+                    <p className="text-sm sm:text-base text-[#A1A1A1] max-w-2xl font-sans leading-relaxed">
+                      Get ready for Cyber Hunt II, an entry-level technical scavenger hunt across college campus! Decode beginner-friendly riddles, solve logic puzzles, and scan hidden QR codes to reach the final terminal first.
+                    </p>
+                  </FadeIn>
+
+                  <FadeIn delay={0.25}>
+                    <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-mono text-[#A1A1A1]">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[#FF4D1C]" />
+                        <span>18 SEPTEMBER 2026</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-[#FF4D1C]" />
+                        <span>CAMPUS-WIDE // JIET JODHPUR</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Award className="w-4 h-4 text-[#FF4D1C]" />
+                        <span className="text-[#FF4D1C] font-semibold">TEAMS: 3–6 MEMBERS</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Award className="w-4 h-4 text-[#FF4D1C]" />
-                      <span className="text-[#FF4D1C] font-semibold">TEAMS: 3–6 MEMBERS</span>
-                    </div>
-                  </div>
+                  </FadeIn>
                 </div>
 
-                <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center items-start lg:items-end">
+                <FadeIn delay={0.3} className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center items-start lg:items-end">
                   <Link to="/events/cyber-hunt-ii" className="w-full sm:w-auto">
                     <Button size="lg" variant="primary" rightIcon={<ArrowRight className="w-4 h-4" />}>
                       REGISTER FOR HUNT
@@ -380,7 +484,7 @@ export const Home: React.FC = () => {
                       VIEW ALL MISSIONS
                     </Button>
                   </Link>
-                </div>
+                </FadeIn>
               </div>
             </div>
           </div>
@@ -388,34 +492,42 @@ export const Home: React.FC = () => {
       </ScrollStackSection>
 
       {/* ── DECK 05: OPERATIONS / UPCOMING SCHEDULE ─────────────────── */}
-      <ScrollStackSection index={4} badge="OPERATIONS SCHEDULE" className="bg-[#060606]">
+      <ScrollStackSection index={4} className="bg-[#060606]">
         <div className="py-20 sm:py-32 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
               <div>
-                <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-                  // SCHEDULE
-                </span>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight mt-2">
-                  OPERATIONS
-                </h2>
-                <p className="text-sm text-[#A1A1A1] mt-2 font-sans">
-                  Upcoming missions, workshops, and offensive security drills.
-                </p>
+                <FadeIn>
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                    // SCHEDULE
+                  </span>
+                </FadeIn>
+                <TextReveal as="h2" className="mt-2">
+                  <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                    OPERATIONS
+                  </span>
+                </TextReveal>
+                <FadeIn delay={0.15}>
+                  <p className="text-sm text-[#A1A1A1] mt-2 font-sans">
+                    Upcoming missions, workshops, and offensive security drills.
+                  </p>
+                </FadeIn>
               </div>
-              <Link to="/events">
-                <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
-                  VIEW ALL EVENTS
-                </Button>
-              </Link>
+              <FadeIn delay={0.2}>
+                <Link to="/events">
+                  <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
+                    VIEW ALL EVENTS
+                  </Button>
+                </Link>
+              </FadeIn>
             </div>
 
             {/* Asymmetric Events Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <StaggerContainer stagger={0.12} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.slice(0, 3).map((event) => (
+                <StaggerItem key={event.id}>
                 <div
-                  key={event.id}
-                  className="group relative bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+                  className="group relative bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 h-full"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between text-xs font-mono">
@@ -449,65 +561,48 @@ export const Home: React.FC = () => {
                     </Link>
                   </div>
                 </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </div>
       </ScrollStackSection>
 
-      {/* ── DECK 06: MISSION HIGHLIGHTS SECTION (AUTO SLIDER) ───────── */}
-      <ScrollStackSection index={5} badge="FIELD HIGHLIGHTS" className="bg-[#080808]">
-        <div className="py-20 sm:py-32 text-left">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-                  // FIELD RECORDS & LIVESTREAM
-                </span>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight mt-2">
-                  MISSION HIGHLIGHTS
-                </h2>
-                <p className="text-sm text-[#A1A1A1] mt-2 font-sans">
-                  Auto-playing field dispatches, tournament victories, live exploit demos, and hardware reverse engineering footage.
-                </p>
-              </div>
-              <Link to="/highlights">
-                <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
-                  VIEW ARCHIVE GALLERY
-                </Button>
-              </Link>
-            </div>
 
-            {/* High-Tech Auto Image & Video Slider */}
-            <HighlightSlider autoPlayInterval={5500} />
-          </div>
-        </div>
-      </ScrollStackSection>
 
       {/* ── DECK 07: THE ARCHIVE (KNOWLEDGE REPOSITORY TABLE) ──────── */}
-      <ScrollStackSection index={6} badge="KNOWLEDGE ARCHIVE" className="bg-[#050505]">
+      <ScrollStackSection index={5} className="bg-[#050505]">
         <div className="py-20 sm:py-32 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
               <div>
-                <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-                  // REPOSITORY
-                </span>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight mt-2">
-                  THE ARCHIVE
-                </h2>
-                <p className="text-sm text-[#A1A1A1] mt-2 font-sans">
-                  Knowledge left behind by the people who explored the system.
-                </p>
+                <FadeIn>
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                    // REPOSITORY
+                  </span>
+                </FadeIn>
+                <TextReveal as="h2" className="mt-2">
+                  <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                    THE ARCHIVE
+                  </span>
+                </TextReveal>
+                <FadeIn delay={0.15}>
+                  <p className="text-sm text-[#A1A1A1] mt-2 font-sans">
+                    Knowledge left behind by the people who explored the system.
+                  </p>
+                </FadeIn>
               </div>
-              <Link to="/resources">
-                <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
-                  BROWSE ARCHIVE
-                </Button>
-              </Link>
+              <FadeIn delay={0.2}>
+                <Link to="/resources">
+                  <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
+                    BROWSE ARCHIVE
+                  </Button>
+                </Link>
+              </FadeIn>
             </div>
 
             {/* Editorial Table Layout with Responsive Overflow */}
+            <FadeIn delay={0.1} y={20}>
             <div className="border border-white/[0.08] rounded-xl overflow-x-auto bg-[#0B0B0B]">
               <div className="min-w-[640px]">
                 {/* Table Header */}
@@ -545,34 +640,41 @@ export const Home: React.FC = () => {
                 </div>
               </div>
             </div>
+            </FadeIn>
           </div>
         </div>
       </ScrollStackSection>
 
       {/* ── DECK 08: THE PEOPLE BEHIND SHADOW (MEMBERS & MENTOR) ─────── */}
-      <ScrollStackSection index={7} badge="OPERATOR DIRECTORY" className="bg-[#080808]">
+      <ScrollStackSection index={6} className="bg-[#080808]">
         <div className="py-24 sm:py-32 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div>
-                <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-                  // RESEARCHERS
-                </span>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight mt-2">
-                  THE PEOPLE BEHIND THE SHADOW
-                </h2>
+                <FadeIn>
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                    // RESEARCHERS
+                  </span>
+                </FadeIn>
+                <TextReveal as="h2" className="mt-2">
+                  <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                    THE PEOPLE BEHIND THE SHADOW
+                  </span>
+                </TextReveal>
               </div>
-              <Link to="/members">
-                <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
-                  VIEW FULL DIRECTORY
-                </Button>
-              </Link>
+              <FadeIn delay={0.15}>
+                <Link to="/members">
+                  <Button variant="secondary" size="sm" rightIcon={<ArrowUpRight className="w-3.5 h-3.5" />}>
+                    VIEW FULL DIRECTORY
+                  </Button>
+                </Link>
+              </FadeIn>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Featured Mentor Card */}
               {mentor && (
-                <div className="lg:col-span-5 bg-[#0B0B0B] border border-white/[0.08] rounded-xl p-8 flex flex-col justify-between space-y-6">
+                <FadeIn delay={0.1} className="lg:col-span-5 bg-[#0B0B0B] border border-white/[0.08] rounded-xl p-8 flex flex-col justify-between space-y-6">
                   <div>
                     <span className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded bg-[#FF4D1C]/15 text-[#FF4D1C] uppercase font-semibold border border-[#FF4D1C]/30">
                       FACULTY MENTOR & ADVISOR
@@ -595,15 +697,15 @@ export const Home: React.FC = () => {
                       <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
-                </div>
+                </FadeIn>
               )}
 
               {/* Core Team Roster */}
-              <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <StaggerContainer stagger={0.08} className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {members.map((member) => (
+                  <StaggerItem key={member.id}>
                   <div
-                    key={member.id}
-                    className="bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-5 flex flex-col justify-between transition-colors"
+                    className="bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-5 flex flex-col justify-between transition-colors h-full"
                   >
                     <div>
                       <span className="text-[10px] font-mono text-[#FF4D1C] uppercase">
@@ -629,48 +731,62 @@ export const Home: React.FC = () => {
                       </div>
                     )}
                   </div>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerContainer>
             </div>
           </div>
         </div>
       </ScrollStackSection>
 
       {/* ── DECK 09: JOIN CTA & INTERACTIVE TERMINAL SHELL ───────────── */}
-      <ScrollStackSection index={8} badge="DEPLOYMENT & ACCESS" className="bg-[#050505]">
+      <ScrollStackSection index={7} className="bg-[#050505]">
         <div className="py-24 sm:py-36 relative overflow-hidden">
           {/* Dotted Global Matrix Background */}
           <DottedWorldMapBg opacity={0.3} highlightNodes={true} />
 
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
-            <span className="text-xs font-mono tracking-[0.25em] text-[#FF4D1C] uppercase font-semibold">
-              // JOIN THE CORPS
-            </span>
+            <FadeIn>
+              <span className="text-xs font-mono tracking-[0.25em] text-[#FF4D1C] uppercase font-semibold">
+                // JOIN THE CORPS
+              </span>
+            </FadeIn>
 
-            <h2 className="font-['Syne'] font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-[0.95]">
-              READY TO ENTER<br />
-              THE <span className="text-[#FF4D1C]">SHADOW?</span>
-            </h2>
+            <TextReveal as="h2">
+              <span className="font-['Syne'] font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-[0.95] block">
+                READY TO ENTER
+              </span>
+            </TextReveal>
+            <TextReveal as="h2" delay={0.15}>
+              <span className="font-['Syne'] font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-[0.95] block">
+                THE <span className="text-[#FF4D1C]">SHADOW?</span>
+              </span>
+            </TextReveal>
 
-            <p className="text-base sm:text-lg text-[#A1A1A1] max-w-xl mx-auto font-sans leading-relaxed">
-              Learn with us. Build with us. Break things responsibly. We accept candidates across all skill levels with a passion for offensive and defensive computer science.
-            </p>
+            <FadeIn delay={0.3}>
+              <p className="text-base sm:text-lg text-[#A1A1A1] max-w-xl mx-auto font-sans leading-relaxed">
+                Learn with us. Build with us. Break things responsibly. We accept candidates across all skill levels with a passion for offensive and defensive computer science.
+              </p>
+            </FadeIn>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-              <Link to="/join" onClick={() => soundFx.playChime()}>
-                <Button size="lg" variant="primary" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                  APPLY FOR MEMBERSHIP
-                </Button>
-              </Link>
-              <Link to="/about" onClick={() => soundFx.playTick()}>
-                <Button size="lg" variant="secondary">
-                  EXPLORE SOCIETY CODE OF ETHICS
-                </Button>
-              </Link>
-            </div>
+            <FadeIn delay={0.4}>
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <Link to="/join" onClick={() => soundFx.playChime()}>
+                  <Button size="lg" variant="primary" rightIcon={<ArrowRight className="w-4 h-4" />}>
+                    APPLY FOR MEMBERSHIP
+                  </Button>
+                </Link>
+                <Link to="/about" onClick={() => soundFx.playTick()}>
+                  <Button size="lg" variant="secondary">
+                    EXPLORE SOCIETY CODE OF ETHICS
+                  </Button>
+                </Link>
+              </div>
+            </FadeIn>
           </div>
 
           {/* Interactive Terminal Shell */}
+          <FadeIn delay={0.2} y={40}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 text-left">
             <div className="rounded-xl bg-[#0B0B0B] border border-white/10 shadow-2xl overflow-hidden font-mono">
               {/* Terminal Chrome */}
@@ -710,6 +826,7 @@ export const Home: React.FC = () => {
               </form>
             </div>
           </div>
+          </FadeIn>
         </div>
       </ScrollStackSection>
     </div>

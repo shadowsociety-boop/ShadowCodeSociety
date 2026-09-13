@@ -32,57 +32,56 @@ interface HighlightSliderProps {
   autoPlayInterval?: number;
 }
 
-// Curated high-production cyber operations media (both videos & photos)
+// Real SCS event media from society archives
 const DEFAULT_SLIDES: SliderMediaItem[] = [
   {
     id: 'hl-vid-1',
-    title: 'DefCon Village Cyber War Game // Attack & Defense Final',
-    description: '48-hour continuous offensive cyber warfare drill simulating critical infrastructure zero-day exploitation, SCADA network containment, and active telemetry defense.',
-    category: 'Competition',
+    title: 'Shadow Code Society // Live Event Highlight Reel',
+    description: 'Captured moments from our campus-wide cybersecurity events, workshops, and interactive sessions at JIET Universe.',
+    category: 'Event',
     date: '2025-11-22',
     type: 'video',
-    mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1400&q=80',
+    mediaUrl: '/media/event-highlight.mov',
+    posterUrl: '/media/workshop-presentation.jpg',
   },
   {
     id: 'hl-img-1',
-    title: 'National Collegiate CTF Qualifiers // 1st Runner Up',
-    description: 'The SCS offensive squad captured 18 flags across PWN, Binary Reverse Engineering, and Elliptic Curve Cryptography tracks.',
-    category: 'Achievement',
+    title: 'Technical Workshop // Linux Timeline & Systems Deep Dive',
+    description: 'Members engaged in an interactive session on the evolution of Linux, open-source systems, and kernel architecture at JIET Universe.',
+    category: 'Workshop',
     date: '2025-10-14',
     type: 'image',
-    mediaUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80',
-  },
-  {
-    id: 'hl-vid-2',
-    title: 'Hardware JTAG Extraction & Silicon Bus Auditing',
-    description: 'Real-time logic analyzer debugging, hardware firmware dumping via SPI/UART headers, and glitching microcontroller clock lines.',
-    category: 'Workshop',
-    date: '2025-09-08',
-    type: 'video',
-    mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80',
+    mediaUrl: '/media/workshop-presentation.jpg',
   },
   {
     id: 'hl-img-2',
-    title: 'Red Team Breach Simulation & Privilege Escalation',
-    description: 'End-to-end active directory domain takeover exercise, kerberoasting detection, and golden ticket pass-the-hash containment.',
-    category: 'Drill',
-    date: '2025-07-30',
+    title: 'Shadow Code Society // Full Team Assembly',
+    description: 'The complete SCS roster assembled after a successful workshop session — researchers, operators, and new recruits united.',
+    category: 'Team',
+    date: '2025-09-08',
     type: 'image',
-    mediaUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1400&q=80',
+    mediaUrl: '/media/team-group-photo.jpg',
   },
   {
-    id: 'hl-vid-3',
-    title: 'Binary Reverse Engineering & Ring-0 Rootkit Analysis',
-    description: 'Decompiling kernel memory dumps using IDA Pro and Ghidra to reconstruct APT command-and-control communication channels.',
-    category: 'Research',
+    id: 'hl-img-3',
+    title: 'Core Team Award Ceremony // JIET Recognition',
+    description: 'The SCS founding core team being recognized and awarded for outstanding contributions to campus cybersecurity education and research.',
+    category: 'Achievement',
+    date: '2025-07-30',
+    type: 'image',
+    mediaUrl: '/media/award-ceremony.jpg',
+  },
+  {
+    id: 'hl-img-4',
+    title: 'Seminar & Knowledge Exchange // Campus-Wide Gathering',
+    description: 'Society-hosted seminar bringing together students from across departments for hands-on security awareness and collaborative learning.',
+    category: 'Seminar',
     date: '2025-06-19',
-    type: 'video',
-    mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1400&q=80',
+    type: 'image',
+    mediaUrl: '/media/members-gathering.jpg',
   },
 ];
+
 
 export const HighlightSlider: React.FC<HighlightSliderProps> = ({
   items = DEFAULT_SLIDES,

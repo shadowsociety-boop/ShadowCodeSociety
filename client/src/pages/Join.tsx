@@ -5,6 +5,7 @@ import { joinService } from '../services/join.service';
 import { Button } from '../components/ui/Button';
 import { soundFx } from '../utils/sound';
 import { ArrowLeft, CheckCircle2, AlertCircle, Upload, ShieldCheck, ArrowRight } from 'lucide-react';
+import { TextReveal, FadeIn } from '../components/ScrollReveal';
 
 export const Join: React.FC = () => {
   const [name, setName] = useState('');
@@ -106,18 +107,23 @@ export const Join: React.FC = () => {
 
       {/* Editorial Header */}
       <div className="space-y-4 border-b border-white/[0.08] pb-10">
-        <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-          // RECRUITMENT PROTOCOL
-        </span>
-        <h1 className="font-['Syne'] font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-[0.95]">
-          READY TO ENTER<br />
-          THE <span className="text-[#FF4D1C]">SHADOW?</span>
-        </h1>
-        <p className="text-sm sm:text-base text-[#A1A1A1] max-w-xl font-sans">
-          Learn with us. Build with us. Break things responsibly. We evaluate passion, problem solving, and ethical integrity over existing credentials.
-        </p>
+        <FadeIn delay={0.05}>
+          <span className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+            // RECRUITMENT PROTOCOL
+          </span>
+        </FadeIn>
+        <TextReveal as="h1" delay={0.1} duration={0.8} className="font-['Syne'] font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-[0.95]">
+          <span>READY TO ENTER</span><br />
+          <span>THE <span className="text-[#FF4D1C]">SHADOW?</span></span>
+        </TextReveal>
+        <FadeIn delay={0.2}>
+          <p className="text-sm sm:text-base text-[#A1A1A1] max-w-xl font-sans">
+            Learn with us. Build with us. Break things responsibly. We evaluate passion, problem solving, and ethical integrity over existing credentials.
+          </p>
+        </FadeIn>
       </div>
 
+      <FadeIn delay={0.15}>
       <div className="bg-[#0B0B0B] border border-white/10 rounded-xl p-6 sm:p-10 shadow-2xl">
         {error && (
           <div className="mb-6 p-4 rounded bg-red-500/10 border border-red-500/30 text-xs font-mono text-red-400 flex items-center gap-3">
@@ -340,6 +346,7 @@ export const Join: React.FC = () => {
           </form>
         )}
       </div>
+      </FadeIn>
     </div>
   );
 };
