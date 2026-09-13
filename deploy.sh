@@ -69,6 +69,9 @@ elif [ "$1" == "backend" ] || [ "$1" == "server" ] || [ "$1" == "render" ]; then
 elif [ "$1" == "test" ] || [ "$1" == "build" ]; then
   run_test
   exit 0
+elif [ "$1" == "credentials" ] || [ "$1" == "config" ]; then
+  bash "$ROOT_DIR/set-credentials.sh"
+  exit 0
 elif [ "$1" == "all" ]; then
   shift
   run_backend "$@"
@@ -82,11 +85,12 @@ echo -e "Select deployment target:"
 echo -e "  ${CYAN}[1]${NC} Deploy Frontend to ${GREEN}Vercel${NC} (client)"
 echo -e "  ${CYAN}[2]${NC} Deploy Backend to ${MAGENTA}Render${NC} (server)"
 echo -e "  ${CYAN}[3]${NC} Deploy ${BOLD}Both${NC} (Backend on Render -> Frontend on Vercel)"
-echo -e "  ${CYAN}[4]${NC} Test Production Builds Locally (tsc & vite build)"
-echo -e "  ${CYAN}[5]${NC} Exit"
+echo -e "  ${CYAN}[4]${NC} Configure Cloud Credentials (${GREEN}Supabase${NC}, ${MAGENTA}Cloudinary${NC}, ${RED}Redis${NC})"
+echo -e "  ${CYAN}[5]${NC} Test Production Builds Locally (tsc & vite build)"
+echo -e "  ${CYAN}[6]${NC} Exit"
 echo ""
 
-read -p "Enter selection [1-5]: " OPTION
+read -p "Enter selection [1-6]: " OPTION
 
 case $OPTION in
   1)
@@ -100,9 +104,12 @@ case $OPTION in
     run_frontend
     ;;
   4)
-    run_test
+    bash "$ROOT_DIR/set-credentials.sh"
     ;;
   5)
+    run_test
+    ;;
+  6)
     echo -e "${YELLOW}Deployment cancelled.${NC}"
     exit 0
     ;;

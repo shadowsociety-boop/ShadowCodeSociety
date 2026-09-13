@@ -20,6 +20,7 @@ dist-ssr/
 .env.production.local
 !.env.example
 !*/.env.example
+pass.txt
 
 # Databases & Local Data
 *.db

@@ -43,4 +43,15 @@ export const config = {
     auth: { windowMs: 15 * 60 * 1000, max: 10 },
     registration: { windowMs: 15 * 60 * 1000, max: 20 },
   },
+
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+    url: process.env.CLOUDINARY_URL,
+  },
+
+  redis: {
+    url: process.env.REDIS_URL,
+  },
 } as const;
