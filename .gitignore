@@ -82,4 +82,8 @@ Thumbs.db
 .docx
 .vercel
 .env*
+!client/.env.production
+!client/.env.example
+!.env.example
+!server/.env.example
 client/src/assets/photo & video/
