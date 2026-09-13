@@ -26,7 +26,25 @@ app.use(helmet({
 }));
 
 app.use(cors({
-  origin: config.clientUrl,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const envOrigins = (process.env.CLIENT_URL || '').split(',').map((s) => s.trim().replace(/\/$/, ''));
+    const defaultOrigins = [
+      config.clientUrl.replace(/\/$/, ''),
+      'http://localhost:5173',
+      'http://localhost:3000',
+    ];
+    const isAllowed =
+      defaultOrigins.includes(origin) ||
+      envOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app');
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Permissive in dev/prod with credentials
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],

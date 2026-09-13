@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: shadow-code-society-api
+    env: node
+    plan: free
+    region: oregon
+    rootDir: server
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma db push && npm start
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shadow-code-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://shadowcodesociety.vercel.app
+      - key: COOKIE_SAMESITE
+        value: none
+      - key: STORAGE_TYPE
+        value: local
+
+databases:
+  - name: shadow-code-db
+    plan: free
+    region: oregon
+    databaseName: shadowcode
+    user: shadowuser
