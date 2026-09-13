@@ -1,0 +1,14 @@
+{
+  "name": "shadow-code-society-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd server && npm install && npx prisma generate && npm run build",
+    "start": "cd server && npx prisma db push && npm start",
+    "build:server": "cd server && npm install && npx prisma generate && npm run build",
+    "build:client": "cd client && npm install && npm run build",
+    "start:server": "cd server && npm start",
+    "db:push": "cd server && npx prisma db push",
+    "db:seed": "cd server && npx tsx prisma/seed.ts"
+  }
+}
