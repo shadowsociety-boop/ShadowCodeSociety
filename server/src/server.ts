@@ -19,6 +19,9 @@ import adminRoutes from './routes/admin.routes';
 
 const app = express();
 
+// Trust reverse proxy (Cloudflare / Render) for correct IP & secure cookies
+app.set('trust proxy', 1);
+
 // ── Security Middleware ─────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },

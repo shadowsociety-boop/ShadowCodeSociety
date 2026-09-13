@@ -16,7 +16,11 @@ export interface AuthRequest extends Request {
 
 export const requireAuth = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const token = req.cookies?.token;
+    const authHeader = req.headers.authorization;
+    let token = req.cookies?.token;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7).trim();
+    }
 
     if (!token) {
       res.status(401).json({ error: 'Authentication required' });

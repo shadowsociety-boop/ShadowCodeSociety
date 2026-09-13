@@ -14,14 +14,21 @@ export interface LoginCredentials {
 }
 
 export const authService = {
-  login: async (credentials: LoginCredentials): Promise<{ admin: AdminUser }> => {
+  login: async (credentials: LoginCredentials): Promise<{ admin: AdminUser; token?: string }> => {
     const res = await api.post('/api/auth/login', credentials);
+    if (res.data?.token) {
+      localStorage.setItem('admin_token', res.data.token);
+    }
     return res.data;
   },
 
   logout: async (): Promise<{ message: string }> => {
-    const res = await api.post('/api/auth/logout');
-    return res.data;
+    try {
+      const res = await api.post('/api/auth/logout');
+      return res.data;
+    } finally {
+      localStorage.removeItem('admin_token');
+    }
   },
 
   getMe: async (): Promise<{ admin: AdminUser }> => {

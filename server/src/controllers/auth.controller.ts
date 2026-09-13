@@ -36,6 +36,7 @@ export const login = async (req: AuthRequest, res: Response): Promise<void> => {
     });
 
     res.json({
+      token,
       admin: {
         id: admin.id,
         email: admin.email,

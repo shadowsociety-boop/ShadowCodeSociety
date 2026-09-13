@@ -15,8 +15,8 @@ export const config = {
 
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: (process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax')) as 'strict' | 'lax' | 'none',
+    secure: process.env.NODE_ENV === 'production' || process.env.COOKIE_SECURE === 'true' || !!process.env.RENDER,
+    sameSite: (process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' || !!process.env.RENDER ? 'none' : 'lax')) as 'strict' | 'lax' | 'none',
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   },
 
