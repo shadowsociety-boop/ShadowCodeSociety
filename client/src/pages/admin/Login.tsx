@@ -33,7 +33,11 @@ export const Login: React.FC = () => {
       await login({ email, password });
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Authentication rejected. Verify credentials.');
+      if (!err.response) {
+        setError('Unable to reach server. Make sure the backend server is running.');
+      } else {
+        setError(err.response?.data?.error || 'Authentication rejected. Verify credentials.');
+      }
     } finally {
       setLoading(false);
     }
