@@ -219,11 +219,11 @@ export const Home: React.FC = () => {
 
                 {/* Giant Headline — staggered height-reveal per line */}
                 <div className="space-y-1">
-                  <h1 className="font-['Syne'] font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tight text-white leading-[0.92]">
+                  <h1 className="font-syne font-['Syne'] font-extrabold text-[2.6rem] xs:text-5xl sm:text-7xl lg:text-8xl tracking-tight text-white leading-[1.06] sm:leading-[0.96] lg:leading-[0.92]">
                     {/* Line 1: ENTER */}
-                    <span className="block overflow-hidden pb-1">
+                    <span className="block overflow-hidden py-1">
                       <motion.span
-                        className="block"
+                        className="block whitespace-nowrap"
                         initial={{ y: '110%' }}
                         animate={{ y: '0%' }}
                         transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -233,9 +233,9 @@ export const Home: React.FC = () => {
                     </span>
 
                     {/* Line 2: THE */}
-                    <span className="block overflow-hidden pb-1">
+                    <span className="block overflow-hidden py-1">
                       <motion.span
-                        className="block"
+                        className="block whitespace-nowrap"
                         initial={{ y: '110%' }}
                         animate={{ y: '0%' }}
                         transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -245,9 +245,9 @@ export const Home: React.FC = () => {
                     </span>
 
                     {/* Line 3: SHADOW. (accent color) */}
-                    <span className="block overflow-hidden pb-1">
+                    <span className="block overflow-hidden py-1">
                       <motion.span
-                        className="block text-[#FF4D1C]"
+                        className="block text-[#FF4D1C] whitespace-nowrap"
                         initial={{ y: '110%' }}
                         animate={{ y: '0%' }}
                         transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}

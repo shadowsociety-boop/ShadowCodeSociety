@@ -21,6 +21,16 @@
   --font-editorial: 'Syne', 'Space Grotesk', sans-serif;
 }
 
+.font-syne,
+.font-editorial {
+  font-family: 'Syne', sans-serif;
+}
+
+.font-space,
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
 :root {
   --primary: #FF4D1C;
   --primary-glow: rgba(255, 77, 28, 0.25);

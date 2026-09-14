@@ -23,9 +23,9 @@ export const TextReveal: React.FC<TextRevealProps> = ({
 }) => {
   const Tag = as;
   return (
-    <Tag className={`overflow-hidden ${className}`}>
+    <Tag className={`overflow-hidden py-1 ${className}`}>
       <motion.div
-        initial={{ y: '100%' }}
+        initial={{ y: '110%' }}
         whileInView={{ y: '0%' }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
