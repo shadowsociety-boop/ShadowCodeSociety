@@ -125,46 +125,100 @@ export const EventDetail: React.FC = () => {
           </div>
 
           {/* What You'll Learn / Objectives */}
-          <div className="space-y-4">
-            <h2 className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-              02 // OPERATIONAL OBJECTIVES
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-[#080808] border border-white/[0.08] rounded-lg p-5 space-y-2">
-                <span className="text-xs font-mono text-white font-bold block">Live Exploitation</span>
-                <p className="text-xs text-[#A1A1A1] leading-relaxed">
-                  Hands-on execution in dedicated cloud sandboxes with isolated targets and real vulnerabilities.
-                </p>
+          {(() => {
+            const defaultObjectives = [
+              {
+                title: 'Live Exploitation',
+                description: 'Hands-on execution in dedicated cloud sandboxes with isolated targets and real vulnerabilities.',
+              },
+              {
+                title: 'Defensive Countermeasures',
+                description: 'Understanding log telemetry, patch verification, and constructing detection rules.',
+              },
+            ];
+
+            let objectivesList = defaultObjectives;
+            if (event.objectives) {
+              if (Array.isArray(event.objectives)) {
+                objectivesList = event.objectives as any;
+              } else if (typeof event.objectives === 'string') {
+                try {
+                  const parsed = JSON.parse(event.objectives);
+                  if (Array.isArray(parsed)) {
+                    objectivesList = parsed;
+                  }
+                } catch {
+                  // Keep default if unparseable
+                }
+              }
+            }
+
+            if (!objectivesList || objectivesList.length === 0) return null;
+
+            return (
+              <div className="space-y-4">
+                <h2 className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                  02 // OPERATIONAL OBJECTIVES
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {objectivesList.map((obj, idx) => (
+                    <div key={idx} className="bg-[#080808] border border-white/[0.08] rounded-lg p-5 space-y-2">
+                      <span className="text-xs font-mono text-white font-bold block">{obj.title}</span>
+                      <p className="text-xs text-[#A1A1A1] leading-relaxed">
+                        {obj.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="bg-[#080808] border border-white/[0.08] rounded-lg p-5 space-y-2">
-                <span className="text-xs font-mono text-white font-bold block">Defensive Countermeasures</span>
-                <p className="text-xs text-[#A1A1A1] leading-relaxed">
-                  Understanding log telemetry, patch verification, and constructing detection rules.
-                </p>
-              </div>
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Rules & Guidelines */}
-          <div className="space-y-4">
-            <h2 className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
-              03 // RULES OF ENGAGEMENT
-            </h2>
-            <div className="bg-[#080808] border border-white/[0.08] rounded-lg p-6 space-y-2 text-xs font-mono text-[#A1A1A1]">
-              <div className="flex items-start gap-2">
-                <span className="text-[#FF4D1C] font-bold">1.</span>
-                <span>Only designated target IP addresses and ranges are in-scope. Do not scan out-of-scope hosts.</span>
+          {(() => {
+            const defaultRules = [
+              'Only designated target IP addresses and ranges are in-scope. Do not scan out-of-scope hosts.',
+              'Denial of Service (DoS) attacks on scoring servers or event infrastructure are strictly prohibited.',
+              'Collaboration and flag sharing between opposing teams will result in immediate disqualification.',
+            ];
+
+            let rulesList = defaultRules;
+            if (event.rules) {
+              if (Array.isArray(event.rules)) {
+                rulesList = event.rules as any;
+              } else if (typeof event.rules === 'string') {
+                try {
+                  const parsed = JSON.parse(event.rules);
+                  if (Array.isArray(parsed)) {
+                    rulesList = parsed;
+                  }
+                } catch {
+                  const lines = event.rules.split('\n').map((l: string) => l.trim()).filter(Boolean);
+                  if (lines.length > 0) {
+                    rulesList = lines;
+                  }
+                }
+              }
+            }
+
+            if (!rulesList || rulesList.length === 0) return null;
+
+            return (
+              <div className="space-y-4">
+                <h2 className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
+                  03 // RULES OF ENGAGEMENT
+                </h2>
+                <div className="bg-[#080808] border border-white/[0.08] rounded-lg p-6 space-y-2.5 text-xs font-mono text-[#A1A1A1]">
+                  {rulesList.map((rule, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5">
+                      <span className="text-[#FF4D1C] font-bold flex-shrink-0">{idx + 1}.</span>
+                      <span className="leading-relaxed">{rule}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-start gap-2">
-                <span className="text-[#FF4D1C] font-bold">2.</span>
-                <span>Denial of Service (DoS) attacks on scoring servers or event infrastructure are strictly prohibited.</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-[#FF4D1C] font-bold">3.</span>
-                <span>Collaboration and flag sharing between opposing teams will result in immediate disqualification.</span>
-              </div>
-            </div>
-          </div>
+            );
+          })()}
         </div>
 
         {/* Right: Sticky Action Sidebar */}

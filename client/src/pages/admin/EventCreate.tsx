@@ -7,7 +7,24 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
 import { Badge } from '../../components/ui/Badge';
 import { RichTextEditor } from '../../components/RichTextEditor';
-import { ArrowLeft, Upload, Calendar, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Upload, Calendar, AlertCircle, Plus, Trash2, Target, Shield } from 'lucide-react';
+
+const DEFAULT_OBJECTIVES = [
+  {
+    title: 'Live Exploitation',
+    description: 'Hands-on execution in dedicated cloud sandboxes with isolated targets and real vulnerabilities.',
+  },
+  {
+    title: 'Defensive Countermeasures',
+    description: 'Understanding log telemetry, patch verification, and constructing detection rules.',
+  },
+];
+
+const DEFAULT_RULES = [
+  'Only designated target IP addresses and ranges are in-scope. Do not scan out-of-scope hosts.',
+  'Denial of Service (DoS) attacks on scoring servers or event infrastructure are strictly prohibited.',
+  'Collaboration and flag sharing between opposing teams will result in immediate disqualification.',
+];
 
 export const EventCreate: React.FC = () => {
   const navigate = useNavigate();
@@ -22,6 +39,8 @@ export const EventCreate: React.FC = () => {
   const [maxParticipants, setMaxParticipants] = useState('80');
   const [shortDescription, setShortDescription] = useState('');
   const [description, setDescription] = useState('');
+  const [objectives, setObjectives] = useState<Array<{ title: string; description: string }>>(DEFAULT_OBJECTIVES);
+  const [rules, setRules] = useState<string[]>(DEFAULT_RULES);
   const [featured, setFeatured] = useState(false);
   const [published, setPublished] = useState(true);
   const [banner, setBanner] = useState<File | null>(null);
@@ -31,6 +50,34 @@ export const EventCreate: React.FC = () => {
 
   const eventTypes = ['Workshop', 'CTF', 'Seminar', 'Hackathon', 'Meetup', 'Other'];
   const modes = ['OFFLINE', 'ONLINE', 'HYBRID'];
+
+  const handleAddObjective = () => {
+    setObjectives([...objectives, { title: '', description: '' }]);
+  };
+
+  const handleUpdateObjective = (index: number, field: 'title' | 'description', value: string) => {
+    const updated = [...objectives];
+    updated[index] = { ...updated[index], [field]: value };
+    setObjectives(updated);
+  };
+
+  const handleRemoveObjective = (index: number) => {
+    setObjectives(objectives.filter((_, i) => i !== index));
+  };
+
+  const handleAddRule = () => {
+    setRules([...rules, '']);
+  };
+
+  const handleUpdateRule = (index: number, value: string) => {
+    const updated = [...rules];
+    updated[index] = value;
+    setRules(updated);
+  };
+
+  const handleRemoveRule = (index: number) => {
+    setRules(rules.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +100,8 @@ export const EventCreate: React.FC = () => {
     if (maxParticipants.trim()) formData.append('maxParticipants', maxParticipants);
     if (shortDescription.trim()) formData.append('shortDescription', shortDescription);
     formData.append('description', description);
+    formData.append('objectives', JSON.stringify(objectives));
+    formData.append('rules', JSON.stringify(rules.filter((r) => r.trim().length > 0)));
     formData.append('featured', String(featured));
     formData.append('published', String(published));
     if (banner) formData.append('banner', banner);
@@ -179,8 +228,137 @@ export const EventCreate: React.FC = () => {
             onChange={setDescription}
           />
 
+          {/* Section 02: Operational Objectives */}
+          <div className="space-y-4 pt-4 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Target className="w-4 h-4 text-[#FF4D1C]" />
+                  <label className="text-xs font-mono tracking-wider uppercase text-white font-semibold">
+                    02 // Operational Objectives ({objectives.length})
+                  </label>
+                </div>
+                <p className="text-[11px] font-mono text-zinc-400 mt-0.5">
+                  Core mission objectives and learning milestones displayed on the public event dossier.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleAddObjective}
+                leftIcon={<Plus className="w-3.5 h-3.5" />}
+              >
+                Add Objective
+              </Button>
+            </div>
+
+            <div className="space-y-3">
+              {objectives.map((obj, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#080808] border border-white/10 rounded-xl p-4 space-y-3 relative group transition-colors hover:border-white/20"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#FF4D1C] font-bold">
+                      OBJECTIVE #{String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveObjective(idx)}
+                      className="text-zinc-500 hover:text-red-400 p-1 rounded transition-colors"
+                      title="Remove objective"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      placeholder="Objective Title (e.g. Live Exploitation)"
+                      value={obj.title}
+                      onChange={(e) => handleUpdateObjective(idx, 'title', e.target.value)}
+                      className="w-full bg-[#050505] border border-white/10 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-zinc-600 focus:outline-none focus:border-[#FF4D1C]"
+                    />
+                    <textarea
+                      rows={2}
+                      placeholder="Brief operational breakdown and hands-on deliverables..."
+                      value={obj.description}
+                      onChange={(e) => handleUpdateObjective(idx, 'description', e.target.value)}
+                      className="w-full bg-[#050505] border border-white/10 rounded-lg px-3 py-2 text-xs font-mono text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-[#FF4D1C] resize-none"
+                    />
+                  </div>
+                </div>
+              ))}
+              {objectives.length === 0 && (
+                <div className="p-4 rounded-xl border border-dashed border-white/10 text-center text-xs font-mono text-zinc-500">
+                  No objectives configured. Click &quot;+ Add Objective&quot; to define one.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Section 03: Rules of Engagement */}
+          <div className="space-y-4 pt-4 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-[#FF4D1C]" />
+                  <label className="text-xs font-mono tracking-wider uppercase text-white font-semibold">
+                    03 // Rules of Engagement ({rules.length})
+                  </label>
+                </div>
+                <p className="text-[11px] font-mono text-zinc-400 mt-0.5">
+                  Scope boundaries, participation rules, and disqualification protocols.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleAddRule}
+                leftIcon={<Plus className="w-3.5 h-3.5" />}
+              >
+                Add Rule
+              </Button>
+            </div>
+
+            <div className="space-y-2.5">
+              {rules.map((rule, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-2.5 bg-[#080808] border border-white/10 rounded-xl p-3 focus-within:border-[#FF4D1C] transition-colors"
+                >
+                  <span className="text-xs font-mono text-[#FF4D1C] font-bold pt-2 flex-shrink-0 w-6 text-right">
+                    {idx + 1}.
+                  </span>
+                  <textarea
+                    rows={2}
+                    placeholder={`Rule statement #${idx + 1}...`}
+                    value={rule}
+                    onChange={(e) => handleUpdateRule(idx, e.target.value)}
+                    className="flex-1 bg-transparent border-0 p-1 text-xs font-mono text-zinc-300 placeholder-zinc-600 focus:outline-none resize-none leading-relaxed"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveRule(idx)}
+                    className="text-zinc-500 hover:text-red-400 p-1 rounded transition-colors flex-shrink-0 mt-1"
+                    title="Remove rule"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+              {rules.length === 0 && (
+                <div className="p-4 rounded-xl border border-dashed border-white/10 text-center text-xs font-mono text-zinc-500">
+                  No rules configured. Click &quot;+ Add Rule&quot; to define one.
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Banner Upload */}
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 pt-4 border-t border-white/10">
             <label className="block text-xs font-mono tracking-wider uppercase text-zinc-400 font-medium">
               Event Banner Graphic (Optional)
             </label>

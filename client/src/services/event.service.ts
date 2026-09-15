@@ -15,6 +15,11 @@ export interface EventFormField {
   options?: string[]; // for select/radio
 }
 
+export interface EventObjective {
+  title: string;
+  description: string;
+}
+
 export interface EventItem {
   id: string;
   title: string;
@@ -35,6 +40,8 @@ export interface EventItem {
   status: 'DRAFT' | 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED';
   featured: boolean;
   published: boolean;
+  objectives?: string | EventObjective[] | null;
+  rules?: string | string[] | null;
   createdAt: string;
   updatedAt: string;
   _count?: {

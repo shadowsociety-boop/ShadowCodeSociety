@@ -75,6 +75,8 @@ model Event {
   status           String    @default("DRAFT") // DRAFT | UPCOMING | ONGOING | COMPLETED | CANCELLED
   featured         Boolean   @default(false)
   published        Boolean   @default(false)
+  objectives       String?   // JSON string of [{ title, description }]
+  rules            String?   // JSON string of string[] or multiline rules
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 

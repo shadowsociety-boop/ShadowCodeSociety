@@ -154,6 +154,8 @@ export const createEvent = async (req: AuthRequest, res: Response): Promise<void
         maxParticipants: data.maxParticipants ? parseInt(data.maxParticipants) : null,
         featured: data.featured === 'true' || data.featured === true,
         published: data.published === 'true' || data.published === true,
+        objectives: data.objectives ? (typeof data.objectives === 'string' ? data.objectives : JSON.stringify(data.objectives)) : null,
+        rules: data.rules ? (typeof data.rules === 'string' ? data.rules : JSON.stringify(data.rules)) : null,
       },
     });
 
@@ -203,6 +205,12 @@ export const updateEvent = async (req: AuthRequest, res: Response): Promise<void
     if (data.maxParticipants) updateData.maxParticipants = parseInt(data.maxParticipants);
     if (typeof data.featured === 'string') updateData.featured = data.featured === 'true';
     if (typeof data.published === 'string') updateData.published = data.published === 'true';
+    if (data.objectives !== undefined) {
+      updateData.objectives = typeof data.objectives === 'string' ? data.objectives : JSON.stringify(data.objectives);
+    }
+    if (data.rules !== undefined) {
+      updateData.rules = typeof data.rules === 'string' ? data.rules : JSON.stringify(data.rules);
+    }
 
     const event = await prisma.event.update({ where: { id }, data: updateData as any });
 
