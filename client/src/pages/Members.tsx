@@ -7,68 +7,432 @@ import { SocialIcon } from '../components/SocialIcon';
 import { Globe, Users, ArrowRight, ShieldCheck, ArrowUpRight, Search, Award, Sparkles, Code2 } from 'lucide-react';
 import { TextReveal, FadeIn, StaggerContainer, StaggerItem } from '../components/ScrollReveal';
 
+const FALLBACK_MENTOR: MemberItem = {
+  id: 'mentor-sohaib',
+  name: 'Sohaib Khan',
+  role: 'Faculty Mentor',
+  department: 'Cybersecurity & Computing',
+  year: 'Faculty',
+  branch: 'FACULTY',
+  bio: 'Faculty Mentor guiding Shadow Code Society in cybersecurity research, student development, competitive CTF strategy, and security architecture.',
+  skills: ['Cybersecurity', 'Mentorship', 'Security Architecture', 'Network Defense'],
+  status: 'CURRENT',
+  order: 0,
+  createdAt: '',
+  updatedAt: '',
+};
+
+const FALLBACK_CURRENT_MEMBERS: MemberItem[] = [
+  {
+    id: 'mem-1',
+    name: 'Aditya Kumawat',
+    role: 'Club Captain',
+    department: 'Cybersecurity',
+    branch: 'CYS',
+    year: '3rd Year',
+    bio: 'Club Captain leading Shadow Code Society operations, student council coordination, and cybersecurity initiatives.',
+    skills: ['Leadership', 'Cybersecurity', 'Web Security', 'Offensive Security', 'Python'],
+    status: 'CURRENT',
+    order: 1,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-2',
+    name: 'Nakshtra Pal Parihar',
+    role: 'Vice-Captain',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '3rd Year',
+    bio: 'Vice-Captain coordinating society operations, AI security research, and inter-domain technical collaborations.',
+    skills: ['AI/ML', 'Adversarial Machine Learning', 'Python', 'Security Analytics', 'System Defense'],
+    status: 'CURRENT',
+    order: 2,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-3',
+    name: 'Pramod Patel',
+    role: 'Technical Lead',
+    department: 'Cybersecurity',
+    branch: 'CYS',
+    year: '2nd Year',
+    bio: 'Core technical member specializing in vulnerability assessment, web application penetration testing, and security tooling.',
+    skills: ['Web Security', 'Penetration Testing', 'Linux', 'OWASP Top 10', 'Bash'],
+    status: 'CURRENT',
+    order: 3,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-4',
+    name: 'Nishant Rankawat',
+    role: 'Technical Lead',
+    department: 'Cybersecurity',
+    branch: 'CYS',
+    year: '3rd Year',
+    bio: 'Core technical member and full-stack security researcher building resilient platforms and developing CTF challenges.',
+    skills: ['Full-Stack Development', 'Cloud Security', 'CTF', 'DevSecOps', 'Application Security'],
+    github: 'https://github.com/nishant4086',
+    status: 'CURRENT',
+    order: 4,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-5',
+    name: 'Nikhil Adwani',
+    role: 'Technical Member',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '3rd Year',
+    bio: 'Technical team member exploring intelligent security automation, model vulnerabilities, and algorithmic defense.',
+    skills: ['Python', 'Data Analytics', 'Machine Learning', 'Network Security', 'Linux'],
+    status: 'CURRENT',
+    order: 5,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-6',
+    name: 'Kushagraa',
+    role: 'Technical Lead',
+    department: 'Cybersecurity & Systems',
+    branch: 'CYS',
+    year: '3rd Year',
+    bio: 'Technical Lead driving infrastructure hardening, network protocol analysis, and offensive security research.',
+    skills: ['Network Security', 'Systems Architecture', 'Cyber Defense', 'Python', 'Linux'],
+    status: 'CURRENT',
+    order: 6,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-7',
+    name: 'Lakshay Jain',
+    role: 'Management Lead',
+    department: 'Cybersecurity',
+    branch: 'CYS',
+    year: '3rd Year',
+    bio: 'Leading society logistics, event execution, and participant operations for workshops and hackathons.',
+    skills: ['Event Management', 'Operations', 'Resource Planning', 'Cybersecurity Awareness'],
+    status: 'CURRENT',
+    order: 7,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-8',
+    name: 'Vaibhav Panwar',
+    role: 'Management Lead',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '3rd Year',
+    bio: 'Management Lead coordinating member operations, workshop logistics, and institutional security drills.',
+    skills: ['Operations Management', 'Coordination', 'Public Relations', 'Team Logistics'],
+    status: 'CURRENT',
+    order: 8,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-9',
+    name: 'Komal Sayal',
+    role: 'Management Member',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '3rd Year',
+    bio: 'Management core member driving community engagement, attendee operations, and student council communications.',
+    skills: ['Community Engagement', 'Event Operations', 'Communication', 'Team Building'],
+    status: 'CURRENT',
+    order: 9,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-10',
+    name: 'Rajshree Solanki',
+    role: 'Management Member',
+    department: 'Cybersecurity',
+    branch: 'CYS',
+    year: '2nd Year',
+    bio: 'Supporting event coordination, attendee management, and cybersecurity awareness sessions.',
+    skills: ['Event Logistics', 'Documentation', 'Cyber Awareness', 'Coordination'],
+    status: 'CURRENT',
+    order: 10,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-11',
+    name: 'Lakshay Vyas',
+    role: 'PR & Management Member',
+    department: 'Cybersecurity',
+    branch: 'CYS',
+    year: '3rd Year',
+    bio: 'Supporting public relations, institutional outreach, and event operations for society initiatives.',
+    skills: ['Public Relations', 'Media Relations', 'Management', 'Outreach'],
+    status: 'CURRENT',
+    order: 11,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-12',
+    name: 'Daarein Khan',
+    role: 'Public Relations Lead',
+    department: 'Public Relations & Outreach',
+    branch: 'AI/ML',
+    year: '3rd Year',
+    bio: 'Directing society media campaigns, student outreach initiatives, and strategic institutional partnerships.',
+    skills: ['Public Relations', 'Brand Strategy', 'Community Outreach', 'Communications'],
+    status: 'CURRENT',
+    order: 12,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-13',
+    name: 'Fardeen Khan',
+    role: 'PR & Social Media Lead',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '2nd Year',
+    bio: 'Managing digital branding, Instagram campaigns, and creative outreach for Shadow Code Society.',
+    skills: ['Social Media Strategy', 'Digital Marketing', 'Content Creation', 'Brand Design'],
+    status: 'CURRENT',
+    order: 13,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-14',
+    name: 'Akhilesh Sharma',
+    role: 'Design & Documentation Lead',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '2nd Year',
+    bio: 'Overseeing visual design, documentation archives, event posters, and UI assets.',
+    skills: ['Graphic Design', 'Technical Documentation', 'UI/UX Design', 'Figma'],
+    status: 'CURRENT',
+    order: 14,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-15',
+    name: 'Jaideep Vaishnav',
+    role: 'Documentation Lead',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '2nd Year',
+    bio: 'Leading official technical writeups, knowledge base documentation, meeting proceedings, and research records.',
+    skills: ['Technical Writing', 'Documentation', 'Research', 'Information Architecture'],
+    status: 'CURRENT',
+    order: 15,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-16',
+    name: 'Kratika Singh',
+    role: 'Public Relations Member',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '2nd Year',
+    bio: 'Driving community relations, inter-college club outreach, and media communications.',
+    skills: ['Public Relations', 'Communications', 'Networking', 'Event Promotion'],
+    status: 'CURRENT',
+    order: 16,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'mem-17',
+    name: 'Azeem',
+    role: 'Management & Technical Member',
+    department: 'Artificial Intelligence & Machine Learning',
+    branch: 'AI/ML',
+    year: '2nd Year',
+    bio: 'Management and technical contributor supporting workshops, society operations, and algorithmic security research.',
+    skills: ['Management', 'Technical Operations', 'Python', 'Machine Learning'],
+    status: 'CURRENT',
+    order: 17,
+    createdAt: '',
+    updatedAt: '',
+  },
+];
+
+const FALLBACK_ALUMNI_MEMBERS: MemberItem[] = [
+  {
+    id: 'alumni-lakshya',
+    name: 'Lakshya Siyota',
+    role: 'Technical & Management Specialist',
+    department: 'Computer Science & Engineering',
+    year: 'Alumni',
+    branch: 'CSE',
+    bio: 'Contributed to technical & management operations and society inter-domain infrastructure.',
+    skills: ['Tech & Management', 'CSE', 'System Operations', 'Cybersecurity'],
+    status: 'ALUMNI',
+    order: 18,
+    leaveYear: 2025,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-riddhi',
+    name: 'Riddhi Gandhi',
+    role: 'PR & Communications Contributor',
+    department: 'Artificial Intelligence & Machine Learning',
+    year: 'Alumni',
+    branch: 'AI/ML',
+    bio: 'Contributed to society public relations, social media outreach, and early community campaigns.',
+    skills: ['Social Media', 'Public Relations', 'Digital Marketing', 'Content Strategy'],
+    status: 'ALUMNI',
+    order: 19,
+    leaveYear: 2025,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-yash',
+    name: 'Yash Kumar',
+    role: 'Technical Research Contributor',
+    department: 'Artificial Intelligence & Machine Learning',
+    year: 'Alumni',
+    branch: 'AI/ML',
+    bio: 'Contributed to machine learning security exploration, automation, and Python scripts.',
+    skills: ['Python', 'Machine Learning', 'Data Analysis', 'Problem Solving'],
+    status: 'ALUMNI',
+    order: 20,
+    leaveYear: 2025,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-rudra',
+    name: 'Rudra',
+    role: 'Founding President',
+    department: 'Cybersecurity',
+    year: 'Alumni',
+    branch: 'CYS',
+    bio: 'Founding President who established the vision, core values, and foundational research framework of Shadow Code Society.',
+    skills: ['Security Architecture', 'Offensive Security', 'Club Leadership', 'CTF Strategy'],
+    status: 'ALUMNI',
+    order: 21,
+    leaveYear: 2024,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-sameer',
+    name: 'Sameer Ali',
+    role: 'Senior Backend Engineer @ SaveIt',
+    department: 'Computer Science & Engineering',
+    year: 'Alumni',
+    branch: 'CSE',
+    bio: 'JIET Alumni & Senior Backend Engineer specializing in high-performance distributed systems, NestJS, PostgreSQL, Redis, and NextJS architectures.',
+    skills: ['NestJS', 'PostgreSQL', 'Redis', 'NextJS', 'Backend Architecture'],
+    linkedin: 'https://www.linkedin.com/in/sameer-ali',
+    status: 'ALUMNI',
+    order: 22,
+    leaveYear: 2024,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'alumni-raj',
+    name: 'Raj Patel',
+    role: 'AI Engineer @ Teqotic',
+    department: 'Artificial Intelligence & Machine Learning',
+    year: 'Alumni',
+    branch: 'AI/ML',
+    bio: 'JIET Alumni & AI Engineer. 3x Hackathon Winner, Runner-up at Ethos IIT Guwahati 2024, Runner-up at Tequity Hackathon 2025, and NASA Space Apps Challenge 2025 Global Nominee.',
+    skills: ['AI & ML', 'Python', 'n8n', 'Agentic Workflows', 'Hackathons'],
+    linkedin: 'https://www.linkedin.com/in/raj-patel',
+    status: 'ALUMNI',
+    order: 23,
+    leaveYear: 2024,
+    createdAt: '',
+    updatedAt: '',
+  },
+];
+
 export const Members: React.FC = () => {
-  const [currentMembers, setCurrentMembers] = useState<MemberItem[]>([]);
-  const [alumniMembers, setAlumniMembers] = useState<MemberItem[]>([]);
-  const [mentor, setMentor] = useState<MemberItem | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [currentMembers, setCurrentMembers] = useState<MemberItem[]>(FALLBACK_CURRENT_MEMBERS);
+  const [alumniMembers, setAlumniMembers] = useState<MemberItem[]>(FALLBACK_ALUMNI_MEMBERS);
+  const [mentor, setMentor] = useState<MemberItem | null>(FALLBACK_MENTOR);
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'CURRENT' | 'ALUMNI'>('CURRENT');
   const [selectedDomain, setSelectedDomain] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
+    let isMounted = true;
     const fetchAll = async () => {
-      setLoading(true);
       try {
-        const [currentRes, alumniRes] = await Promise.all([
+        const [currentRes, alumniRes] = await Promise.allSettled([
           memberService.listMembers('CURRENT'),
-          memberService.listMembers('ALUMNI').catch(() => ({ members: [] })),
+          memberService.listMembers('ALUMNI'),
         ]);
-        const list: MemberItem[] = currentRes.members || [];
-        const foundMentor = list.find(m => m.role.toLowerCase().includes('mentor') || m.role.toLowerCase().includes('faculty'));
-        setMentor(foundMentor || list[0] || null);
-        setCurrentMembers(list.filter(m => m.id !== foundMentor?.id));
-        setAlumniMembers(alumniRes.members || []);
+
+        if (!isMounted) return;
+
+        if (currentRes.status === 'fulfilled' && currentRes.value?.members?.length > 0) {
+          const list: MemberItem[] = currentRes.value.members;
+          const foundMentor = list.find(m => m.role.toLowerCase().includes('mentor') || m.role.toLowerCase().includes('faculty'));
+          setMentor(foundMentor || list[0] || FALLBACK_MENTOR);
+          setCurrentMembers(list.filter(m => m.id !== foundMentor?.id));
+        }
+
+        if (alumniRes.status === 'fulfilled' && alumniRes.value?.members?.length > 0) {
+          setAlumniMembers(alumniRes.value.members);
+        }
       } catch (err) {
-        console.error('Failed to load members:', err);
+        console.warn('Using static verified roster:', err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     fetchAll();
+    return () => { isMounted = false; };
   }, []);
 
-  // Filtering for active roster
+  // Filtering for active roster & alumni
   const filteredMembers = useMemo(() => {
     const targetList = activeTab === 'CURRENT' ? currentMembers : alumniMembers;
     return targetList.filter((m) => {
-      // Domain filter
-      if (selectedDomain === 'LEADERSHIP') {
-        const isLead = m.role.toLowerCase().includes('captain') || m.role.toLowerCase().includes('president');
-        if (!isLead) return false;
-      } else if (selectedDomain === 'CSE') {
-        if (m.branch?.toUpperCase() !== 'CSE') return false;
-      } else if (selectedDomain === 'CYS') {
-        if (m.branch?.toUpperCase() !== 'CYS') return false;
-      } else if (selectedDomain === 'AI/ML') {
-        if (m.branch?.toUpperCase() !== 'AI/ML') return false;
-      } else if (selectedDomain === 'TECH') {
-        const isTech = m.role.toLowerCase().includes('tech') || m.department?.toLowerCase().includes('tech');
-        if (!isTech) return false;
-      } else if (selectedDomain === 'MAN_PR') {
-        const isManPr = m.role.toLowerCase().includes('management') || m.role.toLowerCase().includes('pr') || m.role.toLowerCase().includes('doc');
-        if (!isManPr) return false;
+      // Domain filter (applied primarily to current roster)
+      if (activeTab === 'CURRENT') {
+        if (selectedDomain === 'LEADERSHIP') {
+          const isLead = m.role.toLowerCase().includes('captain') || m.role.toLowerCase().includes('president') || m.role.toLowerCase().includes('lead');
+          if (!isLead) return false;
+        } else if (selectedDomain === 'CSE') {
+          if (m.branch?.toUpperCase() !== 'CSE') return false;
+        } else if (selectedDomain === 'CYS') {
+          if (m.branch?.toUpperCase() !== 'CYS') return false;
+        } else if (selectedDomain === 'AI/ML') {
+          if (m.branch?.toUpperCase() !== 'AI/ML') return false;
+        } else if (selectedDomain === 'TECH') {
+          const isTech = m.role.toLowerCase().includes('tech') || m.department?.toLowerCase().includes('tech');
+          if (!isTech) return false;
+        } else if (selectedDomain === 'MAN_PR') {
+          const isManPr = m.role.toLowerCase().includes('management') || m.role.toLowerCase().includes('pr') || m.role.toLowerCase().includes('doc');
+          if (!isManPr) return false;
+        }
       }
 
-      // Search query
+      // Search query filter (applies across both active & alumni)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchName = m.name.toLowerCase().includes(q);
         const matchRole = m.role.toLowerCase().includes(q);
         const matchBranch = m.branch?.toLowerCase().includes(q);
+        const matchDept = m.department?.toLowerCase().includes(q);
         const matchYear = m.year?.toLowerCase().includes(q);
         const matchSkills = (m.skills || []).some(s => s.toLowerCase().includes(q));
-        if (!matchName && !matchRole && !matchBranch && !matchYear && !matchSkills) {
+        if (!matchName && !matchRole && !matchBranch && !matchDept && !matchYear && !matchSkills) {
           return false;
         }
       }
