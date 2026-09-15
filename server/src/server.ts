@@ -66,6 +66,7 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 // ── API Routes ──────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/events', registrationRoutes);
 app.use('/api/registrations', registrationRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/members', memberRoutes);

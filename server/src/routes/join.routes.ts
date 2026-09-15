@@ -13,8 +13,8 @@ const router = Router();
 router.post('/', registrationLimiter, upload.single('resume'), submitApplication);
 
 // Admin
-router.get('/admin/applications', requireAuth, requirePermission('APPLICATION_VIEW'), listApplications);
-router.get('/admin/applications/:id', requireAuth, requirePermission('APPLICATION_VIEW'), getApplication);
-router.patch('/admin/applications/:id', requireAuth, requirePermission('APPLICATION_MANAGE'), updateApplication);
+router.get(['/admin/applications', '/admin/list'], requireAuth, requirePermission('APPLICATION_VIEW'), listApplications);
+router.get(['/admin/applications/:id', '/admin/:id'], requireAuth, requirePermission('APPLICATION_VIEW'), getApplication);
+router.patch(['/admin/applications/:id', '/admin/:id'], requireAuth, requirePermission('APPLICATION_MANAGE'), updateApplication);
 
 export default router;

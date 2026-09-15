@@ -17,9 +17,10 @@ router.post('/', requireAuth, requirePermission('MEMBER_CREATE'), upload.single(
 router.patch('/:id', requireAuth, requirePermission('MEMBER_EDIT'), upload.single('photo'), updateMember);
 router.delete('/:id', requireAuth, requirePermission('MEMBER_DELETE'), deleteMember);
 router.post('/:id/alumni', requireAuth, requirePermission('MEMBER_ALUMNI'), moveToAlumni);
+router.patch('/:id/alumni', requireAuth, requirePermission('MEMBER_ALUMNI'), moveToAlumni);
 
 // Mentor only
-router.get('/admins', requireAuth, requireRole('MENTOR'), getAdmins);
-router.post('/assign-president', requireAuth, requireRole('MENTOR'), assignPresident);
+router.get(['/admins', '/admin/admins'], requireAuth, requireRole('MENTOR'), getAdmins);
+router.post(['/assign-president', '/admin/assign-president'], requireAuth, requireRole('MENTOR'), assignPresident);
 
 export default router;

@@ -15,7 +15,7 @@ router.get('/', listEvents);
 router.get('/slug/:slug', getEventBySlug);
 
 // Admin routes
-router.get('/admin/all', requireAuth, requirePermission('EVENT_CREATE'), adminListEvents);
+router.get(['/admin/all', '/admin/list'], requireAuth, requirePermission('EVENT_CREATE'), adminListEvents);
 router.post('/', requireAuth, requirePermission('EVENT_CREATE'), upload.single('banner'), createEvent);
 router.patch('/:id', requireAuth, requirePermission('EVENT_EDIT'), upload.single('banner'), updateEvent);
 router.delete('/:id', requireAuth, requirePermission('EVENT_DELETE'), deleteEvent);

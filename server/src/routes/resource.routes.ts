@@ -18,10 +18,10 @@ router.get('/slug/:slug', getResourceBySlug);
 router.post('/submit', upload.single('file'), submitResource);
 
 // Admin CRUD
-router.get('/admin/all', requireAuth, requirePermission('RESOURCE_CREATE'), adminListResources);
-router.post('/admin', requireAuth, requirePermission('RESOURCE_CREATE'), upload.single('thumbnail'), createResource);
-router.patch('/admin/:id', requireAuth, requirePermission('RESOURCE_EDIT'), upload.single('thumbnail'), updateResource);
-router.delete('/admin/:id', requireAuth, requirePermission('RESOURCE_DELETE'), deleteResource);
+router.get(['/admin/all', '/admin/list'], requireAuth, requirePermission('RESOURCE_CREATE'), adminListResources);
+router.post(['/', '/admin'], requireAuth, requirePermission('RESOURCE_CREATE'), upload.single('thumbnail'), createResource);
+router.patch(['/:id', '/admin/:id'], requireAuth, requirePermission('RESOURCE_EDIT'), upload.single('thumbnail'), updateResource);
+router.delete(['/:id', '/admin/:id'], requireAuth, requirePermission('RESOURCE_DELETE'), deleteResource);
 
 // Submissions
 router.get('/admin/submissions', requireAuth, requirePermission('RESOURCE_APPROVE'), listSubmissions);
