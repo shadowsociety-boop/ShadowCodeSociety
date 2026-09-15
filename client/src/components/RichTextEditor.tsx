@@ -13,7 +13,6 @@ import {
   Eye,
   Edit3,
   Sparkles,
-  HelpCircle,
 } from 'lucide-react';
 import { FormattedDescription } from './FormattedDescription';
 
@@ -40,6 +39,8 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkText, setLinkText] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
+  const [savedSelection, setSavedSelection] = useState<{ start: number; end: number } | null>(null);
+  const [targetPreview, setTargetPreview] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Helper to insert or wrap text around current cursor selection
@@ -79,7 +80,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     if (selected) {
       const lines = selected.split('\n');
       const formatted = lines
-        .map((l, i) => (type === 'bullet' ? `• ${l}` : `${i + 1}. ${l}`))
+        .map((l, i) => (type === 'bullet' ? `• ${l.replace(/^[•\-\*]\s*/, '')}` : `${i + 1}. ${l.replace(/^\d+[\.\)]\s*/, '')}`))
         .join('\n');
       const newValue = value.substring(0, start) + formatted + value.substring(end);
       onChange(newValue);
@@ -89,30 +90,112 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     }
   };
 
-  // Open Link Dialog
+  // Open Link Dialog with smart URL & selection detection
   const handleOpenLinkModal = () => {
     const textarea = textareaRef.current;
-    const selected = textarea ? value.substring(textarea.selectionStart, textarea.selectionEnd) : '';
-    setLinkText(selected || 'Registration Form');
-    setLinkUrl('');
+    if (!textarea) return;
+
+    let start = textarea.selectionStart;
+    let end = textarea.selectionEnd;
+    let selected = value.substring(start, end);
+
+    let detectedUrl = '';
+    let detectedLabel = '';
+    let previewTarget = '';
+
+    // Check if user selected something
+    if (selected && selected.trim()) {
+      const trimmed = selected.trim();
+      if (/^https?:\/\/[^\s]+$/i.test(trimmed)) {
+        detectedUrl = trimmed;
+        detectedLabel = 'Register Now';
+        previewTarget = trimmed;
+      } else {
+        detectedLabel = trimmed.replace(/[:;\-]+$/, '').trim();
+        previewTarget = trimmed;
+      }
+    } else {
+      // Nothing explicitly highlighted: inspect current line around cursor
+      const textBefore = value.substring(0, start);
+      const lineStart = textBefore.lastIndexOf('\n') + 1;
+      const lineEndIdx = value.indexOf('\n', start);
+      const lineEnd = lineEndIdx === -1 ? value.length : lineEndIdx;
+      const currentLine = value.substring(lineStart, lineEnd);
+
+      // Search for URL on the current line
+      const urlMatch = currentLine.match(/(https?:\/\/[^\s\)]+)/);
+      if (urlMatch && urlMatch.index !== undefined) {
+        const urlStart = lineStart + urlMatch.index;
+        const urlEnd = urlStart + urlMatch[0].length;
+        start = urlStart;
+        end = urlEnd;
+        detectedUrl = urlMatch[0];
+        detectedLabel = 'Register Now';
+        previewTarget = urlMatch[0];
+      } else {
+        detectedLabel = 'Register Now';
+      }
+    }
+
+    setSavedSelection({ start, end });
+    setTargetPreview(previewTarget);
+    setLinkText(detectedLabel);
+    setLinkUrl(detectedUrl);
     setShowLinkModal(true);
   };
 
+  // Apply the link and replace the exact target range cleanly
   const handleApplyLink = () => {
     if (!linkUrl.trim()) return;
-    const cleanUrl = linkUrl.trim().startsWith('http') ? linkUrl.trim() : `https://${linkUrl.trim()}`;
-    const formatted = `[${linkText.trim() || 'Link'}](${cleanUrl})`;
-    insertFormatting(formatted, '');
+    const textarea = textareaRef.current;
+
+    const start = savedSelection ? savedSelection.start : (textarea ? textarea.selectionStart : 0);
+    const end = savedSelection ? savedSelection.end : (textarea ? textarea.selectionEnd : 0);
+
+    let cleanUrl = linkUrl.trim();
+    if (!/^https?:\/\//i.test(cleanUrl)) {
+      cleanUrl = `https://${cleanUrl}`;
+    }
+    const label = linkText.trim() || 'Link';
+    const formatted = `[${label}](${cleanUrl})`;
+
+    // Check character before insertion point - ensure whitespace if touching symbols like `:-` or `;-`
+    const textBefore = value.substring(0, start);
+    const lastChar = textBefore.length > 0 ? textBefore[textBefore.length - 1] : '';
+    const needsLeadingSpace = lastChar && !/\s/.test(lastChar);
+
+    // Check character after insertion point
+    const textAfter = value.substring(end);
+    const nextChar = textAfter.length > 0 ? textAfter[0] : '';
+    const needsTrailingSpace = nextChar && !/\s/.test(nextChar) && !/[.,!?;)]/.test(nextChar);
+
+    const replacement = `${needsLeadingSpace ? ' ' : ''}${formatted}${needsTrailingSpace ? ' ' : ''}`;
+
+    const newValue = textBefore + replacement + textAfter;
+    onChange(newValue);
     setShowLinkModal(false);
+    setSavedSelection(null);
+    setTargetPreview('');
     setLinkText('');
     setLinkUrl('');
+
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        const pos = start + replacement.length;
+        textareaRef.current.setSelectionRange(pos, pos);
+      }
+    }, 20);
   };
+
+  // Quick preset labels for link modal
+  const presetLabels = ['Register Now', 'Google Form', 'Registration Portal', 'Join Discord', 'Official Rules', 'View Details'];
 
   // Insert quick template snippets
   const insertTemplate = (templateType: 'registration' | 'rules' | 'schedule') => {
     let snippet = '';
     if (templateType === 'registration') {
-      snippet = '\n\n**Registration & Details:**\n• Registration Link: [Google Form / Registration Portal](https://forms.gle/)\n• Eligibility: Open to all college students\n• Team Size: 1–4 Members\n';
+      snippet = '\n\n**Registration & Details:**\n• Registration Link: [Register Now](https://forms.gle/RxVncDsAqDpgbSv76)\n• Eligibility: Open to all students\n• Team Size: 3–6 Members\n';
     } else if (templateType === 'rules') {
       snippet = '\n\n### Rules of Engagement:\n1. Respect all event infrastructure and designated network bounds.\n2. DoS and brute-forcing shared scoring services is strictly prohibited.\n3. Bring a fully charged laptop and valid student ID card.\n';
     } else if (templateType === 'schedule') {
@@ -248,12 +331,12 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
             {/* Link */}
             <button
               type="button"
-              title="Insert Hyperlink [Ctrl+K]"
+              title="Format / Insert Hyperlink [Ctrl+K]"
               onClick={handleOpenLinkModal}
-              className="p-1.5 rounded hover:bg-[#FF4D1C]/20 text-[#FF4D1C] hover:text-white transition-colors flex items-center gap-1 text-xs font-mono"
+              className="p-1.5 rounded bg-[#FF4D1C]/15 hover:bg-[#FF4D1C]/25 text-[#FF4D1C] hover:text-white transition-all flex items-center gap-1.5 text-xs font-mono border border-[#FF4D1C]/30 font-semibold"
             >
               <Link2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Link</span>
+              <span>Link</span>
             </button>
 
             {/* Quote / Callout */}
@@ -361,65 +444,104 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </div>
       </div>
 
-      {/* Insert Link Modal */}
+      {/* Insert / Format Link Modal */}
       {showLinkModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
           <div className="w-full max-w-md bg-[#0e111a] border border-white/15 rounded-2xl p-6 shadow-2xl space-y-4 text-left">
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
                 <Link2 className="w-4 h-4 text-[#FF4D1C]" />
                 <h3 className="text-sm font-bold font-['Space_Grotesk'] text-white">
-                  Insert Link / URL
+                  {targetPreview ? 'Convert / Replace with Formatted Link' : 'Insert Hyperlink'}
                 </h3>
               </div>
               <button
                 type="button"
-                onClick={() => setShowLinkModal(false)}
-                className="text-zinc-400 hover:text-white text-xs font-mono"
+                onClick={() => {
+                  setShowLinkModal(false);
+                  setSavedSelection(null);
+                }}
+                className="text-zinc-400 hover:text-white text-xs font-mono p-1"
               >
                 ✕
               </button>
             </div>
 
+            {targetPreview && (
+              <div className="p-2.5 rounded-lg bg-[#FF4D1C]/10 border border-[#FF4D1C]/20 text-xs font-mono text-zinc-300">
+                <span className="text-[#FF4D1C] font-semibold block mb-0.5">Target to replace:</span>
+                <span className="truncate block font-mono text-zinc-400">{targetPreview}</span>
+              </div>
+            )}
+
             <div className="space-y-3 font-mono text-xs">
               <div>
-                <label className="block text-zinc-400 mb-1">Display Label</label>
+                <label className="block text-zinc-400 mb-1 font-medium">Link Button Text / Label</label>
                 <input
                   type="text"
                   value={linkText}
                   onChange={(e) => setLinkText(e.target.value)}
-                  placeholder="e.g. Register on Google Form"
+                  placeholder="e.g. Register Now"
                   className="w-full bg-[#05070c] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#FF4D1C]"
                 />
+
+                {/* Quick preset label chips */}
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {presetLabels.map((lbl) => (
+                    <button
+                      key={lbl}
+                      type="button"
+                      onClick={() => setLinkText(lbl)}
+                      className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
+                        linkText === lbl
+                          ? 'bg-[#FF4D1C] text-white border-[#FF4D1C]'
+                          : 'bg-white/5 border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
+                      }`}
+                    >
+                      {lbl}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>
-                <label className="block text-zinc-400 mb-1">Destination URL</label>
+                <label className="block text-zinc-400 mb-1 font-medium">Destination URL</label>
                 <input
                   type="text"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
                   placeholder="https://forms.gle/RxVncDsAqDpgbSv76"
                   className="w-full bg-[#05070c] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#FF4D1C]"
-                  autoFocus
+                  autoFocus={!linkUrl}
                 />
               </div>
+
+              {/* Preview formatted tag */}
+              {linkUrl && (
+                <div className="text-[11px] text-zinc-500 font-mono pt-1">
+                  Result: <code className="text-[#FF4D1C] font-mono bg-white/5 px-1 py-0.5 rounded">[{linkText.trim() || 'Link'}]({linkUrl.trim()})</code>
+                </div>
+              )}
             </div>
 
             <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-2 font-mono text-xs">
               <button
                 type="button"
-                onClick={() => setShowLinkModal(false)}
-                className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300"
+                onClick={() => {
+                  setShowLinkModal(false);
+                  setSavedSelection(null);
+                }}
+                className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleApplyLink}
-                className="px-4 py-2 rounded-lg bg-[#FF4D1C] hover:bg-[#FF3B00] text-white font-semibold transition-colors"
+                disabled={!linkUrl.trim()}
+                className="px-4 py-2 rounded-lg bg-[#FF4D1C] hover:bg-[#FF3B00] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-colors shadow-[0_0_15px_rgba(255,77,28,0.3)]"
               >
-                Insert Link
+                {targetPreview ? 'Replace with Link' : 'Insert Link'}
               </button>
             </div>
           </div>

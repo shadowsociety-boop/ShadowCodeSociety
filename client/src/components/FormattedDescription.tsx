@@ -16,11 +16,6 @@ interface FormattedDescriptionProps {
  */
 const renderInline = (text: string): React.ReactNode[] => {
   // Regex to tokenise inline patterns
-  // 1: Markdown link [text](url)
-  // 2: Auto URL (https?://[^\s]+)
-  // 3: Bold (**text** or __text__)
-  // 4: Italic (*text* or _text_)
-  // 5: Inline code (`code`)
   const pattern = /(\[[^\]]+\]\([^\)]+\)|https?:\/\/[^\s\)]+|\*\*[^*]+\*\*|__[^_]+__|`[^`]+`|\*[^*]+\*|_[^_]+_)/g;
   const parts = text.split(pattern);
 
@@ -37,27 +32,33 @@ const renderInline = (text: string): React.ReactNode[] => {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#FF4D1C] hover:text-[#FF7A50] underline underline-offset-2 font-medium inline-flex items-center gap-1 transition-colors"
+          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 my-0.5 mx-1 rounded-md bg-[#FF4D1C]/15 hover:bg-[#FF4D1C]/25 text-[#FF4D1C] hover:text-white border border-[#FF4D1C]/30 hover:border-[#FF4D1C]/60 font-medium text-xs sm:text-sm tracking-wide transition-all shadow-sm group"
         >
           <span>{label}</span>
-          <ExternalLink className="w-3 h-3 inline-block flex-shrink-0" />
+          <ExternalLink className="w-3 h-3 inline-block flex-shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
       );
     }
 
     // Bare URL: https://...
     if (/^https?:\/\/[^\s]+$/.test(part)) {
+      // Clean trailing punctuation if any
+      const cleanUrl = part.replace(/[.,;:!]+$/, '');
+      const trailingPunct = part.slice(cleanUrl.length);
+
       return (
-        <a
-          key={index}
-          href={part}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#FF4D1C] hover:text-[#FF7A50] underline underline-offset-2 break-all font-mono text-[13px] inline-flex items-center gap-1 transition-colors"
-        >
-          <span>{part}</span>
-          <ExternalLink className="w-3 h-3 inline-block flex-shrink-0" />
-        </a>
+        <React.Fragment key={index}>
+          <a
+            href={cleanUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-0.5 my-0.5 mx-1 rounded-md bg-[#FF4D1C]/15 hover:bg-[#FF4D1C]/25 text-[#FF4D1C] hover:text-white border border-[#FF4D1C]/30 hover:border-[#FF4D1C]/60 font-mono text-xs transition-all shadow-sm break-all group"
+          >
+            <span>{cleanUrl}</span>
+            <ExternalLink className="w-3 h-3 inline-block flex-shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+          {trailingPunct && <span>{trailingPunct}</span>}
+        </React.Fragment>
       );
     }
 
