@@ -17,17 +17,17 @@ interface TextRevealProps {
 export const TextReveal: React.FC<TextRevealProps> = ({
   children,
   delay = 0,
-  duration = 0.7,
+  duration = 0.6,
   className = '',
   as = 'div',
 }) => {
   const Tag = as;
   return (
-    <Tag className={`overflow-hidden py-1 ${className}`}>
+    <Tag className={`py-0.5 ${className}`}>
       <motion.div
-        initial={{ y: '110%' }}
-        whileInView={{ y: '0%' }}
-        viewport={{ once: true, margin: '-60px' }}
+        initial={{ opacity: 0, y: 22 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.05 }}
         transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}

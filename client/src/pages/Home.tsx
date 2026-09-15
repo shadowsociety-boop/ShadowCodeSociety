@@ -19,6 +19,11 @@ import {
   Calendar,
   MapPin,
   Award,
+  Users,
+  Clock,
+  Target,
+  Sparkles,
+  ExternalLink,
 } from 'lucide-react';
 
 export const Home: React.FC = () => {
@@ -32,6 +37,26 @@ export const Home: React.FC = () => {
 
   // Active domain hover state
   const [activeDomain, setActiveDomain] = useState<number>(0);
+
+  // Live countdown timer for Cyber Hunt II (18 September 2026)
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const target = new Date('2026-09-18T09:00:00').getTime();
+    const updateCountdown = () => {
+      const now = Date.now();
+      const diff = Math.max(0, target - now);
+      setCountdown({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    };
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Terminal Easter Egg state
   const [terminalInput, setTerminalInput] = useState('');
@@ -428,63 +453,163 @@ export const Home: React.FC = () => {
 
       {/* ── DECK 04: FEATURED OPERATION (CTF BANNER) ───────────────── */}
       <ScrollStackSection index={3} className="bg-[#080808]">
-        <div className="py-20 text-left">
+        <div className="py-8 sm:py-12 lg:py-14 text-left">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="relative rounded-2xl border border-white/15 bg-[#0B0B0B] p-8 sm:p-14 overflow-hidden shadow-2xl">
+            <div className="relative rounded-2xl border border-white/15 bg-[#0B0B0B] p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl">
               {/* Dotted World Map & Atmospheric Node Telemetry */}
-              <DottedWorldMapBg opacity={0.45} highlightNodes={true} />
+              <DottedWorldMapBg opacity={0.4} highlightNodes={true} />
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-                <div className="lg:col-span-8 space-y-5">
+                {/* Left Column: Operation Briefing & Badges */}
+                <div className="lg:col-span-7 space-y-4 sm:space-y-5">
                   <FadeIn>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#FF4D1C]/15 border border-[#FF4D1C]/30 text-[10px] font-mono tracking-widest text-[#FF4D1C] uppercase font-semibold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-pulse" />
-                      ACTIVE COMPETITION // CAMPUS PRIORITY
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF4D1C] animate-ping" />
+                      ACTIVE OPERATION // CAMPUS PRIORITY
                     </div>
                   </FadeIn>
 
-                  <TextReveal as="h3">
-                    <span className="font-['Syne'] font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
-                      CYBER HUNT II // TECHNICAL SCAVENGER HUNT
-                    </span>
-                  </TextReveal>
+                  {/* Guaranteed Visible Headline */}
+                  <div className="space-y-1">
+                    <h3 className="font-['Syne'] font-extrabold text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-[1.1]">
+                      CYBER HUNT II
+                    </h3>
+                    <p className="text-xs sm:text-sm font-mono text-[#FF4D1C] tracking-wider uppercase font-semibold">
+                      CAMPUS-WIDE TECHNICAL SCAVENGER HUNT
+                    </p>
+                  </div>
 
-                  <FadeIn delay={0.15}>
-                    <p className="text-sm sm:text-base text-[#A1A1A1] max-w-2xl font-sans leading-relaxed">
+                  <FadeIn delay={0.1}>
+                    <p className="text-xs sm:text-sm md:text-base text-[#A1A1A1] max-w-2xl font-sans leading-relaxed">
                       Get ready for Cyber Hunt II, an entry-level technical scavenger hunt across college campus! Decode beginner-friendly riddles, solve logic puzzles, and scan hidden QR codes to reach the final terminal first.
                     </p>
                   </FadeIn>
 
-                  <FadeIn delay={0.25}>
-                    <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-mono text-[#A1A1A1]">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-[#FF4D1C]" />
-                        <span>18 SEPTEMBER 2026</span>
+                  {/* 4 Tactical Spec Cards */}
+                  <FadeIn delay={0.15}>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                      <div className="bg-black/60 border border-white/10 rounded-xl p-2.5 sm:p-3 flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-mono uppercase">
+                          <Calendar className="w-3.5 h-3.5 text-[#FF4D1C]" />
+                          <span>DATE</span>
+                        </div>
+                        <span className="text-xs font-semibold text-white">18 SEP 2026</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-[#FF4D1C]" />
-                        <span>CAMPUS-WIDE // JIET JODHPUR</span>
+
+                      <div className="bg-black/60 border border-white/10 rounded-xl p-2.5 sm:p-3 flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-mono uppercase">
+                          <MapPin className="w-3.5 h-3.5 text-[#FF4D1C]" />
+                          <span>VENUE</span>
+                        </div>
+                        <span className="text-xs font-semibold text-white truncate">JIET CAMPUS</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Award className="w-4 h-4 text-[#FF4D1C]" />
-                        <span className="text-[#FF4D1C] font-semibold">TEAMS: 3–6 MEMBERS</span>
+
+                      <div className="bg-black/60 border border-white/10 rounded-xl p-2.5 sm:p-3 flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-mono uppercase">
+                          <Users className="w-3.5 h-3.5 text-[#FF4D1C]" />
+                          <span>TEAM SIZE</span>
+                        </div>
+                        <span className="text-xs font-semibold text-white">3–6 MEMBERS</span>
+                      </div>
+
+                      <div className="bg-black/60 border border-white/10 rounded-xl p-2.5 sm:p-3 flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-mono uppercase">
+                          <Award className="w-3.5 h-3.5 text-[#FF4D1C]" />
+                          <span>ACCESS</span>
+                        </div>
+                        <span className="text-xs font-semibold text-white">FREE ENTRY</span>
                       </div>
                     </div>
                   </FadeIn>
                 </div>
 
-                <FadeIn delay={0.3} className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center items-start lg:items-end">
-                  <Link to="/events/cyber-hunt-ii" className="w-full sm:w-auto">
-                    <Button size="lg" variant="primary" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                      REGISTER FOR HUNT
-                    </Button>
-                  </Link>
-                  <Link to="/events" className="w-full sm:w-auto">
-                    <Button size="lg" variant="secondary">
-                      VIEW ALL MISSIONS
-                    </Button>
-                  </Link>
-                </FadeIn>
+                {/* Right Column: Live T-Minus Countdown & Telemetry Console */}
+                <div className="lg:col-span-5">
+                  <FadeIn delay={0.2}>
+                    <div className="bg-[#0c0e17]/95 border border-white/15 rounded-2xl p-5 sm:p-6 space-y-4 relative overflow-hidden backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+                      {/* Corner Targeting Crosshairs */}
+                      <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-[#FF4D1C]" />
+                      <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-[#FF4D1C]" />
+                      <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-[#FF4D1C]" />
+                      <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-[#FF4D1C]" />
+
+                      {/* Ambient Orange Glow */}
+                      <div className="absolute top-0 right-0 w-36 h-36 bg-[#FF4D1C]/15 rounded-full blur-2xl pointer-events-none" />
+
+                      {/* HUD Top Bar */}
+                      <div className="flex items-center justify-between border-b border-white/10 pb-2.5 relative z-10">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-[#FF4D1C] animate-ping" />
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-[#FF4D1C] font-bold">
+                            T-MINUS COUNTDOWN
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-mono text-zinc-400">OPERATION START</span>
+                      </div>
+
+                      {/* Live 4-Digit Countdown */}
+                      <div className="grid grid-cols-4 gap-2 text-center relative z-10">
+                        <div className="bg-black/80 border border-white/10 rounded-xl p-2 sm:p-2.5">
+                          <div className="font-mono text-lg sm:text-2xl font-black text-white font-['Space_Grotesk']">
+                            {String(countdown.days).padStart(2, '0')}
+                          </div>
+                          <div className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">DAYS</div>
+                        </div>
+
+                        <div className="bg-black/80 border border-white/10 rounded-xl p-2 sm:p-2.5">
+                          <div className="font-mono text-lg sm:text-2xl font-black text-[#FF4D1C] font-['Space_Grotesk']">
+                            {String(countdown.hours).padStart(2, '0')}
+                          </div>
+                          <div className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">HRS</div>
+                        </div>
+
+                        <div className="bg-black/80 border border-white/10 rounded-xl p-2 sm:p-2.5">
+                          <div className="font-mono text-lg sm:text-2xl font-black text-white font-['Space_Grotesk']">
+                            {String(countdown.minutes).padStart(2, '0')}
+                          </div>
+                          <div className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">MIN</div>
+                        </div>
+
+                        <div className="bg-black/80 border border-white/10 rounded-xl p-2 sm:p-2.5">
+                          <div className="font-mono text-lg sm:text-2xl font-black text-[#FF4D1C] font-['Space_Grotesk']">
+                            {String(countdown.seconds).padStart(2, '0')}
+                          </div>
+                          <div className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">SEC</div>
+                        </div>
+                      </div>
+
+                      {/* Slot Allocation Telemetry Bar */}
+                      <div className="space-y-1 relative z-10 pt-0.5">
+                        <div className="flex justify-between text-[10px] font-mono">
+                          <span className="text-zinc-400">REGISTRATION CAPACITY</span>
+                          <span className="text-[#FF4D1C] font-semibold">84% ALLOCATED</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-[#FF4D1C] to-[#FF7A00] rounded-full w-[84%]" />
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="pt-1.5 flex flex-col gap-2 relative z-10">
+                        <Link to="/events/cyber-hunt-ii" className="w-full">
+                          <Button
+                            size="md"
+                            variant="primary"
+                            rightIcon={<ArrowRight className="w-4 h-4" />}
+                            className="w-full shadow-[0_0_20px_rgba(255,77,28,0.4)] text-xs sm:text-sm font-semibold py-2.5"
+                          >
+                            REGISTER FOR HUNT
+                          </Button>
+                        </Link>
+                        <Link to="/events" className="w-full">
+                          <Button size="md" variant="secondary" className="w-full text-xs sm:text-sm py-2">
+                            VIEW ALL MISSIONS
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </FadeIn>
+                </div>
               </div>
             </div>
           </div>
