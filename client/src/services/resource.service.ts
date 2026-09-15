@@ -52,8 +52,21 @@ export const resourceService = {
 
   // Admin
   adminListResources: async (params?: { page?: number; limit?: number; category?: string; search?: string }) => {
-    const res = await api.get('/api/resources/admin/list', { params });
-    return res.data;
+    try {
+      const res = await api.get('/api/resources/admin/list', { params });
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        try {
+          const res = await api.get('/api/resources/admin/all', { params });
+          return res.data;
+        } catch {
+          const res = await api.get('/api/resources', { params });
+          return res.data;
+        }
+      }
+      throw err;
+    }
   },
 
   createResource: async (formData: FormData): Promise<{ resource: ResourceItem }> => {

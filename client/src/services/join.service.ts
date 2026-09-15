@@ -32,17 +32,41 @@ export const joinService = {
   },
 
   listApplications: async (params?: { status?: string; page?: number; limit?: number; search?: string }) => {
-    const res = await api.get('/api/join/admin/list', { params });
-    return res.data;
+    try {
+      const res = await api.get('/api/join/admin/list', { params });
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const res = await api.get('/api/join/admin/applications', { params });
+        return res.data;
+      }
+      throw err;
+    }
   },
 
   updateStatus: async (id: string, status: string, adminNotes?: string) => {
-    const res = await api.patch(`/api/join/admin/${id}`, { status, adminNotes });
-    return res.data;
+    try {
+      const res = await api.patch(`/api/join/admin/${id}`, { status, adminNotes });
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const res = await api.patch(`/api/join/admin/applications/${id}`, { status, adminNotes });
+        return res.data;
+      }
+      throw err;
+    }
   },
 
   getApplication: async (id: string) => {
-    const res = await api.get(`/api/join/admin/${id}`);
-    return res.data;
+    try {
+      const res = await api.get(`/api/join/admin/${id}`);
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const res = await api.get(`/api/join/admin/applications/${id}`);
+        return res.data;
+      }
+      throw err;
+    }
   },
 };

@@ -69,8 +69,21 @@ export const eventService = {
 
   // Admin
   adminListEvents: async (params?: EventFilterParams): Promise<{ events: EventItem[]; total: number; page: number; totalPages: number }> => {
-    const res = await api.get('/api/events/admin/list', { params });
-    return res.data;
+    try {
+      const res = await api.get('/api/events/admin/list', { params });
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        try {
+          const res = await api.get('/api/events/admin/all', { params });
+          return res.data;
+        } catch {
+          const res = await api.get('/api/events', { params });
+          return res.data;
+        }
+      }
+      throw err;
+    }
   },
 
   createEvent: async (formData: FormData): Promise<{ event: EventItem }> => {

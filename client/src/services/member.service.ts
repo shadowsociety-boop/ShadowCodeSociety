@@ -49,17 +49,41 @@ export const memberService = {
   },
 
   moveToAlumni: async (id: string): Promise<{ member: MemberItem }> => {
-    const res = await api.patch(`/api/members/${id}/alumni`);
-    return res.data;
+    try {
+      const res = await api.patch(`/api/members/${id}/alumni`);
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404 || err.response?.status === 405) {
+        const res = await api.post(`/api/members/${id}/alumni`);
+        return res.data;
+      }
+      throw err;
+    }
   },
 
   assignPresident: async (adminId: string): Promise<{ message: string }> => {
-    const res = await api.post('/api/members/admin/assign-president', { adminId });
-    return res.data;
+    try {
+      const res = await api.post('/api/members/admin/assign-president', { adminId });
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const res = await api.post('/api/members/assign-president', { adminId });
+        return res.data;
+      }
+      throw err;
+    }
   },
 
   getAdmins: async (): Promise<{ admins: Array<{ id: string; name: string; email: string; role: string; avatar?: string | null }> }> => {
-    const res = await api.get('/api/members/admin/admins');
-    return res.data;
+    try {
+      const res = await api.get('/api/members/admin/admins');
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const res = await api.get('/api/members/admins');
+        return res.data;
+      }
+      throw err;
+    }
   },
 };
