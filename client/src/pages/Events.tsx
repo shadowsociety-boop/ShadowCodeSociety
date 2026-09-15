@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { eventService, EventItem } from '../services/event.service';
 import { getImageUrl } from '../services/api';
+import { LogoLoader } from '../components/LogoLoader';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Calendar, MapPin, Clock, Search, ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -94,8 +95,8 @@ export const Events: React.FC = () => {
 
       {/* Events List / Grid */}
       {loading ? (
-        <div className="text-center py-20 text-xs font-mono text-[#666666]">
-          QUERYING MISSION OPERATIONS DATABASE...
+        <div className="py-24 flex items-center justify-center">
+          <LogoLoader size="md" text="QUERYING MISSION OPERATIONS DATABASE..." />
         </div>
       ) : events.length === 0 ? (
         <div className="text-center py-20 bg-[#080808] rounded border border-white/10 space-y-3">

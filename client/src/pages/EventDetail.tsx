@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { eventService, EventItem } from '../services/event.service';
 import { getImageUrl } from '../services/api';
+import { LogoLoader } from '../components/LogoLoader';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { FormattedDescription } from '../components/FormattedDescription';
@@ -44,8 +45,8 @@ export const EventDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-32 text-center text-xs font-mono text-[#666666]">
-        LOADING OPERATION SPECIFICATIONS...
+      <div className="max-w-4xl mx-auto px-4 py-36 flex items-center justify-center">
+        <LogoLoader size="lg" text="LOADING OPERATION SPECIFICATIONS..." />
       </div>
     );
   }
