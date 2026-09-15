@@ -7,6 +7,7 @@ import {
   createEvent, updateEvent, deleteEvent,
   getEventForm, saveEventForm,
 } from '../controllers/event.controller';
+import { getPopupTransmission } from '../controllers/admin.controller';
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.get('/:id/form', getEventForm);
 router.post('/:id/form', requireAuth, requirePermission('FORM_MANAGE'), saveEventForm);
 
 // Public routes
+router.get('/popup-transmission', getPopupTransmission);
 router.get('/', listEvents);
 router.get(['/slug/:slug', '/:slug'], getEventBySlug);
 

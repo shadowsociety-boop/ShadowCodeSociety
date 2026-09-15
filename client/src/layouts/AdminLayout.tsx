@@ -75,7 +75,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Join Applications', path: '/admin/applications', icon: FileCheck },
     { label: 'Analytics & Growth', path: '/admin/analytics', icon: BarChart3 },
     ...(isMentor ? [{ label: 'Audit Trail', path: '/admin/audit-logs', icon: ShieldAlert }] : []),
-    ...(isMentor ? [{ label: 'Settings', path: '/admin/settings', icon: Settings }] : []),
+    { label: 'Broadcast & Settings', path: '/admin/settings', icon: Settings },
   ];
 
   return (

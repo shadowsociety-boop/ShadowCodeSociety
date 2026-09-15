@@ -17,6 +17,7 @@ import {
   Users,
   Star,
   CheckCircle,
+  Radio,
 } from 'lucide-react';
 
 export const AdminEvents: React.FC = () => {
@@ -65,11 +66,18 @@ export const AdminEvents: React.FC = () => {
           </p>
         </div>
 
-        <Link to="/admin/events/new">
-          <Button variant="primary" size="md" leftIcon={<PlusCircle className="w-4 h-4" />}>
-            Create New Event
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2.5">
+          <Link to="/admin/settings">
+            <Button variant="outline" size="md" leftIcon={<Radio className="w-4 h-4 text-[#FF4D1C]" />}>
+              Pop-up Broadcast
+            </Button>
+          </Link>
+          <Link to="/admin/events/new">
+            <Button variant="primary" size="md" leftIcon={<PlusCircle className="w-4 h-4" />}>
+              Create New Event
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filter Bar */}

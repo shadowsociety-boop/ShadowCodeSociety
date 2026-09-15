@@ -70,4 +70,38 @@ export const adminService = {
     const res = await api.get('/api/admin/search', { params: { q } });
     return res.data;
   },
+
+  getPopupTransmission: async (): Promise<{ popup: PopupTransmission }> => {
+    const res = await api.get('/api/admin/popup-transmission');
+    return res.data;
+  },
+
+  updatePopupTransmission: async (formData: FormData): Promise<{ message: string; popup: PopupTransmission }> => {
+    const res = await api.patch('/api/admin/popup-transmission', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data;
+  },
 };
+
+export interface PopupTransmissionHighlight {
+  icon: string;
+  label: string;
+  value: string;
+}
+
+export interface PopupTransmission {
+  enabled: boolean;
+  transmissionTag: string;
+  date: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  showBanner: boolean;
+  banner: string | null;
+  highlights: PopupTransmissionHighlight[];
+  ctaText: string;
+  ctaLink: string;
+  footerNote: string;
+  expiryDate?: string;
+}

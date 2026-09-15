@@ -245,3 +245,10 @@ model Notification {
   @@index([read])
   @@index([createdAt])
 }
+
+// ── SiteSetting ─────────────────────────────
+model SiteSetting {
+  key       String   @id
+  value     String   // JSON string
+  updatedAt DateTime @updatedAt
+}

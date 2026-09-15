@@ -115,7 +115,7 @@ export function App() {
             <Route
               path="settings"
               element={
-                <ProtectedRoute requiredRole="MENTOR">
+                <ProtectedRoute>
                   <AdminSettings />
                 </ProtectedRoute>
               }

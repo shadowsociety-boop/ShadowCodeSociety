@@ -1,4 +1,5 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
+import path from 'path';
 import { prisma } from '../utils/prisma';
 import { AuthRequest } from '../middleware/auth';
 
@@ -177,5 +178,121 @@ export const globalSearch = async (req: AuthRequest, res: Response): Promise<voi
     });
   } catch (error) {
     res.status(500).json({ error: 'Search failed' });
+  }
+};
+
+// ── Active Transmission Popup Configuration ──
+export const DEFAULT_POPUP_TRANSMISSION = {
+  enabled: true,
+  transmissionTag: '// ACTIVE TRANSMISSION • EVENT 18.09.2026',
+  date: '18 SEPTEMBER 2026',
+  title: 'CYBER HUNT II',
+  subtitle: 'Campus-Wide Technical Scavenger Hunt',
+  description: `Get ready for Cyber Hunt II, an entry-level technical scavenger hunt designed to test your observational skills, basic tech knowledge, and teamwork!
+
+Spread across the college campus, teams will decode beginner-friendly riddles, solve simple logic puzzles, and scan hidden QR codes to uncover clues that lead to the next destination. Perfect for first-time participants, this level requires zero advanced coding skills — just quick thinking, sharp eyes, and a good strategy.`,
+  showBanner: false,
+  banner: null as string | null,
+  highlights: [
+    { icon: 'sparkles', label: 'Level', value: 'Basic (Beginner-Friendly)' },
+    { icon: 'mapPin', label: 'Venue', value: 'Campus-wide (JIET Jodhpur)' },
+    { icon: 'users', label: 'Team Size', value: '3–6 Members' },
+    { icon: 'target', label: 'Objective', value: 'Decode clues & reach final terminal' },
+  ],
+  ctaText: 'REGISTER TEAM',
+  ctaLink: '/events/cyber-hunt-ii',
+  footerNote: 'LIMITED TEAM SLOTS AVAILABLE',
+  expiryDate: '2026-09-18T23:59:59',
+};
+
+export const getPopupTransmission = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const setting = await prisma.siteSetting.findUnique({
+      where: { key: 'active_popup_transmission' },
+    });
+    if (setting && setting.value) {
+      try {
+        const data = JSON.parse(setting.value);
+        res.json({ popup: { ...DEFAULT_POPUP_TRANSMISSION, ...data } });
+        return;
+      } catch (parseErr) {
+        console.error('Error parsing site setting value:', parseErr);
+      }
+    }
+    res.json({ popup: DEFAULT_POPUP_TRANSMISSION });
+  } catch (error) {
+    console.error('Failed to get popup transmission:', error);
+    res.json({ popup: DEFAULT_POPUP_TRANSMISSION });
+  }
+};
+
+export const updatePopupTransmission = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    let currentData = { ...DEFAULT_POPUP_TRANSMISSION };
+    const existing = await prisma.siteSetting.findUnique({
+      where: { key: 'active_popup_transmission' },
+    });
+    if (existing && existing.value) {
+      try {
+        currentData = { ...currentData, ...JSON.parse(existing.value) };
+      } catch (e) {}
+    }
+
+    let bannerUrl = currentData.banner;
+    if (req.file) {
+      bannerUrl = req.file.path.startsWith('http')
+        ? req.file.path
+        : `/uploads/${path.basename(req.file.path)}`;
+    } else if (req.body.banner !== undefined) {
+      bannerUrl = req.body.banner || null;
+    }
+
+    let highlights = currentData.highlights;
+    if (req.body.highlights) {
+      try {
+        highlights = typeof req.body.highlights === 'string'
+          ? JSON.parse(req.body.highlights)
+          : req.body.highlights;
+      } catch (e) {
+        console.warn('Failed to parse highlights in popup update:', e);
+      }
+    }
+
+    const updatedData = {
+      ...currentData,
+      enabled: req.body.enabled !== undefined
+        ? (String(req.body.enabled) === 'true' || req.body.enabled === true)
+        : currentData.enabled,
+      transmissionTag: req.body.transmissionTag !== undefined ? String(req.body.transmissionTag) : currentData.transmissionTag,
+      date: req.body.date !== undefined ? String(req.body.date) : currentData.date,
+      title: req.body.title !== undefined ? String(req.body.title) : currentData.title,
+      subtitle: req.body.subtitle !== undefined ? String(req.body.subtitle) : currentData.subtitle,
+      description: req.body.description !== undefined ? String(req.body.description) : currentData.description,
+      showBanner: req.body.showBanner !== undefined
+        ? (String(req.body.showBanner) === 'true' || req.body.showBanner === true)
+        : currentData.showBanner,
+      banner: bannerUrl,
+      highlights,
+      ctaText: req.body.ctaText !== undefined ? String(req.body.ctaText) : currentData.ctaText,
+      ctaLink: req.body.ctaLink !== undefined ? String(req.body.ctaLink) : currentData.ctaLink,
+      footerNote: req.body.footerNote !== undefined ? String(req.body.footerNote) : currentData.footerNote,
+      expiryDate: req.body.expiryDate !== undefined ? String(req.body.expiryDate) : currentData.expiryDate,
+    };
+
+    await prisma.siteSetting.upsert({
+      where: { key: 'active_popup_transmission' },
+      create: {
+        key: 'active_popup_transmission',
+        value: JSON.stringify(updatedData),
+      },
+      update: {
+        value: JSON.stringify(updatedData),
+      },
+    });
+
+    res.json({ message: 'Active transmission popup updated successfully', popup: updatedData });
+  } catch (error) {
+    console.error('Failed to update popup transmission:', error);
+    res.status(500).json({ error: 'Failed to update popup transmission settings' });
   }
 };
