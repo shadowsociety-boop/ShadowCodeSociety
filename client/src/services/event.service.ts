@@ -42,6 +42,11 @@ export interface EventItem {
   published: boolean;
   objectives?: string | EventObjective[] | null;
   rules?: string | string[] | null;
+  cost?: string | null;
+  prerequisites?: string | null;
+  certificate?: string | null;
+  accessStatus?: string | null;
+  passNote?: string | null;
   createdAt: string;
   updatedAt: string;
   _count?: {

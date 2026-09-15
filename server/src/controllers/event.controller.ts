@@ -156,6 +156,11 @@ export const createEvent = async (req: AuthRequest, res: Response): Promise<void
         published: data.published === 'true' || data.published === true,
         objectives: data.objectives ? (typeof data.objectives === 'string' ? data.objectives : JSON.stringify(data.objectives)) : null,
         rules: data.rules ? (typeof data.rules === 'string' ? data.rules : JSON.stringify(data.rules)) : null,
+        cost: data.cost || 'FREE / COMPLIMENTARY',
+        prerequisites: data.prerequisites || 'LAPTOP + BROWSER',
+        certificate: data.certificate || 'ISSUED UPON COMPLETION',
+        accessStatus: data.accessStatus || null,
+        passNote: data.passNote !== undefined ? data.passNote : 'Instant digital pass generated upon submission.',
       },
     });
 
@@ -211,6 +216,11 @@ export const updateEvent = async (req: AuthRequest, res: Response): Promise<void
     if (data.rules !== undefined) {
       updateData.rules = typeof data.rules === 'string' ? data.rules : JSON.stringify(data.rules);
     }
+    if (data.cost !== undefined) updateData.cost = data.cost;
+    if (data.prerequisites !== undefined) updateData.prerequisites = data.prerequisites;
+    if (data.certificate !== undefined) updateData.certificate = data.certificate;
+    if (data.accessStatus !== undefined) updateData.accessStatus = data.accessStatus || null;
+    if (data.passNote !== undefined) updateData.passNote = data.passNote;
 
     const event = await prisma.event.update({ where: { id }, data: updateData as any });
 

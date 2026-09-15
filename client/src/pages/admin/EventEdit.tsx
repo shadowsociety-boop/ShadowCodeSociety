@@ -21,6 +21,9 @@ import {
   Trash2,
   Target,
   Shield,
+  Tag,
+  Award,
+  Laptop,
 } from 'lucide-react';
 
 const DEFAULT_OBJECTIVES = [
@@ -64,6 +67,11 @@ export const EventEdit: React.FC = () => {
   const [description, setDescription] = useState('');
   const [objectives, setObjectives] = useState<Array<{ title: string; description: string }>>(DEFAULT_OBJECTIVES);
   const [rules, setRules] = useState<string[]>(DEFAULT_RULES);
+  const [cost, setCost] = useState('FREE / COMPLIMENTARY');
+  const [prerequisites, setPrerequisites] = useState('LAPTOP + BROWSER');
+  const [certificate, setCertificate] = useState('ISSUED UPON COMPLETION');
+  const [accessStatus, setAccessStatus] = useState('');
+  const [passNote, setPassNote] = useState('Instant digital pass generated upon submission.');
   const [featured, setFeatured] = useState(false);
   const [published, setPublished] = useState(true);
   const [currentBanner, setCurrentBanner] = useState<string | null>(null);
@@ -132,6 +140,12 @@ export const EventEdit: React.FC = () => {
         } else {
           setRules(DEFAULT_RULES);
         }
+
+        setCost(ev.cost !== null && ev.cost !== undefined ? ev.cost : 'FREE / COMPLIMENTARY');
+        setPrerequisites(ev.prerequisites !== null && ev.prerequisites !== undefined ? ev.prerequisites : 'LAPTOP + BROWSER');
+        setCertificate(ev.certificate !== null && ev.certificate !== undefined ? ev.certificate : 'ISSUED UPON COMPLETION');
+        setAccessStatus(ev.accessStatus || '');
+        setPassNote(ev.passNote !== null && ev.passNote !== undefined ? ev.passNote : 'Instant digital pass generated upon submission.');
 
         if (ev.date) {
           const d = new Date(ev.date);
@@ -205,6 +219,11 @@ export const EventEdit: React.FC = () => {
     formData.append('description', description.trim());
     formData.append('objectives', JSON.stringify(objectives));
     formData.append('rules', JSON.stringify(rules.filter((r) => r.trim().length > 0)));
+    formData.append('cost', cost.trim());
+    formData.append('prerequisites', prerequisites.trim());
+    formData.append('certificate', certificate.trim());
+    formData.append('accessStatus', accessStatus.trim());
+    formData.append('passNote', passNote.trim());
     formData.append('featured', String(featured));
     formData.append('published', String(published));
     if (bannerFile) {
@@ -531,6 +550,55 @@ export const EventEdit: React.FC = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Section: Sidebar Parameters & Pass Specifications */}
+          <div className="space-y-4 pt-4 border-t border-white/10">
+            <div>
+              <div className="flex items-center gap-2">
+                <Tag className="w-4 h-4 text-[#FF4D1C]" />
+                <label className="text-xs font-mono tracking-wider uppercase text-white font-semibold">
+                  Sidebar Parameters & Registration Info
+                </label>
+              </div>
+              <p className="text-[11px] font-mono text-zinc-400 mt-0.5">
+                Customize the action sidebar on the public event page (Access Status, Cost, Prerequisites, Certificate, and Footnote).
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                label="Cost / Fee"
+                placeholder="e.g. FREE / COMPLIMENTARY or ₹199"
+                value={cost}
+                onChange={(e) => setCost(e.target.value)}
+              />
+              <Input
+                label="Prerequisites"
+                placeholder="e.g. LAPTOP + BROWSER"
+                value={prerequisites}
+                onChange={(e) => setPrerequisites(e.target.value)}
+              />
+              <Input
+                label="Certificate Status"
+                placeholder="e.g. ISSUED UPON COMPLETION"
+                value={certificate}
+                onChange={(e) => setCertificate(e.target.value)}
+              />
+              <Input
+                label="Access Status Override"
+                placeholder="e.g. REGISTRATION OPEN (Leave blank for automatic)"
+                value={accessStatus}
+                onChange={(e) => setAccessStatus(e.target.value)}
+              />
+            </div>
+
+            <Input
+              label="Footer Note (Under Register Button)"
+              placeholder="e.g. Instant digital pass generated upon submission."
+              value={passNote}
+              onChange={(e) => setPassNote(e.target.value)}
+            />
           </div>
 
           {/* Banner Upload & Current Preview */}

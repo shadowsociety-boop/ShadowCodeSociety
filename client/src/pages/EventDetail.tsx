@@ -227,22 +227,28 @@ export const EventDetail: React.FC = () => {
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-[#666666] uppercase block">ACCESS STATUS</span>
               <div className="text-xl font-bold font-['Space_Grotesk'] text-white">
-                {isUpcoming ? 'REGISTRATION OPEN' : 'OPERATION CONCLUDED'}
+                {event.accessStatus || (isUpcoming ? 'REGISTRATION OPEN' : 'OPERATION CONCLUDED')}
               </div>
             </div>
 
             <div className="space-y-3 pt-4 border-t border-white/10 text-xs font-mono text-[#A1A1A1]">
-              <div className="flex justify-between">
-                <span className="text-[#666666]">COST</span>
-                <span className="text-[#FF4D1C] font-bold">FREE / COMPLIMENTARY</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-[#666666] flex-shrink-0">COST</span>
+                <span className="text-[#FF4D1C] font-bold text-right">
+                  {event.cost || 'FREE / COMPLIMENTARY'}
+                </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#666666]">PREREQUISITES</span>
-                <span className="text-white">LAPTOP + BROWSER</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-[#666666] flex-shrink-0">PREREQUISITES</span>
+                <span className="text-white text-right">
+                  {event.prerequisites || 'LAPTOP + BROWSER'}
+                </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#666666]">CERTIFICATE</span>
-                <span className="text-white">ISSUED UPON COMPLETION</span>
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-[#666666] flex-shrink-0">CERTIFICATE</span>
+                <span className="text-white text-right">
+                  {event.certificate || 'ISSUED UPON COMPLETION'}
+                </span>
               </div>
             </div>
 
@@ -258,11 +264,13 @@ export const EventDetail: React.FC = () => {
               </Button>
             )}
 
-            <div className="pt-2 text-center">
-              <span className="text-[10px] font-mono text-[#666666]">
-                Instant digital pass generated upon submission.
-              </span>
-            </div>
+            {(event.passNote !== null && event.passNote !== undefined ? event.passNote.trim() : 'Instant digital pass generated upon submission.') && (
+              <div className="pt-2 text-center">
+                <span className="text-[10px] font-mono text-[#666666]">
+                  {event.passNote || 'Instant digital pass generated upon submission.'}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

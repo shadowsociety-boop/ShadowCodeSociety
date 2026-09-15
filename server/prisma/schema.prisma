@@ -77,6 +77,11 @@ model Event {
   published        Boolean   @default(false)
   objectives       String?   // JSON string of [{ title, description }]
   rules            String?   // JSON string of string[] or multiline rules
+  cost             String?   @default("FREE / COMPLIMENTARY")
+  prerequisites    String?   @default("LAPTOP + BROWSER")
+  certificate      String?   @default("ISSUED UPON COMPLETION")
+  accessStatus     String?   // Custom override, e.g. "REGISTRATION OPEN", "INVITE ONLY", etc.
+  passNote         String?   @default("Instant digital pass generated upon submission.")
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
