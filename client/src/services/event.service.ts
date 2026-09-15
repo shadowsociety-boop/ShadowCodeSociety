@@ -63,8 +63,16 @@ export const eventService = {
   },
 
   getEventBySlug: async (slug: string): Promise<{ event: EventItem }> => {
-    const res = await api.get(`/api/events/${slug}`);
-    return res.data;
+    try {
+      const res = await api.get(`/api/events/slug/${slug}`);
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const fallback = await api.get(`/api/events/${slug}`);
+        return fallback.data;
+      }
+      throw err;
+    }
   },
 
   // Admin

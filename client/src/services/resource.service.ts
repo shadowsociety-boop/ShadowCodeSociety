@@ -39,8 +39,16 @@ export const resourceService = {
   },
 
   getResourceBySlug: async (slug: string): Promise<{ resource: ResourceItem }> => {
-    const res = await api.get(`/api/resources/${slug}`);
-    return res.data;
+    try {
+      const res = await api.get(`/api/resources/slug/${slug}`);
+      return res.data;
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        const fallback = await api.get(`/api/resources/${slug}`);
+        return fallback.data;
+      }
+      throw err;
+    }
   },
 
   submitResource: async (formData: FormData) => {

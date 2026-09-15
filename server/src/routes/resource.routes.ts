@@ -12,9 +12,7 @@ import {
 
 const router = Router();
 
-// Public
-router.get('/', listResources);
-router.get('/slug/:slug', getResourceBySlug);
+// Public submit
 router.post('/submit', upload.single('file'), submitResource);
 
 // Admin CRUD
@@ -27,5 +25,9 @@ router.delete(['/:id', '/admin/:id'], requireAuth, requirePermission('RESOURCE_D
 router.get('/admin/submissions', requireAuth, requirePermission('RESOURCE_APPROVE'), listSubmissions);
 router.post('/admin/submissions/:id/approve', requireAuth, requirePermission('RESOURCE_APPROVE'), approveSubmission);
 router.post('/admin/submissions/:id/reject', requireAuth, requirePermission('RESOURCE_APPROVE'), rejectSubmission);
+
+// Public list & slug
+router.get('/', listResources);
+router.get(['/slug/:slug', '/:slug'], getResourceBySlug);
 
 export default router;
