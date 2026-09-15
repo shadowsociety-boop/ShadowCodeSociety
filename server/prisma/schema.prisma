@@ -82,6 +82,7 @@ model Event {
   certificate      String?   @default("ISSUED UPON COMPLETION")
   accessStatus     String?   // Custom override, e.g. "REGISTRATION OPEN", "INVITE ONLY", etc.
   passNote         String?   @default("Instant digital pass generated upon submission.")
+  externalFormUrl  String?   // Third-party form link (Google Forms, Unstop, Luma, etc.)
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 

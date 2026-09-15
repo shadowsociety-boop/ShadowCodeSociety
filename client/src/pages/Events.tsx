@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { eventService, EventItem } from '../services/event.service';
+import { getImageUrl } from '../services/api';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Calendar, MapPin, Clock, Search, ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -110,6 +111,17 @@ export const Events: React.FC = () => {
               <StaggerItem key={event.id}>
                 <div className="h-full group relative bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-lg p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
                   <div className="space-y-4">
+                    {/* Event Banner Graphic Thumbnail */}
+                    {event.banner && (
+                      <div className="relative w-full h-40 rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                        <img
+                          src={getImageUrl(event.banner)}
+                          alt={event.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
+
                     {/* Category & Date Header */}
                     <div className="flex items-center justify-between text-xs font-mono">
                       <span className="text-[#FF4D1C] font-semibold tracking-wider uppercase">

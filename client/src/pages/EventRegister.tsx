@@ -20,6 +20,7 @@ import {
   GraduationCap,
   Lock,
   Check,
+  ExternalLink,
 } from 'lucide-react';
 
 export const EventRegister: React.FC = () => {
@@ -175,6 +176,41 @@ export const EventRegister: React.FC = () => {
         <Link to="/events">
           <Button variant="secondary" size="sm">Return to Operations →</Button>
         </Link>
+      </div>
+    );
+  }
+
+  if (event.externalFormUrl) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-24 text-left space-y-6">
+        <Link
+          to={`/events/${event.slug}`}
+          className="inline-flex items-center gap-2 text-xs font-mono text-[#A1A1A1] hover:text-white transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>BACK TO {event.title.toUpperCase()}</span>
+        </Link>
+        <div className="bg-[#0B0B0B] border border-white/10 rounded-xl p-8 sm:p-10 space-y-6 shadow-2xl">
+          <Badge variant="orange">EXTERNAL REGISTRATION PORTAL</Badge>
+          <h2 className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] text-white">
+            {event.title}
+          </h2>
+          <p className="text-sm font-sans text-zinc-400 leading-relaxed">
+            Registration for this operation is hosted on an authorized third-party platform. Click below to complete your registration.
+          </p>
+          <div className="pt-2">
+            <a
+              href={event.externalFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button size="lg" variant="primary" rightIcon={<ExternalLink className="w-4 h-4" />}>
+                OPEN EXTERNAL FORM
+              </Button>
+            </a>
+          </div>
+        </div>
       </div>
     );
   }

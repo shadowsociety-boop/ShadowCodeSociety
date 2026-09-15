@@ -161,6 +161,7 @@ export const createEvent = async (req: AuthRequest, res: Response): Promise<void
         certificate: data.certificate || 'ISSUED UPON COMPLETION',
         accessStatus: data.accessStatus || null,
         passNote: data.passNote !== undefined ? data.passNote : 'Instant digital pass generated upon submission.',
+        externalFormUrl: data.externalFormUrl ? data.externalFormUrl.trim() : null,
       },
     });
 
@@ -221,6 +222,9 @@ export const updateEvent = async (req: AuthRequest, res: Response): Promise<void
     if (data.certificate !== undefined) updateData.certificate = data.certificate;
     if (data.accessStatus !== undefined) updateData.accessStatus = data.accessStatus || null;
     if (data.passNote !== undefined) updateData.passNote = data.passNote;
+    if (data.externalFormUrl !== undefined) {
+      updateData.externalFormUrl = data.externalFormUrl ? data.externalFormUrl.trim() : null;
+    }
 
     const event = await prisma.event.update({ where: { id }, data: updateData as any });
 

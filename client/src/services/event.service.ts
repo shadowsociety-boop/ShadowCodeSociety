@@ -47,6 +47,7 @@ export interface EventItem {
   certificate?: string | null;
   accessStatus?: string | null;
   passNote?: string | null;
+  externalFormUrl?: string | null;
   createdAt: string;
   updatedAt: string;
   _count?: {

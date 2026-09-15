@@ -46,6 +46,7 @@ export const EventCreate: React.FC = () => {
   const [certificate, setCertificate] = useState('ISSUED UPON COMPLETION');
   const [accessStatus, setAccessStatus] = useState('');
   const [passNote, setPassNote] = useState('Instant digital pass generated upon submission.');
+  const [externalFormUrl, setExternalFormUrl] = useState('');
   const [featured, setFeatured] = useState(false);
   const [published, setPublished] = useState(true);
   const [banner, setBanner] = useState<File | null>(null);
@@ -112,6 +113,7 @@ export const EventCreate: React.FC = () => {
     formData.append('certificate', certificate.trim());
     formData.append('accessStatus', accessStatus.trim());
     formData.append('passNote', passNote.trim());
+    formData.append('externalFormUrl', externalFormUrl.trim());
     formData.append('featured', String(featured));
     formData.append('published', String(published));
     if (banner) formData.append('banner', banner);
@@ -414,6 +416,16 @@ export const EventCreate: React.FC = () => {
               value={passNote}
               onChange={(e) => setPassNote(e.target.value)}
             />
+
+            <div className="pt-2">
+              <Input
+                label="Third-Party / External Form Link (Optional)"
+                placeholder="e.g. https://forms.gle/... or https://unstop.com/..."
+                value={externalFormUrl}
+                onChange={(e) => setExternalFormUrl(e.target.value)}
+                helperText="When filled, clicking 'REGISTER NOW' on the public event page will open this link in a new tab instead of the internal registration form."
+              />
+            </div>
           </div>
 
           {/* Banner Upload */}

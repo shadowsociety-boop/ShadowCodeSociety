@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { eventService, EventItem } from '../services/event.service';
+import { getImageUrl } from '../services/api';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { FormattedDescription } from '../components/FormattedDescription';
@@ -16,6 +17,8 @@ import {
   AlertCircle,
   ArrowRight,
   Sparkles,
+  ExternalLink,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 export const EventDetail: React.FC = () => {
@@ -71,6 +74,22 @@ export const EventDetail: React.FC = () => {
         <ArrowLeft className="w-3.5 h-3.5" />
         <span>BACK TO OPERATIONS</span>
       </Link>
+
+      {/* Official Event Graphic Banner */}
+      {event.banner && (
+        <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 bg-[#080808] shadow-2xl group">
+          <img
+            src={getImageUrl(event.banner)}
+            alt={event.title}
+            className="w-full max-h-[460px] object-cover object-center transition-transform duration-500 group-hover:scale-[1.01]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute bottom-3 right-3 px-3 py-1 bg-black/80 backdrop-blur-md rounded border border-white/10 text-[10px] font-mono text-zinc-300 flex items-center gap-1.5">
+            <ImageIcon className="w-3 h-3 text-[#FF4D1C]" />
+            <span>EVENT BANNER</span>
+          </div>
+        </div>
+      )}
 
       {/* Header Banner */}
       <div className="bg-[#0B0B0B] border border-white/10 rounded-xl p-8 sm:p-12 relative overflow-hidden">
@@ -253,11 +272,29 @@ export const EventDetail: React.FC = () => {
             </div>
 
             {isUpcoming ? (
-              <Link to={`/events/${event.slug}/register`} className="block w-full">
-                <Button size="lg" variant="primary" className="w-full" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                  REGISTER NOW
-                </Button>
-              </Link>
+              event.externalFormUrl ? (
+                <a
+                  href={event.externalFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full"
+                >
+                  <Button
+                    size="lg"
+                    variant="primary"
+                    className="w-full"
+                    rightIcon={<ExternalLink className="w-4 h-4" />}
+                  >
+                    REGISTER NOW
+                  </Button>
+                </a>
+              ) : (
+                <Link to={`/events/${event.slug}/register`} className="block w-full">
+                  <Button size="lg" variant="primary" className="w-full" rightIcon={<ArrowRight className="w-4 h-4" />}>
+                    REGISTER NOW
+                  </Button>
+                </Link>
+              )
             ) : (
               <Button size="lg" variant="secondary" disabled className="w-full">
                 REGISTRATION CLOSED

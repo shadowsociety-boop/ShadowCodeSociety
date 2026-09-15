@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { eventService, EventItem } from '../../services/event.service';
+import { getImageUrl } from '../../services/api';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
@@ -24,6 +25,7 @@ import {
   Tag,
   Award,
   Laptop,
+  Link2,
 } from 'lucide-react';
 
 const DEFAULT_OBJECTIVES = [
@@ -72,6 +74,7 @@ export const EventEdit: React.FC = () => {
   const [certificate, setCertificate] = useState('ISSUED UPON COMPLETION');
   const [accessStatus, setAccessStatus] = useState('');
   const [passNote, setPassNote] = useState('Instant digital pass generated upon submission.');
+  const [externalFormUrl, setExternalFormUrl] = useState('');
   const [featured, setFeatured] = useState(false);
   const [published, setPublished] = useState(true);
   const [currentBanner, setCurrentBanner] = useState<string | null>(null);
@@ -146,6 +149,7 @@ export const EventEdit: React.FC = () => {
         setCertificate(ev.certificate !== null && ev.certificate !== undefined ? ev.certificate : 'ISSUED UPON COMPLETION');
         setAccessStatus(ev.accessStatus || '');
         setPassNote(ev.passNote !== null && ev.passNote !== undefined ? ev.passNote : 'Instant digital pass generated upon submission.');
+        setExternalFormUrl(ev.externalFormUrl || '');
 
         if (ev.date) {
           const d = new Date(ev.date);
@@ -224,6 +228,7 @@ export const EventEdit: React.FC = () => {
     formData.append('certificate', certificate.trim());
     formData.append('accessStatus', accessStatus.trim());
     formData.append('passNote', passNote.trim());
+    formData.append('externalFormUrl', externalFormUrl.trim());
     formData.append('featured', String(featured));
     formData.append('published', String(published));
     if (bannerFile) {
@@ -599,6 +604,16 @@ export const EventEdit: React.FC = () => {
               value={passNote}
               onChange={(e) => setPassNote(e.target.value)}
             />
+
+            <div className="pt-2">
+              <Input
+                label="Third-Party / External Form Link (Optional)"
+                placeholder="e.g. https://forms.gle/... or https://unstop.com/..."
+                value={externalFormUrl}
+                onChange={(e) => setExternalFormUrl(e.target.value)}
+                helperText="When filled, clicking 'REGISTER NOW' on the public event page will open this link in a new tab instead of the internal registration form."
+              />
+            </div>
           </div>
 
           {/* Banner Upload & Current Preview */}
@@ -610,7 +625,7 @@ export const EventEdit: React.FC = () => {
             {currentBanner && (
               <div className="relative rounded-xl overflow-hidden border border-white/10 bg-black/40 mb-3 max-h-48">
                 <img
-                  src={currentBanner}
+                  src={getImageUrl(currentBanner)}
                   alt={title || 'Event banner'}
                   className="w-full h-48 object-cover opacity-90"
                 />
