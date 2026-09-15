@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import path from 'path';
 import { prisma } from '../utils/prisma';
 import { AuthRequest } from '../middleware/auth';
+import { memoryCache } from '../utils/cache';
 
 // ── Dashboard Stats ─────────────────────────
 export const getDashboardStats = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -207,19 +208,29 @@ Spread across the college campus, teams will decode beginner-friendly riddles, s
 
 export const getPopupTransmission = async (_req: Request, res: Response): Promise<void> => {
   try {
+    const cached = memoryCache.get('active_popup_transmission');
+    if (cached) {
+      res.json(cached);
+      return;
+    }
+
     const setting = await (prisma as any).siteSetting.findUnique({
       where: { key: 'active_popup_transmission' },
     });
     if (setting && setting.value) {
       try {
         const data = JSON.parse(setting.value);
-        res.json({ popup: { ...DEFAULT_POPUP_TRANSMISSION, ...data } });
+        const result = { popup: { ...DEFAULT_POPUP_TRANSMISSION, ...data } };
+        memoryCache.set('active_popup_transmission', result, 60);
+        res.json(result);
         return;
       } catch (parseErr) {
         console.error('Error parsing site setting value:', parseErr);
       }
     }
-    res.json({ popup: DEFAULT_POPUP_TRANSMISSION });
+    const defaultResult = { popup: DEFAULT_POPUP_TRANSMISSION };
+    memoryCache.set('active_popup_transmission', defaultResult, 60);
+    res.json(defaultResult);
   } catch (error) {
     console.error('Failed to get popup transmission:', error);
     res.json({ popup: DEFAULT_POPUP_TRANSMISSION });
@@ -289,6 +300,8 @@ export const updatePopupTransmission = async (req: AuthRequest, res: Response): 
         value: JSON.stringify(updatedData),
       },
     });
+
+    memoryCache.delete('active_popup_transmission');
 
     res.json({ message: 'Active transmission popup updated successfully', popup: updatedData });
   } catch (error) {

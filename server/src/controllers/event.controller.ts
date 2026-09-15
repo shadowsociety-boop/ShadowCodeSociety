@@ -5,10 +5,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { AuthRequest } from '../middleware/auth';
 import { auditLog, createNotification } from '../services/audit.service';
 import { getFileUrl } from '../middleware/upload';
+import { memoryCache } from '../utils/cache';
 
 // ── Public: List Events ─────────────────────
 export const listEvents = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    const cacheKey = `events:list:${JSON.stringify(req.query)}`;
+    const cached = memoryCache.get(cacheKey);
+    if (cached) {
+      res.json(cached);
+      return;
+    }
+
     const { page = '1', limit = '12', status, type, search, featured } = req.query;
     const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
     const take = parseInt(limit as string);
@@ -35,7 +43,9 @@ export const listEvents = async (req: AuthRequest, res: Response): Promise<void>
       prisma.event.count({ where: where as any }),
     ]);
 
-    res.json({ events, total, page: parseInt(page as string), totalPages: Math.ceil(total / take) });
+    const result = { events, total, page: parseInt(page as string), totalPages: Math.ceil(total / take) };
+    memoryCache.set(cacheKey, result, 30);
+    res.json(result);
   } catch (error) {
     console.error('[EVENT] List error:', error);
     res.status(500).json({ error: 'Failed to fetch events' });
@@ -46,6 +56,16 @@ export const listEvents = async (req: AuthRequest, res: Response): Promise<void>
 export const getEventBySlug = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const slug = req.params.slug as string;
+    const cacheKey = `event:slug:${slug}`;
+
+    if (!req.admin) {
+      const cached = memoryCache.get(cacheKey);
+      if (cached) {
+        res.json(cached);
+        return;
+      }
+    }
+
     const event = await prisma.event.findFirst({
       where: {
         OR: [{ slug }, { id: slug }],
@@ -66,7 +86,11 @@ export const getEventBySlug = async (req: AuthRequest, res: Response): Promise<v
       return;
     }
 
-    res.json({ event });
+    const result = { event };
+    if (!req.admin && event.published) {
+      memoryCache.set(cacheKey, result, 30);
+    }
+    res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch event' });
   }
@@ -180,6 +204,9 @@ export const createEvent = async (req: AuthRequest, res: Response): Promise<void
       link: `/admin/events/${event.id}`,
     });
 
+    memoryCache.clearPrefix('events:list:');
+    memoryCache.clearPrefix('event:slug:');
+
     res.status(201).json({ event });
   } catch (error) {
     console.error('[EVENT] Create error:', error);
@@ -236,6 +263,9 @@ export const updateEvent = async (req: AuthRequest, res: Response): Promise<void
       details: `Updated event: ${event.title}`,
     });
 
+    memoryCache.clearPrefix('events:list:');
+    memoryCache.clearPrefix('event:slug:');
+
     res.json({ event });
   } catch (error) {
     res.status(500).json({ error: 'Failed to update event' });
@@ -261,6 +291,9 @@ export const deleteEvent = async (req: AuthRequest, res: Response): Promise<void
       entityId: id,
       details: `Deleted event: ${event.title}`,
     });
+
+    memoryCache.clearPrefix('events:list:');
+    memoryCache.clearPrefix('event:slug:');
 
     res.json({ message: 'Event deleted' });
   } catch (error) {

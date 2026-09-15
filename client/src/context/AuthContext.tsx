@@ -19,10 +19,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   const checkAuth = useCallback(async () => {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const data = await authService.getMe();
       setUser(data.admin);
     } catch {
+      localStorage.removeItem('admin_token');
       setUser(null);
     } finally {
       setLoading(false);

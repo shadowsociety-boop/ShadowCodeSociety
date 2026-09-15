@@ -20,6 +20,14 @@ if (dbUrl) {
   if (!dbUrl.includes('sslmode=') && dbUrl.includes('supabase.com')) {
     dbUrl += (dbUrl.includes('?') ? '&' : '?') + 'sslmode=require';
   }
+
+  // Optimal connection pool parameters for server environments
+  if (!dbUrl.includes('connection_limit=')) {
+    dbUrl += (dbUrl.includes('?') ? '&' : '?') + 'connection_limit=10';
+  }
+  if (!dbUrl.includes('connect_timeout=')) {
+    dbUrl += (dbUrl.includes('?') ? '&' : '?') + 'connect_timeout=15';
+  }
 }
 
 // Global singleton to prevent multiple instances during hot-reloading or across controllers
@@ -37,8 +45,12 @@ export const prisma =
       : undefined,
   });
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma;
-}
+// Always attach to globalThis to prevent multiple connection pools
+globalForPrisma.prisma = prisma;
+
+// Eager connection pre-warm in the background so the first query does not suffer cold TLS handshake
+prisma.$connect().catch((err) => {
+  console.warn('[PRISMA] Eager connection initialization:', err?.message || err);
+});
 
 export default prisma;

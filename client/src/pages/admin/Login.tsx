@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { api } from '../../services/api';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
@@ -19,6 +20,11 @@ export const Login: React.FC = () => {
   const location = useLocation();
 
   const from = (location.state as any)?.from?.pathname || '/admin';
+
+  // Eagerly pre-warm backend server as soon as login page loads
+  useEffect(() => {
+    api.get('/api/health').catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
