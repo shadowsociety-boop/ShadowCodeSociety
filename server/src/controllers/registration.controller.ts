@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../utils/prisma';
 import { z } from 'zod';
 import { AuthRequest } from '../middleware/auth';
 import { generateExcel } from '../utils/excel';
 import { createNotification } from '../services/audit.service';
-
-const prisma = new PrismaClient();
 
 // ── Build dynamic Zod schema from form fields ──
 const buildDynamicSchema = (fields: Array<{ id: string; label: string; type: string; required?: boolean; options?: string[] }>) => {

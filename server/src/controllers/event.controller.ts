@@ -1,12 +1,10 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../utils/prisma';
 import slugify from 'slugify';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthRequest } from '../middleware/auth';
 import { auditLog, createNotification } from '../services/audit.service';
 import { getFileUrl } from '../middleware/upload';
-
-const prisma = new PrismaClient();
 
 // ── Public: List Events ─────────────────────
 export const listEvents = async (req: AuthRequest, res: Response): Promise<void> => {

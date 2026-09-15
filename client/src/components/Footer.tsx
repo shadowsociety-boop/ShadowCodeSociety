@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SocialIcon } from './SocialIcon';
-import { Terminal, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -129,10 +129,6 @@ export const Footer: React.FC = () => {
             </Link>
             <Link to="/contact" className="hover:text-[#A1A1A1] transition-colors">
               PGP Key
-            </Link>
-            <Link to="/admin/login" className="hover:text-[#FF4D1C] transition-colors flex items-center gap-1">
-              <Terminal className="w-3 h-3" />
-              <span>Admin Console</span>
             </Link>
           </div>
         </div>

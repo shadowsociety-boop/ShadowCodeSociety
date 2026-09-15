@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../utils/prisma';
 import { AuthRequest } from '../middleware/auth';
 import { auditLog } from '../services/audit.service';
 import { getFileUrl } from '../middleware/upload';
-
-const prisma = new PrismaClient();
 
 export const listHighlights = async (req: Request, res: Response): Promise<void> => {
   try {

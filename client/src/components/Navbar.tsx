@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Logo } from './Logo';
-import { Menu, X, ArrowUpRight, Terminal, Shield } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Navbar: React.FC = () => {
@@ -63,22 +63,14 @@ export const Navbar: React.FC = () => {
 
         {/* Right: Actions & Join Button */}
         <div className="hidden md:flex items-center gap-4">
-          {/* Subtle Admin Link */}
-          {isAuthenticated ? (
+          {/* Subtle Admin Link - Only when authenticated */}
+          {isAuthenticated && (
             <Link
               to="/admin"
               className="text-xs font-mono text-[#A1A1A1] hover:text-[#FF4D1C] flex items-center gap-1.5 transition-colors"
             >
               <Shield className="w-3.5 h-3.5 text-[#FF4D1C]" />
               <span>{user?.name?.split(' ')[0] || 'Console'}</span>
-            </Link>
-          ) : (
-            <Link
-              to="/admin/login"
-              title="Admin Portal"
-              className="text-zinc-600 hover:text-zinc-400 p-1.5 rounded transition-colors"
-            >
-              <Terminal className="w-3.5 h-3.5" />
             </Link>
           )}
 
@@ -127,12 +119,15 @@ export const Navbar: React.FC = () => {
             >
               Join The Society →
             </Link>
-            <Link
-              to={isAuthenticated ? "/admin" : "/admin/login"}
-              className="text-center text-xs font-mono text-zinc-500 hover:text-zinc-300 py-1"
-            >
-              {isAuthenticated ? "Admin Dashboard →" : "Admin Console Login"}
-            </Link>
+            {isAuthenticated && (
+              <Link
+                to="/admin"
+                className="text-center text-xs font-mono text-[#FF4D1C] hover:text-white py-1 flex items-center justify-center gap-1.5"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                <span>Admin Dashboard →</span>
+              </Link>
+            )}
           </div>
         </div>
       )}
