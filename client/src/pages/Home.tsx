@@ -370,57 +370,57 @@ export const Home: React.FC = () => {
 
             {/* Interactive Editorial Domain List */}
             <FadeIn delay={0.1} y={20}>
-            <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
-              {domainList.map((domain, index) => {
-                const isSelected = activeDomain === index;
-                return (
-                  <div
-                    key={domain.num}
-                    onMouseEnter={() => {
-                      setActiveDomain(index);
-                      soundFx.playTick();
-                    }}
-                    className={`group py-7 sm:py-8 px-4 transition-all duration-300 cursor-pointer ${isSelected ? 'bg-white/[0.02]' : 'hover:bg-white/[0.01]'
-                      }`}
-                  >
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-                      {/* Number & Domain Title */}
-                      <div className="lg:col-span-6 flex items-center gap-6">
-                        <span
-                          className={`text-xs font-mono transition-colors duration-200 ${isSelected ? 'text-[#FF4D1C] font-bold' : 'text-[#666666]'
-                            }`}
-                        >
-                          {domain.num}
-                        </span>
-                        <h3
-                          className={`text-lg sm:text-2xl font-bold font-['Space_Grotesk'] tracking-tight transition-colors duration-200 ${isSelected ? 'text-white' : 'text-[#A1A1A1] group-hover:text-white'
-                            }`}
-                        >
-                          {domain.title}
-                        </h3>
-                      </div>
+              <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+                {domainList.map((domain, index) => {
+                  const isSelected = activeDomain === index;
+                  return (
+                    <div
+                      key={domain.num}
+                      onMouseEnter={() => {
+                        setActiveDomain(index);
+                        soundFx.playTick();
+                      }}
+                      className={`group py-7 sm:py-8 px-4 transition-all duration-300 cursor-pointer ${isSelected ? 'bg-white/[0.02]' : 'hover:bg-white/[0.01]'
+                        }`}
+                    >
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                        {/* Number & Domain Title */}
+                        <div className="lg:col-span-6 flex items-center gap-6">
+                          <span
+                            className={`text-xs font-mono transition-colors duration-200 ${isSelected ? 'text-[#FF4D1C] font-bold' : 'text-[#666666]'
+                              }`}
+                          >
+                            {domain.num}
+                          </span>
+                          <h3
+                            className={`text-lg sm:text-2xl font-bold font-['Space_Grotesk'] tracking-tight transition-colors duration-200 ${isSelected ? 'text-white' : 'text-[#A1A1A1] group-hover:text-white'
+                              }`}
+                          >
+                            {domain.title}
+                          </h3>
+                        </div>
 
-                      {/* Tag */}
-                      <div className="lg:col-span-2 hidden lg:block">
-                        <span className="text-[10px] font-mono px-2.5 py-1 rounded bg-[#0B0B0B] border border-white/10 text-[#666666] group-hover:text-[#A1A1A1] uppercase tracking-wider">
-                          {domain.tag}
-                        </span>
-                      </div>
+                        {/* Tag */}
+                        <div className="lg:col-span-2 hidden lg:block">
+                          <span className="text-[10px] font-mono px-2.5 py-1 rounded bg-[#0B0B0B] border border-white/10 text-[#666666] group-hover:text-[#A1A1A1] uppercase tracking-wider">
+                            {domain.tag}
+                          </span>
+                        </div>
 
-                      {/* Description */}
-                      <div className="lg:col-span-4">
-                        <p
-                          className={`text-xs sm:text-sm font-sans leading-relaxed transition-colors duration-200 ${isSelected ? 'text-[#A1A1A1]' : 'text-[#666666] group-hover:text-[#A1A1A1]'
-                            }`}
-                        >
-                          {domain.desc}
-                        </p>
+                        {/* Description */}
+                        <div className="lg:col-span-4">
+                          <p
+                            className={`text-xs sm:text-sm font-sans leading-relaxed transition-colors duration-200 ${isSelected ? 'text-[#A1A1A1]' : 'text-[#666666] group-hover:text-[#A1A1A1]'
+                              }`}
+                          >
+                            {domain.desc}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
             </FadeIn>
           </div>
         </div>
@@ -526,41 +526,41 @@ export const Home: React.FC = () => {
             <StaggerContainer stagger={0.12} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.slice(0, 3).map((event) => (
                 <StaggerItem key={event.id}>
-                <div
-                  className="group relative bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 h-full"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-[#FF4D1C] font-semibold">{event.eventType}</span>
-                      <span className="text-[#666666]">
-                        {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                      </span>
+                  <div
+                    className="group relative bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 h-full"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-[#FF4D1C] font-semibold">{event.eventType}</span>
+                        <span className="text-[#666666]">
+                          {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl font-bold font-['Space_Grotesk'] text-white group-hover:text-[#FF4D1C] transition-colors line-clamp-2">
+                        {event.title}
+                      </h3>
+
+                      <p className="text-xs text-[#A1A1A1] line-clamp-3 font-sans leading-relaxed">
+                        {event.description}
+                      </p>
                     </div>
 
-                    <h3 className="text-xl font-bold font-['Space_Grotesk'] text-white group-hover:text-[#FF4D1C] transition-colors line-clamp-2">
-                      {event.title}
-                    </h3>
+                    <div className="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-[11px] font-mono text-[#666666]">
+                        <MapPin className="w-3 h-3 text-[#FF4D1C]" />
+                        <span className="truncate max-w-[140px]">{event.location}</span>
+                      </div>
 
-                    <p className="text-xs text-[#A1A1A1] line-clamp-3 font-sans leading-relaxed">
-                      {event.description}
-                    </p>
-                  </div>
-
-                  <div className="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-[11px] font-mono text-[#666666]">
-                      <MapPin className="w-3 h-3 text-[#FF4D1C]" />
-                      <span className="truncate max-w-[140px]">{event.location}</span>
+                      <Link
+                        to={`/events/${event.slug}`}
+                        className="text-xs font-mono text-white hover:text-[#FF4D1C] flex items-center gap-1 transition-colors"
+                      >
+                        <span>DETAILS</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
-
-                    <Link
-                      to={`/events/${event.slug}`}
-                      className="text-xs font-mono text-white hover:text-[#FF4D1C] flex items-center gap-1 transition-colors"
-                    >
-                      <span>DETAILS</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
                   </div>
-                </div>
                 </StaggerItem>
               ))}
             </StaggerContainer>
@@ -603,43 +603,43 @@ export const Home: React.FC = () => {
 
             {/* Editorial Table Layout with Responsive Overflow */}
             <FadeIn delay={0.1} y={20}>
-            <div className="border border-white/[0.08] rounded-xl overflow-x-auto bg-[#0B0B0B]">
-              <div className="min-w-[640px]">
-                {/* Table Header */}
-                <div className="grid grid-cols-12 px-6 py-3.5 bg-white/[0.02] border-b border-white/[0.08] text-[11px] font-mono text-[#666666] uppercase tracking-wider">
-                  <div className="col-span-1">#</div>
-                  <div className="col-span-3">DOMAIN</div>
-                  <div className="col-span-5">TITLE & TOPIC</div>
-                  <div className="col-span-2">CONTRIBUTOR</div>
-                  <div className="col-span-1 text-right">ACTION</div>
-                </div>
+              <div className="border border-white/[0.08] rounded-xl overflow-x-auto bg-[#0B0B0B]">
+                <div className="min-w-[640px]">
+                  {/* Table Header */}
+                  <div className="grid grid-cols-12 px-6 py-3.5 bg-white/[0.02] border-b border-white/[0.08] text-[11px] font-mono text-[#666666] uppercase tracking-wider">
+                    <div className="col-span-1">#</div>
+                    <div className="col-span-3">DOMAIN</div>
+                    <div className="col-span-5">TITLE & TOPIC</div>
+                    <div className="col-span-2">CONTRIBUTOR</div>
+                    <div className="col-span-1 text-right">ACTION</div>
+                  </div>
 
-                {/* Table Rows */}
-                <div className="divide-y divide-white/[0.05]">
-                  {resources.map((res, idx) => (
-                    <Link
-                      key={res.id}
-                      to={`/resources/${res.slug}`}
-                      className="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/[0.02] transition-colors text-xs font-mono group"
-                    >
-                      <div className="col-span-1 text-[#666666]">0{idx + 1}</div>
-                      <div className="col-span-3 text-[#FF4D1C] font-medium uppercase truncate pr-2">
-                        {res.category}
-                      </div>
-                      <div className="col-span-5 font-sans text-sm text-white font-semibold group-hover:text-[#FF4D1C] transition-colors truncate pr-4">
-                        {res.title}
-                      </div>
-                      <div className="col-span-2 text-[#A1A1A1] truncate">
-                        {res.author || 'Research Team'}
-                      </div>
-                      <div className="col-span-1 text-right text-zinc-500 group-hover:text-white transition-colors">
-                        <ArrowUpRight className="w-4 h-4 ml-auto" />
-                      </div>
-                    </Link>
-                  ))}
+                  {/* Table Rows */}
+                  <div className="divide-y divide-white/[0.05]">
+                    {resources.map((res, idx) => (
+                      <Link
+                        key={res.id}
+                        to={`/resources/${res.slug}`}
+                        className="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/[0.02] transition-colors text-xs font-mono group"
+                      >
+                        <div className="col-span-1 text-[#666666]">0{idx + 1}</div>
+                        <div className="col-span-3 text-[#FF4D1C] font-medium uppercase truncate pr-2">
+                          {res.category}
+                        </div>
+                        <div className="col-span-5 font-sans text-sm text-white font-semibold group-hover:text-[#FF4D1C] transition-colors truncate pr-4">
+                          {res.title}
+                        </div>
+                        <div className="col-span-2 text-[#A1A1A1] truncate">
+                          {res.author || 'Research Team'}
+                        </div>
+                        <div className="col-span-1 text-right text-zinc-500 group-hover:text-white transition-colors">
+                          <ArrowUpRight className="w-4 h-4 ml-auto" />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
             </FadeIn>
           </div>
         </div>
@@ -704,33 +704,33 @@ export const Home: React.FC = () => {
               <StaggerContainer stagger={0.08} className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {members.map((member) => (
                   <StaggerItem key={member.id}>
-                  <div
-                    className="bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-5 flex flex-col justify-between transition-colors h-full"
-                  >
-                    <div>
-                      <span className="text-[10px] font-mono text-[#FF4D1C] uppercase">
-                        {member.role}
-                      </span>
-                      <h4 className="text-base font-bold font-['Space_Grotesk'] text-white mt-1">
-                        {member.name}
-                      </h4>
-                      {member.bio && (
-                        <p className="text-xs text-[#A1A1A1] line-clamp-2 mt-2 font-sans">
-                          {member.bio}
-                        </p>
+                    <div
+                      className="bg-[#0B0B0B] border border-white/[0.08] hover:border-white/20 rounded-xl p-5 flex flex-col justify-between transition-colors h-full"
+                    >
+                      <div>
+                        <span className="text-[10px] font-mono text-[#FF4D1C] uppercase">
+                          {member.role}
+                        </span>
+                        <h4 className="text-base font-bold font-['Space_Grotesk'] text-white mt-1">
+                          {member.name}
+                        </h4>
+                        {member.bio && (
+                          <p className="text-xs text-[#A1A1A1] line-clamp-2 mt-2 font-sans">
+                            {member.bio}
+                          </p>
+                        )}
+                      </div>
+
+                      {member.skills && member.skills.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 pt-4 mt-4 border-t border-white/[0.05]">
+                          {member.skills.slice(0, 3).map((skill, sIdx) => (
+                            <span key={sIdx} className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/[0.03] text-[#A1A1A1]">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
-
-                    {member.skills && member.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-4 mt-4 border-t border-white/[0.05]">
-                        {member.skills.slice(0, 3).map((skill, sIdx) => (
-                          <span key={sIdx} className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/[0.03] text-[#A1A1A1]">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
                   </StaggerItem>
                 ))}
               </StaggerContainer>
@@ -787,45 +787,45 @@ export const Home: React.FC = () => {
 
           {/* Interactive Terminal Shell */}
           <FadeIn delay={0.2} y={40}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 text-left">
-            <div className="rounded-xl bg-[#0B0B0B] border border-white/10 shadow-2xl overflow-hidden font-mono">
-              {/* Terminal Chrome */}
-              <div className="bg-[#111111] px-4 py-2.5 border-b border-white/10 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-[#A1A1A1]">
-                  <Terminal className="w-3.5 h-3.5 text-[#FF4D1C]" />
-                  <span>shadowcode@corp:~$</span>
-                </div>
-                <span className="text-[10px] text-[#666666]">INTERACTIVE SHELL</span>
-              </div>
-
-              {/* Terminal Body */}
-              <div className="p-4 bg-[#070707] text-xs space-y-2 min-h-[140px] max-h-56 overflow-y-auto text-[#A1A1A1]">
-                {terminalLogs.map((log, idx) => (
-                  <div key={idx} className={log.startsWith('>') ? 'text-white font-bold' : ''}>
-                    {log}
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 text-left">
+              <div className="rounded-xl bg-[#0B0B0B] border border-white/10 shadow-2xl overflow-hidden font-mono">
+                {/* Terminal Chrome */}
+                <div className="bg-[#111111] px-4 py-2.5 border-b border-white/10 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-[#A1A1A1]">
+                    <Terminal className="w-3.5 h-3.5 text-[#FF4D1C]" />
+                    <span>shadowcode@corp:~$</span>
                   </div>
-                ))}
-              </div>
+                  <span className="text-[10px] text-[#666666]">INTERACTIVE SHELL</span>
+                </div>
 
-              {/* Terminal Input */}
-              <form onSubmit={handleTerminalSubmit} className="flex border-t border-white/10 bg-[#090909]">
-                <span className="pl-4 py-3 text-xs text-[#FF4D1C] select-none">&gt;</span>
-                <input
-                  type="text"
-                  value={terminalInput}
-                  onChange={(e) => setTerminalInput(e.target.value)}
-                  placeholder="type 'help', 'events', 'whoami', 'join'..."
-                  className="w-full bg-transparent px-3 py-3 text-xs text-white placeholder-zinc-700 focus:outline-none font-mono"
-                />
-                <button
-                  type="submit"
-                  className="px-4 text-xs text-[#A1A1A1] hover:text-white border-l border-white/10 uppercase"
-                >
-                  EXEC
-                </button>
-              </form>
+                {/* Terminal Body */}
+                <div className="p-4 bg-[#070707] text-xs space-y-2 min-h-[140px] max-h-56 overflow-y-auto text-[#A1A1A1]">
+                  {terminalLogs.map((log, idx) => (
+                    <div key={idx} className={log.startsWith('>') ? 'text-white font-bold' : ''}>
+                      {log}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Terminal Input */}
+                <form onSubmit={handleTerminalSubmit} className="flex border-t border-white/10 bg-[#090909]">
+                  <span className="pl-4 py-3 text-xs text-[#FF4D1C] select-none">&gt;</span>
+                  <input
+                    type="text"
+                    value={terminalInput}
+                    onChange={(e) => setTerminalInput(e.target.value)}
+                    placeholder="type 'help', 'events', 'whoami', 'join'..."
+                    className="w-full bg-transparent px-3 py-3 text-xs text-white placeholder-zinc-700 focus:outline-none font-mono"
+                  />
+                  <button
+                    type="submit"
+                    className="px-4 text-xs text-[#A1A1A1] hover:text-white border-l border-white/10 uppercase"
+                  >
+                    EXEC
+                  </button>
+                </form>
+              </div>
             </div>
-          </div>
           </FadeIn>
         </div>
       </ScrollStackSection>

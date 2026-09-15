@@ -57,33 +57,38 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
 
               {/* Logo SVG */}
               <svg
-                viewBox="0 0 64 64"
+                viewBox="82.5 87.5 290 290"
                 fill="none"
-                className="w-20 h-20 relative z-10"
+                className="w-20 h-20 relative z-10 drop-shadow-[0_0_15px_rgba(255,77,28,0.7)]"
               >
-                {/* Shield Contour */}
-                <motion.path
-                  d="M32 4L8 14V30C8 45.5 18.5 56.5 32 60C45.5 56.5 56 45.5 56 30V14L32 4Z"
-                  stroke="#FF4D1C"
-                  strokeWidth="2"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 0.6, ease: 'easeInOut' }}
-                />
-
-                {/* Inner Crest Core */}
-                <motion.path
-                  d="M22 26L32 20L42 26V36C42 41 38 45 32 46C26 45 22 41 22 36V26Z"
+                <motion.g
                   fill="#FF4D1C"
-                  initial={{ opacity: 0, scale: 0.6 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
-                />
-
-                {/* Internal Eyes & Cut */}
-                <circle cx="28" cy="30" r="2.2" fill="#050505" />
-                <circle cx="36" cy="30" r="2.2" fill="#050505" />
-                <path d="M29 38H35" stroke="#050505" strokeWidth="1.5" strokeLinecap="round" />
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                >
+                  <rect x="171" y="101" width="33" height="33" />
+                  <rect x="255" y="101" width="33" height="33" />
+                  <rect x="129" y="131" width="33" height="42" />
+                  <rect x="293" y="131" width="33" height="42" />
+                  <rect x="129" y="174" width="33" height="42" />
+                  <rect x="293" y="174" width="33" height="42" />
+                  <rect x="192" y="184" width="33" height="33" />
+                  <rect x="239" y="184" width="32" height="33" />
+                  <rect x="87" y="216" width="33" height="43" />
+                  <rect x="335" y="216" width="33" height="43" />
+                  <rect x="272" y="226" width="33" height="17" />
+                  <rect x="155" y="227" width="32" height="16" />
+                  <rect x="180" y="252" width="32" height="17" />
+                  <rect x="213" y="252" width="33" height="17" />
+                  <rect x="247" y="252" width="33" height="17" />
+                  <rect x="129" y="259" width="33" height="42" />
+                  <rect x="293" y="259" width="33" height="42" />
+                  <rect x="129" y="302" width="33" height="32" />
+                  <rect x="293" y="302" width="33" height="32" />
+                  <rect x="171" y="338" width="33" height="26" />
+                  <rect x="256" y="338" width="32" height="26" />
+                </motion.g>
               </svg>
 
               {/* Thin Laser Scanning Line */}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="384" viewBox="0 0 512 384">
+  <title>Recreated geometric logo</title>
+  <desc>Vector recreation of the supplied geometric white logo on a transparent background.</desc>
+  <rect x="171" y="101" width="33" height="33" fill="#fff"/>
+  <rect x="255" y="101" width="33" height="33" fill="#fff"/>
+  <rect x="129" y="131" width="33" height="42" fill="#fff"/>
+  <rect x="293" y="131" width="33" height="42" fill="#fff"/>
+  <rect x="129" y="174" width="33" height="42" fill="#fff"/>
+  <rect x="293" y="174" width="33" height="42" fill="#fff"/>
+  <rect x="192" y="184" width="33" height="33" fill="#fff"/>
+  <rect x="239" y="184" width="32" height="33" fill="#fff"/>
+  <rect x="87" y="216" width="33" height="43" fill="#fff"/>
+  <rect x="335" y="216" width="33" height="43" fill="#fff"/>
+  <rect x="272" y="226" width="33" height="17" fill="#fff"/>
+  <rect x="155" y="227" width="32" height="16" fill="#fff"/>
+  <rect x="180" y="252" width="32" height="17" fill="#fff"/>
+  <rect x="213" y="252" width="33" height="17" fill="#fff"/>
+  <rect x="247" y="252" width="33" height="17" fill="#fff"/>
+  <rect x="129" y="259" width="33" height="42" fill="#fff"/>
+  <rect x="293" y="259" width="33" height="42" fill="#fff"/>
+  <rect x="129" y="302" width="33" height="32" fill="#fff"/>
+  <rect x="293" y="302" width="33" height="32" fill="#fff"/>
+  <rect x="171" y="338" width="33" height="26" fill="#fff"/>
+  <rect x="256" y="338" width="32" height="26" fill="#fff"/>
+</svg>
