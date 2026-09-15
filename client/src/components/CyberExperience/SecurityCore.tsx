@@ -59,21 +59,31 @@ export const SecurityCore: React.FC<SecurityCoreProps> = ({
         <div className="absolute bottom-1 left-1 w-1.5 h-1.5 border-b border-l border-[#FF4D1C]" />
         <div className="absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r border-[#FF4D1C]" />
 
-        {/* Shadow Code Shield Vector */}
-        <svg viewBox="0 0 64 64" fill="none" className={svgSizeMap[size]}>
-          <path
-            d="M32 4L8 14V30C8 45.5 18.5 56.5 32 60C45.5 56.5 56 45.5 56 30V14L32 4Z"
-            stroke={isThreat ? '#EF4444' : '#FF4D1C'}
-            strokeWidth="2.4"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M22 26L32 20L42 26V36C42 41 38 45 32 46C26 45 22 41 22 36V26Z"
-            fill={isThreat ? '#EF4444' : '#FF4D1C'}
-          />
-          <circle cx="28" cy="30" r="2" fill="#06070A" />
-          <circle cx="36" cy="30" r="2" fill="#06070A" />
-          <path d="M29 38H35" stroke="#06070A" strokeWidth="1.5" strokeLinecap="round" />
+        {/* Shadow Code Emblem Vector */}
+        <svg viewBox="82.5 87.5 290 290" fill="none" className={`${svgSizeMap[size]} drop-shadow-[0_0_8px_rgba(255,77,28,0.5)]`}>
+          <g fill={isThreat ? '#EF4444' : '#FF4D1C'}>
+            <rect x="171" y="101" width="33" height="33" />
+            <rect x="255" y="101" width="33" height="33" />
+            <rect x="129" y="131" width="33" height="42" />
+            <rect x="293" y="131" width="33" height="42" />
+            <rect x="129" y="174" width="33" height="42" />
+            <rect x="293" y="174" width="33" height="42" />
+            <rect x="192" y="184" width="33" height="33" />
+            <rect x="239" y="184" width="32" height="33" />
+            <rect x="87" y="216" width="33" height="43" />
+            <rect x="335" y="216" width="33" height="43" />
+            <rect x="272" y="226" width="33" height="17" />
+            <rect x="155" y="227" width="32" height="16" />
+            <rect x="180" y="252" width="32" height="17" />
+            <rect x="213" y="252" width="33" height="17" />
+            <rect x="247" y="252" width="33" height="17" />
+            <rect x="129" y="259" width="33" height="42" />
+            <rect x="293" y="259" width="33" height="42" />
+            <rect x="129" y="302" width="33" height="32" />
+            <rect x="293" y="302" width="33" height="32" />
+            <rect x="171" y="338" width="33" height="26" />
+            <rect x="256" y="338" width="32" height="26" />
+          </g>
         </svg>
       </div>
 

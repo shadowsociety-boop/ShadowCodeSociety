@@ -441,20 +441,30 @@ export const CyberSecurityCore: React.FC = () => {
 
           {/* Minimalist Glass Emblem Badge */}
           <div className="relative w-12 h-12 rounded-xl bg-[#050508]/80 border border-[#FF4D1C]/50 p-2 flex items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all">
-            <svg viewBox="0 0 64 64" fill="none" className="w-7 h-7">
-              <path
-                d="M32 4L8 14V30C8 45.5 18.5 56.5 32 60C45.5 56.5 56 45.5 56 30V14L32 4Z"
-                stroke="#FF4D1C"
-                strokeWidth="2.4"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M22 26L32 20L42 26V36C42 41 38 45 32 46C26 45 22 41 22 36V26Z"
-                fill="#FF4D1C"
-              />
-              <circle cx="28" cy="30" r="2" fill="#050508" />
-              <circle cx="36" cy="30" r="2" fill="#050508" />
-              <path d="M29 38H35" stroke="#050508" strokeWidth="1.5" strokeLinecap="round" />
+            <svg viewBox="82.5 87.5 290 290" fill="none" className="w-7 h-7 drop-shadow-[0_0_8px_rgba(255,77,28,0.6)]">
+              <g fill="#FF4D1C">
+                <rect x="171" y="101" width="33" height="33" />
+                <rect x="255" y="101" width="33" height="33" />
+                <rect x="129" y="131" width="33" height="42" />
+                <rect x="293" y="131" width="33" height="42" />
+                <rect x="129" y="174" width="33" height="42" />
+                <rect x="293" y="174" width="33" height="42" />
+                <rect x="192" y="184" width="33" height="33" />
+                <rect x="239" y="184" width="32" height="33" />
+                <rect x="87" y="216" width="33" height="43" />
+                <rect x="335" y="216" width="33" height="43" />
+                <rect x="272" y="226" width="33" height="17" />
+                <rect x="155" y="227" width="32" height="16" />
+                <rect x="180" y="252" width="32" height="17" />
+                <rect x="213" y="252" width="33" height="17" />
+                <rect x="247" y="252" width="33" height="17" />
+                <rect x="129" y="259" width="33" height="42" />
+                <rect x="293" y="259" width="33" height="42" />
+                <rect x="129" y="302" width="33" height="32" />
+                <rect x="293" y="302" width="33" height="32" />
+                <rect x="171" y="338" width="33" height="26" />
+                <rect x="256" y="338" width="32" height="26" />
+              </g>
             </svg>
           </div>
 
