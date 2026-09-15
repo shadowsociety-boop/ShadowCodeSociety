@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { eventService, EventItem } from '../services/event.service';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { FormattedDescription } from '../components/FormattedDescription';
 import { soundFx } from '../utils/sound';
 import {
   Calendar,
@@ -118,8 +119,8 @@ export const EventDetail: React.FC = () => {
             <h2 className="text-xs font-mono tracking-[0.2em] text-[#FF4D1C] uppercase font-semibold">
               01 // ABOUT THE OPERATION
             </h2>
-            <div className="bg-[#080808] border border-white/[0.08] rounded-lg p-6 font-sans text-sm text-[#A1A1A1] leading-relaxed whitespace-pre-line">
-              {event.description}
+            <div className="bg-[#080808] border border-white/[0.08] rounded-xl p-6 font-sans text-sm text-[#A1A1A1] leading-relaxed">
+              <FormattedDescription content={event.description} />
             </div>
           </div>
 

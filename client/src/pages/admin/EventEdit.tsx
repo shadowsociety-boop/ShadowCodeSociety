@@ -4,9 +4,9 @@ import { eventService, EventItem } from '../../services/event.service';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-import { Textarea } from '../../components/ui/Textarea';
 import { Select } from '../../components/ui/Select';
 import { Badge } from '../../components/ui/Badge';
+import { RichTextEditor } from '../../components/RichTextEditor';
 import {
   ArrowLeft,
   Upload,
@@ -309,19 +309,14 @@ export const EventEdit: React.FC = () => {
             onChange={(e) => setShortDescription(e.target.value)}
           />
 
-          <div className="space-y-1.5">
-            <Textarea
-              label="Full Detailed Description"
-              required
-              rows={8}
-              placeholder="Detailed curriculum, rules, agenda, registration instructions, links..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <p className="text-[11px] font-mono text-zinc-500">
-              Tip: Supports multi-line paragraphs, bullet points (•), rules, and external links.
-            </p>
-          </div>
+          <RichTextEditor
+            label="Full Detailed Description"
+            required
+            rows={8}
+            placeholder="Detailed curriculum, rules, agenda, registration instructions, links..."
+            value={description}
+            onChange={setDescription}
+          />
 
           {/* Banner Upload & Current Preview */}
           <div className="space-y-2">

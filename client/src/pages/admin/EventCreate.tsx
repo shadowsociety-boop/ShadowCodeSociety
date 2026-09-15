@@ -4,9 +4,9 @@ import { eventService } from '../../services/event.service';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
-import { Textarea } from '../../components/ui/Textarea';
 import { Select } from '../../components/ui/Select';
 import { Badge } from '../../components/ui/Badge';
+import { RichTextEditor } from '../../components/RichTextEditor';
 import { ArrowLeft, Upload, Calendar, AlertCircle } from 'lucide-react';
 
 export const EventCreate: React.FC = () => {
@@ -170,13 +170,13 @@ export const EventCreate: React.FC = () => {
             onChange={(e) => setShortDescription(e.target.value)}
           />
 
-          <Textarea
+          <RichTextEditor
             label="Full Detailed Description"
             required
-            rows={5}
+            rows={6}
             placeholder="Detailed curriculum, agenda, speaker details, prerequisites..."
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={setDescription}
           />
 
           {/* Banner Upload */}
