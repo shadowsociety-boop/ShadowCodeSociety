@@ -207,7 +207,7 @@ Spread across the college campus, teams will decode beginner-friendly riddles, s
 
 export const getPopupTransmission = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const setting = await prisma.siteSetting.findUnique({
+    const setting = await (prisma as any).siteSetting.findUnique({
       where: { key: 'active_popup_transmission' },
     });
     if (setting && setting.value) {
@@ -229,7 +229,7 @@ export const getPopupTransmission = async (_req: Request, res: Response): Promis
 export const updatePopupTransmission = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     let currentData = { ...DEFAULT_POPUP_TRANSMISSION };
-    const existing = await prisma.siteSetting.findUnique({
+    const existing = await (prisma as any).siteSetting.findUnique({
       where: { key: 'active_popup_transmission' },
     });
     if (existing && existing.value) {
@@ -279,7 +279,7 @@ export const updatePopupTransmission = async (req: AuthRequest, res: Response): 
       expiryDate: req.body.expiryDate !== undefined ? String(req.body.expiryDate) : currentData.expiryDate,
     };
 
-    await prisma.siteSetting.upsert({
+    await (prisma as any).siteSetting.upsert({
       where: { key: 'active_popup_transmission' },
       create: {
         key: 'active_popup_transmission',
