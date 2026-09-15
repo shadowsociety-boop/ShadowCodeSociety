@@ -46,15 +46,47 @@ export const listEvents = async (req: AuthRequest, res: Response): Promise<void>
 export const getEventBySlug = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const slug = req.params.slug as string;
-    const event = await prisma.event.findUnique({
-      where: { slug },
+    const event = await prisma.event.findFirst({
+      where: {
+        OR: [{ slug }, { id: slug }],
+      },
       include: {
         form: true,
         _count: { select: { registrations: true } },
       },
     });
 
-    if (!event || !event.published) {
+    if (!event) {
+      res.status(404).json({ error: 'Event not found' });
+      return;
+    }
+
+    if (!event.published && !req.admin) {
+      res.status(404).json({ error: 'Event not found' });
+      return;
+    }
+
+    res.json({ event });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch event' });
+  }
+};
+
+// ── Admin: Get Event by ID ──────────────────
+export const getEventById = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id as string;
+    const event = await prisma.event.findFirst({
+      where: {
+        OR: [{ id }, { slug: id }],
+      },
+      include: {
+        form: true,
+        _count: { select: { registrations: true } },
+      },
+    });
+
+    if (!event) {
       res.status(404).json({ error: 'Event not found' });
       return;
     }

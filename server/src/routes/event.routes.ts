@@ -3,7 +3,7 @@ import { requireAuth } from '../middleware/auth';
 import { requirePermission } from '../middleware/rbac';
 import { upload } from '../middleware/upload';
 import {
-  listEvents, getEventBySlug, adminListEvents,
+  listEvents, getEventBySlug, getEventById, adminListEvents,
   createEvent, updateEvent, deleteEvent,
   getEventForm, saveEventForm,
 } from '../controllers/event.controller';
@@ -12,9 +12,10 @@ const router = Router();
 
 // Admin routes
 router.get(['/admin/all', '/admin/list'], requireAuth, requirePermission('EVENT_CREATE'), adminListEvents);
+router.get(['/admin/:id', '/admin/event/:id'], requireAuth, requirePermission('EVENT_EDIT'), getEventById);
 router.post('/', requireAuth, requirePermission('EVENT_CREATE'), upload.single('banner'), createEvent);
-router.patch('/:id', requireAuth, requirePermission('EVENT_EDIT'), upload.single('banner'), updateEvent);
-router.delete('/:id', requireAuth, requirePermission('EVENT_DELETE'), deleteEvent);
+router.patch(['/:id', '/admin/:id'], requireAuth, requirePermission('EVENT_EDIT'), upload.single('banner'), updateEvent);
+router.delete(['/:id', '/admin/:id'], requireAuth, requirePermission('EVENT_DELETE'), deleteEvent);
 
 // Form builder routes
 router.get('/:id/form', getEventForm);

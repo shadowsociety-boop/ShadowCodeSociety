@@ -29,6 +29,7 @@ import { Login } from './pages/admin/Login';
 import { Dashboard } from './pages/admin/Dashboard';
 import { AdminEvents } from './pages/admin/Events';
 import { EventCreate } from './pages/admin/EventCreate';
+import { EventEdit } from './pages/admin/EventEdit';
 import { FormBuilder } from './pages/admin/FormBuilder';
 import { AdminRegistrations } from './pages/admin/Registrations';
 import { AdminResources } from './pages/admin/Resources';
@@ -95,6 +96,7 @@ export function App() {
             <Route index element={<Dashboard />} />
             <Route path="events" element={<AdminEvents />} />
             <Route path="events/new" element={<EventCreate />} />
+            <Route path="events/:id/edit" element={<EventEdit />} />
             <Route path="events/:id/form" element={<FormBuilder />} />
             <Route path="registrations" element={<AdminRegistrations />} />
             <Route path="resources" element={<AdminResources />} />

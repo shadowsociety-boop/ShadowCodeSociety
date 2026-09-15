@@ -131,9 +131,12 @@ export const AdminEvents: React.FC = () => {
                             <Star className="w-3.5 h-3.5 text-[#FF4D1C] fill-[#FF4D1C]" />
                           )}
                         </div>
-                        <div className="font-bold text-white text-sm font-sans mt-1">
+                        <Link
+                          to={`/admin/events/${event.id}/edit`}
+                          className="font-bold text-white text-sm font-sans mt-1 hover:text-[#FF4D1C] transition-colors block"
+                        >
                           {event.title}
-                        </div>
+                        </Link>
                         <span className="text-[10px] text-zinc-500 font-mono">
                           /{event.slug}
                         </span>
@@ -181,6 +184,14 @@ export const AdminEvents: React.FC = () => {
                       </td>
 
                       <td className="px-6 py-4 text-right whitespace-nowrap space-x-2">
+                        <Link to={`/admin/events/${event.id}/edit`}>
+                          <button
+                            title="Edit Event Specifications & Description"
+                            className="p-1.5 rounded-lg text-zinc-400 hover:text-[#FF4D1C] hover:bg-[#FF4D1C]/10 transition-colors"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                        </Link>
                         <Link to={`/events/${event.slug}`} target="_blank">
                           <button
                             title="Preview Public Page"
